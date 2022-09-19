@@ -3,6 +3,7 @@ buildscript {
     ext {
         kotlin_version = '1.8.0'
         kotlin_plugin_version = '1.6.10'
+        version_room = '2.2.3'
     }
     repositories {
         google()
