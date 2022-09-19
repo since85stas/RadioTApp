@@ -4,7 +4,7 @@ import android.widget.TextView
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import stas.batura.radioproject.data.net.TimeLabel
+import stas.batura.retrofit.TimeLabel
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,8 +36,8 @@ fun fillTimelable(timelables: List<TimeLabel>?): List<TimeLabel>? {
             val newLable = lable
             newLable.newStartTime = start
             newLable.startTimeString = setTrackDuratNative(start)
-            if (lable.duration != null) {
-                start = start + lable.duration * 1000L
+            lable.duration?.let {
+                start = start + it * 1000L
             }
 
             newTimeLables!!.add(newLable)

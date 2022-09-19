@@ -3,16 +3,12 @@ package stas.batura.room.podcast
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import com.google.android.exoplayer2.Timeline
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import stas.batura.radioproject.data.ListViewType
-import stas.batura.radioproject.data.dataUtils.DateTime
-import stas.batura.radioproject.data.dataUtils.TIME_WEEK
-import stas.batura.radioproject.data.dataUtils.getLinksFromHtml
-import stas.batura.radioproject.data.dataUtils.getMillisTime
-import stas.batura.radioproject.data.net.PodcastBody
-import stas.batura.radioproject.data.net.TimeLabel
+
+import stas.batura.retrofit.PodcastBody
+import stas.batura.retrofit.TimeLabel
+import stas.batura.utils.TIME_WEEK
+import stas.batura.utils.getLinksFromHtml
+import stas.batura.utils.getMillisTime
 
 
 @Entity(tableName = "podcast_table")
@@ -131,23 +127,23 @@ data class Podcast(
     }
 }
 
-class CategoryDataConverter {
-
-    @TypeConverter()
-    fun fromCountryLangList(value: List<String>): String {
-        val gson = Gson()
-        val type = object : TypeToken<List<String>>() {}.type
-        return gson.toJson(value, type)
-    }
-
-    @TypeConverter
-    fun toCountryLangList(value: String): List<String> {
-        val gson = Gson()
-        val type = object : TypeToken<List<String>>() {}.type
-        return gson.fromJson(value, type)
-    }
-
-}
+//class CategoryDataConverter {
+//
+//    @TypeConverter()
+//    fun fromCountryLangList(value: List<String>): String {
+//        val gson = Gson()
+//        val type = object : TypeToken<List<String>>() {}.type
+//        return gson.toJson(value, type)
+//    }
+//
+//    @TypeConverter
+//    fun toCountryLangList(value: String): List<String> {
+//        val gson = Gson()
+//        val type = object : TypeToken<List<String>>() {}.type
+//        return gson.fromJson(value, type)
+//    }
+//
+//}
 
 enum class SavedStatus(status: Byte) {
     NOT_SAVED(0),

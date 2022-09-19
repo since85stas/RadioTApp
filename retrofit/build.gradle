@@ -50,4 +50,6 @@ dependencies {
     // Moshi
     implementation "com.squareup.moshi:moshi:$version_moshi"
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
+
+    implementation project(':utils')
 }
