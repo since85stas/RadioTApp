@@ -28,26 +28,5 @@ data class PodcastBody (
     @Json(name = "time_labels")
     var timeLables: List<TimeLabel>? = null) // массив временых меток тем
 
-data class TimeLabel (
-    val topic: String, // название темы
 
-    @Json(name = "time")
-    val startTime: String,    // время начала в RFC3339
-
-    val duration: Int? = null,    // длительность в секундах
-
-    var newStartTime: Long = 0L,
-
-    var startTimeString: String = ""
-) {
-    /**
-     * transform class field [time] to Milliseconds
-     */
-    public fun getMillisTime(): Long {
-        val dateTime: DateTime = DateTime.parseRfc3339(startTime)
-        val millis: Long = dateTime.getValue()
-//        val millis = 10*1000*60L;
-        return millis
-    }
-}
 
