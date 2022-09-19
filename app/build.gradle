@@ -1,15 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 31
-
+    compileSdk 33
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "stas.batura.radiotproject"
         minSdk 23
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
         targetSdkVersion 31
