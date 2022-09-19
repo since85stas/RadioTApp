@@ -10,3 +10,4 @@ rootProject.name = "RadioTProject"
 include ':app'
 include ':room'
 include ':retrofit'
+include ':utils'

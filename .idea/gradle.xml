@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/retrofit" />
             <option value="$PROJECT_DIR$/room" />
+            <option value="$PROJECT_DIR$/utils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
