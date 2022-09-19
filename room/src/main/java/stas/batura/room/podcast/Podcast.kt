@@ -3,6 +3,10 @@ package stas.batura.room.podcast
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 import stas.batura.retrofit.PodcastBody
 import stas.batura.retrofit.TimeLabel
@@ -127,23 +131,25 @@ data class Podcast(
     }
 }
 
-//class CategoryDataConverter {
-//
-//    @TypeConverter()
-//    fun fromCountryLangList(value: List<String>): String {
-//        val gson = Gson()
-//        val type = object : TypeToken<List<String>>() {}.type
-//        return gson.toJson(value, type)
-//    }
-//
-//    @TypeConverter
-//    fun toCountryLangList(value: String): List<String> {
-//        val gson = Gson()
-//        val type = object : TypeToken<List<String>>() {}.type
-//        return gson.fromJson(value, type)
-//    }
-//
-//}
+class CategoryDataConverter {
+
+    private val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+    private val type = Types.newParameterizedType(List::class.java, String::class.java)
+
+    @TypeConverter()
+    fun fromCountryLangList(value: List<String>): String {
+        val jsonAdapter: JsonAdapter<List<String>> = moshi.adapter<List<String>>(type)
+        return jsonAdapter.toJson(value)
+    }
+
+    @TypeConverter
+    fun toCountryLangList(value: String): List<String> {
+        val jsonAdapter: JsonAdapter<List<String>> = moshi.adapter<List<String>>(type)
+        return jsonAdapter.fromJson(value) ?: emptyList()
+    }
+
+}
 
 enum class SavedStatus(status: Byte) {
     NOT_SAVED(0),
