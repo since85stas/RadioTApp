@@ -3,7 +3,7 @@ package stas.batura.protostore
 import androidx.datastore.CorruptionException
 import androidx.datastore.Serializer
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
-import stas.batura.radioproject.UserPreferences
+import stas.batura.radiotproject.protostore.UserPreferences
 import java.io.InputStream
 import java.io.OutputStream
 

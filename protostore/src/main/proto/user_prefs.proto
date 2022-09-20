@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option java_package = "stas.batura.radiotproject.protostore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  // filter for showing / hiding completed tasks
+  bool show_completed = 1;
+
+
+
+  // число отображаемых подкастов
+  int32 num_shown_podcasts = 2;
+
+  // номер активного подкаста
+  int32 active_podc_num = 4;
+
+  // текущий тип отображения списков
+  int32 list_view_type = 5;
+
+  // выбранное число на странице
+  int32 number_on_page = 6;
+
+  // текущий выбранный год
+  int32 selected_year = 7;
+
+  // дата последнего подкаста
+  int32 last_podc_numb = 8;
+
+  // дата последнего подкаста
+  int32 max_podc_numb = 9;
+
+  bool is_not_first_open = 10;
+
+//  // номер последнего подкаста
+//  int64 last_podc_numb = 8;
+//
+//  // номер последнего подкаста
+//  int64 first_podc_numb = 9;
+}
