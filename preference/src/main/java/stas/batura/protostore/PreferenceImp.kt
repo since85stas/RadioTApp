@@ -142,4 +142,23 @@ class PreferenceImp(context: Context): Preference {
         }
     }
 
+    /**
+     * устанавливаем после первого открытия программы
+     * @param boolean если True - значит уже запустили
+     */
+    override suspend fun setFistOpen(boolean: Boolean) {
+        protoData.updateData { t: UserPreferences ->
+            t.toBuilder().setIsNotFirstOpen(boolean).build()
+        }
+    }
+
+    /**
+     * проверяем первый ли это запуск
+     */
+    override fun isFirstOpen(): Flow<Boolean> {
+        return protoData.data.map {
+            !it.isNotFirstOpen
+        }
+    }
+
 }

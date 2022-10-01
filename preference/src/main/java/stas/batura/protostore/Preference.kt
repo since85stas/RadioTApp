@@ -30,4 +30,8 @@ interface Preference {
 
     fun getPrefMaxPnumb(): Flow<Int>
 
+    suspend fun setFistOpen(boolean: Boolean)
+
+    fun isFirstOpen(): Flow<Boolean>
+
 }

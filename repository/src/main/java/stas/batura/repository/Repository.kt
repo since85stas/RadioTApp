@@ -7,8 +7,6 @@ import ru.batura.stat.batchat.repository.room.RadioDao
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
-import stas.batura.protostore.PreferenceImp
-import stas.batura.radiotproject.protostore.UserPreferences
 import stas.batura.retrofit.IRetrofit
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
@@ -17,7 +15,7 @@ import stas.batura.room.podcast.SavedStatus
 class Repository(  private val radioDao: RadioDao,
 
                      private val retrofit: IRetrofit,
-                    private val protoData: Preference
+                    private val preference: Preference
                    ) : IRepository {
 
     private val TAG = Repository::class.java.simpleName
@@ -174,24 +172,24 @@ class Repository(  private val radioDao: RadioDao,
     /***
      * получаем число отображаемых подкастов
      */
-    fun getUserPrefPNumber(): Flow<Int> = protoData.getUserPrefPNumber()
+    fun getUserPrefPNumber(): Flow<Int> = preference.getUserPrefPNumber()
 
 
     /**
      * записываем число показоваемых треков в настройки
      */
-    override fun setNumPodcsts(num: Int) = protoData.setNumPodcsts(num)
+    override fun setNumPodcsts(num: Int) = preference.setNumPodcsts(num)
 
     /**
      * устанавливаем по какому типу отображать подкасты
      * @param type тип выводимого списка
      */
-    override fun setPrefListType(type: ListViewType) = protoData.setPrefListType(type)
+    override fun setPrefListType(type: ListViewType) = preference.setPrefListType(type)
 
     /**
      * получаем номер активный подкаст
      */
-    override fun getPrefActivePodcastNum(): Flow<Int> = protoData.getPrefActivePodcastNum()
+    override fun getPrefActivePodcastNum(): Flow<Int> = preference.getPrefActivePodcastNum()
 
 
     /**
@@ -199,7 +197,7 @@ class Repository(  private val radioDao: RadioDao,
      * @param num номер активного подкаста
      */
     override fun setPrefActivePodcastNum(num: Int) {
-        protoData.setPrefActivePodcastNum(num)
+        preference.setPrefActivePodcastNum(num)
     }
 
     /**
@@ -207,7 +205,7 @@ class Repository(  private val radioDao: RadioDao,
      * @param num число выводимых подкастов
      */
     override fun setPrefNumOnPage(num: Int) {
-        protoData.setPrefNumOnPage(num)
+        preference.setPrefNumOnPage(num)
     }
 
     /**
@@ -215,14 +213,14 @@ class Repository(  private val radioDao: RadioDao,
      * @param year год
      */
     override fun setPrefSelectedYear(year: Year) {
-        protoData.setPrefSelectedYear(year)
+        preference.setPrefSelectedYear(year)
     }
 
     /**
      * получаем выбранный для отображения год
      */
     fun getPrefSelectedYear(): Flow<Year> {
-        return protoData.getPrefSelectedYear()
+        return preference.getPrefSelectedYear()
     }
 
     /**
@@ -303,7 +301,7 @@ class Repository(  private val radioDao: RadioDao,
      * получаем выбранный для отображения год
      */
     fun getPrefLastPnumb(): Flow<Int> {
-        return protoData.data.map {
+        return preference.data.map {
             it.lastPodcNumb
         }
     }
@@ -313,16 +311,16 @@ class Repository(  private val radioDao: RadioDao,
      * @param numb номер подкаста
      */
     fun setPrefMaxPnumb(numb: Int) {
-        protoData.setPrefLastPnumb(numb)
+        preference.setPrefLastPnumb(numb)
     }
 
     /**
      * получаем выбранный для отображения год
      */
-    fun getPrefMaxPnumb(): Flow<Int>  = protoData.getPrefMaxPnumb()
+    fun getPrefMaxPnumb(): Flow<Int>  = preference.getPrefMaxPnumb()
 
     override fun getTypeAndNumb(): Flow<PodcastLoadInfo> =
-        protoData.getPrefListType().combine(getPrefLastPnumb()) {num, time ->
+        preference.getPrefListType().combine(getPrefLastPnumb()) { num, time ->
             PodcastLoadInfo(num, time)
     }
 
@@ -350,20 +348,14 @@ class Repository(  private val radioDao: RadioDao,
     /**
      * проверяем первый ли это запуск
      */
-    fun isFirstOpen(): Flow<Boolean> {
-        return protoData.data.map {
-            !it.isNotFirstOpen
-        }
-    }
+    fun isFirstOpen(): Flow<Boolean> = preference.isFirstOpen()
 
     /**
      * устанавливаем после первого открытия программы
      * @param boolean если True - значит уже запустили
      */
     suspend fun setFistOpen(boolean: Boolean) {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setIsNotFirstOpen(boolean).build()
-            }
+        preference.setFistOpen(boolean)
     }
 
     /**
