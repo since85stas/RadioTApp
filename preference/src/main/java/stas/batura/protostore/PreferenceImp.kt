@@ -11,7 +11,7 @@ import stas.batura.data.ListViewType
 import stas.batura.data.Year
 import stas.batura.radiotproject.protostore.UserPreferences
 
-class PreferenceImp(context: Context) {
+class PreferenceImp(context: Context): Preference {
 
     private val protoData = context.createDataStore(
     fileName = "user_prefs.pb",
