@@ -30,10 +30,6 @@ class Repository(  val radioDao: RadioDao,
      */
     private val repScope = CoroutineScope(Dispatchers.IO + repositoryJob)
 
-
-
-    lateinit var protoData: DataStore<UserPreferences>
-
     init {
         Log.d(TAG, "repository started: ")
     }
