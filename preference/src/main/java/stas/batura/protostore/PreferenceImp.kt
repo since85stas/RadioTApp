@@ -7,6 +7,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import stas.batura.data.ListViewType
+import stas.batura.data.Year
 import stas.batura.radiotproject.protostore.UserPreferences
 
 class PreferenceImp(context: Context) {
@@ -58,14 +60,6 @@ class PreferenceImp(context: Context) {
         return protoData.data.map {
             ListViewType.getByValue(it.listViewType)!!
         }
-    }
-
-    /**
-     * получаем список подкастов за выбранный год из БД
-     * @param year год за который выводим список
-     */
-    private fun getPodcastByYearFlow(year: Year): Flow<List<Podcast>> {
-        return radioDao.getPodcastsBetweenTimes(year.yearS, year.yearE)
     }
 
     /**

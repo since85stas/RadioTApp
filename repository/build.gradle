@@ -47,4 +47,6 @@ dependencies {
     implementation project(':utils')
 
     implementation project(':preference')
+
+    implementation project(':data')
 }
