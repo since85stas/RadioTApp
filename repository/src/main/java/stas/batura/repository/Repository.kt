@@ -174,11 +174,8 @@ class Repository(  private val radioDao: RadioDao,
     /***
      * получаем число отображаемых подкастов
      */
-    fun getUserPrefPNumber(): Flow<Int> {
-        return protoData.data.map { it ->
-            it.numShownPodcasts
-        }
-    }
+    fun getUserPrefPNumber(): Flow<Int> = protoData.getUserPrefPNumber()
+
 
     /**
      * записываем число показоваемых треков в настройки
@@ -189,16 +186,13 @@ class Repository(  private val radioDao: RadioDao,
      * устанавливаем по какому типу отображать подкасты
      * @param type тип выводимого списка
      */
-    override fun setPrefListType(type: ListViewType) {
-        protoData.setPrefListType(type)
-    }
+    override fun setPrefListType(type: ListViewType) = protoData.setPrefListType(type)
 
     /**
      * получаем номер активный подкаст
      */
-    override fun getPrefActivePodcastNum(): Flow<Int> {
-        protoData.getPrefActivePodcastNum()
-    }
+    override fun getPrefActivePodcastNum(): Flow<Int> = protoData.getPrefActivePodcastNum()
+
 
     /**
      * отмечаем что трек играет, значит он считается активным и берется по умолчанию
@@ -302,11 +296,7 @@ class Repository(  private val radioDao: RadioDao,
      * @param numb номер подкаста
      */
     fun setPrefLastPnumb(numb: Int) {
-        repScope.launch {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setLastPodcNumb(numb).build()
-            }
-        }
+        setPrefLastPnumb(numb)
     }
 
     /**
@@ -323,24 +313,16 @@ class Repository(  private val radioDao: RadioDao,
      * @param numb номер подкаста
      */
     fun setPrefMaxPnumb(numb: Int) {
-        repScope.launch {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setMaxPodcNumb(numb).build()
-            }
-        }
+        protoData.setPrefLastPnumb(numb)
     }
 
     /**
      * получаем выбранный для отображения год
      */
-    fun getPrefMaxPnumb(): Flow<Int> {
-        return protoData.data.map {
-            it.maxPodcNumb
-        }
-    }
+    fun getPrefMaxPnumb(): Flow<Int>  = protoData.getPrefMaxPnumb()
 
     override fun getTypeAndNumb(): Flow<PodcastLoadInfo> =
-        getPrefListType().combine(getPrefLastPnumb()) {num, time ->
+        protoData.getPrefListType().combine(getPrefLastPnumb()) {num, time ->
             PodcastLoadInfo(num, time)
     }
 

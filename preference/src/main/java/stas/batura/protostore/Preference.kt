@@ -24,4 +24,10 @@ interface Preference {
 
     fun getPrefListType(): Flow<ListViewType>
 
+    fun setPrefLastPnumb(numb: Int)
+
+    fun setPrefMaxPnumb(numb: Int)
+
+    fun getPrefMaxPnumb(): Flow<Int>
+
 }

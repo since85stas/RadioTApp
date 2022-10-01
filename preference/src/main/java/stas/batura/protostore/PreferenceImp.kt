@@ -116,4 +116,30 @@ class PreferenceImp(context: Context): Preference {
         }
     }
 
+    override fun setPrefLastPnumb(numb: Int) {
+        repScope.launch {
+            protoData.updateData { t: UserPreferences ->
+                t.toBuilder().setLastPodcNumb(numb).build()
+            }
+        }
+    }
+
+    /**
+     * сохраняем номер последнего подкаста в БД
+     * @param numb номер подкаста
+     */
+    override fun setPrefMaxPnumb(numb: Int) {
+        repScope.launch {
+            protoData.updateData { t: UserPreferences ->
+                t.toBuilder().setMaxPodcNumb(numb).build()
+            }
+        }
+    }
+
+    override fun getPrefMaxPnumb(): Flow<Int> {
+        return protoData.data.map {
+            it.maxPodcNumb
+        }
+    }
+
 }
