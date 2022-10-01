@@ -46,5 +46,5 @@ dependencies {
 
     implementation project(':utils')
 
-    implementation project(':protostore')
+    implementation project(':preference')
 }
