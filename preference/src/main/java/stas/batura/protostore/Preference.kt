@@ -8,6 +8,8 @@ interface Preference {
 
     fun setNumPodcsts(num: Int)
 
+    fun getUserPrefPNumber(): Flow<Int>
+
     fun getPrefActivePodcastNum(): Flow<Int>
 
     fun setPrefActivePodcastNum(num: Int)
@@ -17,5 +19,9 @@ interface Preference {
     fun setPrefNumOnPage(num: Int)
 
     fun setPrefSelectedYear(year: Year)
+
+    fun getPrefSelectedYear(): Flow<Year>
+
+    fun getPrefListType(): Flow<ListViewType>
 
 }

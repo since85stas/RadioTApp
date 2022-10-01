@@ -4,14 +4,21 @@ import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import ru.batura.stat.batchat.repository.room.RadioDao
+import stas.batura.data.ListViewType
+import stas.batura.data.Year
+import stas.batura.protostore.Preference
+import stas.batura.protostore.PreferenceImp
+import stas.batura.radiotproject.protostore.UserPreferences
 import stas.batura.retrofit.IRetrofit
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
 
-class Repository(  val radioDao: RadioDao,
+class Repository(  private val radioDao: RadioDao,
 
-                     val retrofit: IRetrofit) : IRepository {
+                     private val retrofit: IRetrofit,
+                    private val protoData: Preference
+                   ) : IRepository {
 
     private val TAG = Repository::class.java.simpleName
 
@@ -176,50 +183,21 @@ class Repository(  val radioDao: RadioDao,
     /**
      * записываем число показоваемых треков в настройки
      */
-    override fun setNumPodcsts(num: Int) {
-        repScope.launch {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setNumShownPodcasts(num).build()
-            }
-        }
-    }
+    override fun setNumPodcsts(num: Int) = protoData.setNumPodcsts(num)
 
     /**
      * устанавливаем по какому типу отображать подкасты
      * @param type тип выводимого списка
      */
     override fun setPrefListType(type: ListViewType) {
-        repScope.launch {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setListViewType(type.ordinal).build()
-            }
-        }
-    }
-
-    /**
-     * получаем по какому типу отображать подкасты
-     */
-    fun getPrefListType(): Flow<ListViewType> {
-        return protoData.data.map {
-            ListViewType.getByValue(it.listViewType)!!
-        }
-    }
-
-    /**
-     * получаем список подкастов за выбранный год из БД
-     * @param year год за который выводим список
-     */
-    private fun getPodcastByYearFlow(year: Year): Flow<List<Podcast>> {
-        return radioDao.getPodcastsBetweenTimes(year.yearS, year.yearE)
+        protoData.setPrefListType(type)
     }
 
     /**
      * получаем номер активный подкаст
      */
     override fun getPrefActivePodcastNum(): Flow<Int> {
-        return protoData.data.map {
-            it.activePodcNum
-        }
+        protoData.getPrefActivePodcastNum()
     }
 
     /**
@@ -227,11 +205,7 @@ class Repository(  val radioDao: RadioDao,
      * @param num номер активного подкаста
      */
     override fun setPrefActivePodcastNum(num: Int) {
-        repScope.launch {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setActivePodcNum(num).build()
-            }
-        }
+        protoData.setPrefActivePodcastNum(num)
     }
 
     /**
@@ -239,11 +213,7 @@ class Repository(  val radioDao: RadioDao,
      * @param num число выводимых подкастов
      */
     override fun setPrefNumOnPage(num: Int) {
-        repScope.launch {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setNumberOnPage(num).build()
-            }
-        }
+        protoData.setPrefNumOnPage(num)
     }
 
     /**
@@ -251,20 +221,14 @@ class Repository(  val radioDao: RadioDao,
      * @param year год
      */
     override fun setPrefSelectedYear(year: Year) {
-        repScope.launch {
-            protoData.updateData { t: UserPreferences ->
-                t.toBuilder().setSelectedYear(year.ordinal).build()
-            }
-        }
+        protoData.setPrefSelectedYear(year)
     }
 
     /**
      * получаем выбранный для отображения год
      */
     fun getPrefSelectedYear(): Flow<Year> {
-        return protoData.data.map {
-            Year.getByValue(it.selectedYear)!!
-        }
+        return protoData.getPrefSelectedYear()
     }
 
     /**

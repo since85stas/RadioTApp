@@ -1,6 +1,8 @@
 package stas.batura.radioproject.data
 
 import kotlinx.coroutines.flow.Flow
+import stas.batura.data.ListViewType
+import stas.batura.data.Year
 import stas.batura.radioproject.data.dataUtils.Year
 import stas.batura.radioproject.data.room.Podcast
 import stas.batura.radioproject.data.room.SavedStatus
@@ -25,7 +27,7 @@ interface IRepository {
 
     fun setPrefActivePodcastNum(num: Int)
 
-    fun setPrefListType(type:ListViewType)
+    fun setPrefListType(type: ListViewType)
 
     fun setPrefNumOnPage(num: Int)
 
@@ -52,20 +54,4 @@ interface IRepository {
     fun setFavoriteStatus(podcastId: Int, status: Boolean)
 
     fun updatePodcastSavedStatus(podcastId: Int,savedStatus: SavedStatus)
-}
-
-enum class ListViewType(type: Int) {
-
-    NUMBER(0),
-    YEAR(1),
-    MONTH(2),
-    FAVORITE(3)
-    ;
-
-    companion object {
-        private val VALUES = values()
-
-        fun getByValue(value: Int) = VALUES.firstOrNull { it.ordinal == value }
-    }
-
 }

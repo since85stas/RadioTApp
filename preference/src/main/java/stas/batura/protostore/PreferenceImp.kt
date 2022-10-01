@@ -23,7 +23,7 @@ class PreferenceImp(context: Context): Preference {
     /***
      * получаем число отображаемых подкастов
      */
-    fun getUserPrefPNumber(): Flow<Int> {
+    override fun getUserPrefPNumber(): Flow<Int> {
 
         return protoData.data.map { it ->
             it.numShownPodcasts
@@ -56,7 +56,7 @@ class PreferenceImp(context: Context): Preference {
     /**
      * получаем по какому типу отображать подкасты
      */
-    fun getPrefListType(): Flow<ListViewType> {
+    override fun getPrefListType(): Flow<ListViewType> {
         return protoData.data.map {
             ListViewType.getByValue(it.listViewType)!!
         }
@@ -110,7 +110,7 @@ class PreferenceImp(context: Context): Preference {
     /**
      * получаем выбранный для отображения год
      */
-    fun getPrefSelectedYear(): Flow<Year> {
+    override fun getPrefSelectedYear(): Flow<Year> {
         return protoData.data.map {
             Year.getByValue(it.selectedYear)!!
         }
