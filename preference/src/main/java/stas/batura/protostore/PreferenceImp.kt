@@ -161,4 +161,13 @@ class PreferenceImp(context: Context): Preference {
         }
     }
 
+    /**
+     * получаем выбранный для отображения год
+     */
+    override fun getPrefLastPnumb(): Flow<Int> {
+        return protoData.data.map {
+            it.lastPodcNumb
+        }
+    }
+
 }

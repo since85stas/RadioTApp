@@ -261,6 +261,14 @@ class Repository(  private val radioDao: RadioDao,
     }
 
     /**
+     * получаем список подкастов за выбранный год из БД
+     * @param year год за который выводим список
+     */
+    private fun getPodcastByYearFlow(year: Year): Flow<List<Podcast>> {
+        return radioDao.getPodcastsBetweenTimes(year.yearS, year.yearE)
+    }
+
+    /**
      * список за год
      */
     override fun favTypeList(): Flow<List<Podcast>> {
@@ -300,11 +308,7 @@ class Repository(  private val radioDao: RadioDao,
     /**
      * получаем выбранный для отображения год
      */
-    fun getPrefLastPnumb(): Flow<Int> {
-        return preference.data.map {
-            it.lastPodcNumb
-        }
-    }
+    fun getPrefLastPnumb(): Flow<Int> = getPrefLastPnumb()
 
     /**
      * сохраняем номер последнего подкаста в БД

@@ -34,4 +34,6 @@ interface Preference {
 
     fun isFirstOpen(): Flow<Boolean>
 
+    fun getPrefLastPnumb(): Flow<Int>
+
 }
