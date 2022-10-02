@@ -1,6 +1,12 @@
 package stas.batura.di
 
 import android.content.Context
+import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.cache.CacheDataSource
+import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
+import com.google.android.exoplayer2.util.Util
+import okhttp3.OkHttpClient
 import ru.batura.stat.batchat.repository.room.PodcastDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
@@ -54,5 +60,7 @@ object ServiceLocator {
             )
         }
     }
+
+
 
 }

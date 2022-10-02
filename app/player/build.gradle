@@ -43,12 +43,17 @@ dependencies {
     api "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
     api "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
     api "com.google.android.exoplayer:extension-mediasession:$exoplayer_version"
+    implementation 'com.google.android.exoplayer:extension-okhttp:2.9.4'
 
     implementation project(':di')
 
     implementation project(':data')
 
+    implementation project(':room')
+
     implementation project(':repository')
+
+    implementation project(':app')
 
     implementation "androidx.lifecycle:lifecycle-service:2.2.0"
 }

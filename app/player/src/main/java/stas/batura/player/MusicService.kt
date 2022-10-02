@@ -20,6 +20,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
 import androidx.media.session.MediaButtonReceiver
 import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
 import com.google.android.exoplayer2.extractor.ExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -27,15 +28,19 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.cache.*
+import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import okhttp3.OkHttpClient
+import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
-import stas.batura.radioproject.data.room.Podcast
+import stas.batura.radiotproject.MainActivity
+import stas.batura.room.podcast.Podcast
 
 class MusicService : LifecycleService() {
 
-    lateinit var repositoryS: IRepository
+    val repositoryS: IRepository = ServiceLocator.provideRepository(applicationContext)
 
     lateinit var dataSourceFactory: DataSource.Factory
 
@@ -72,6 +77,7 @@ class MusicService : LifecycleService() {
 //    private var mediaSession: MediaSessionCompat? = null
 
     private var audioManager: AudioManager? = null
+
     private var audioFocusRequest: AudioFocusRequest? = null
 
     private var isAudioFocusRequested = false
@@ -92,6 +98,25 @@ class MusicService : LifecycleService() {
 
     init {
         Log.d(TAG, "init service: ")
+    }
+
+    fun provideDatasourceFactory(): DataSource.Factory {
+        val httpDataSourceFactory: DataSource.Factory =
+            OkHttpDataSourceFactory(
+                OkHttpClient(),
+                Util.getUserAgent(
+                    applicationContext,
+                    applicationContext.getString(stas.batura.radiotproject.R.string.app_name)
+                )
+            )
+
+        val dataSourceFactory = CacheDataSourceFactory(
+            newCache,
+            httpDataSourceFactory,
+            CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
+        )
+
+        return dataSourceFactory
     }
 
     override fun onCreate() {
@@ -558,7 +583,9 @@ class MusicService : LifecycleService() {
 //        )
         // The whole background (in MediaStyle), not just icon background
         builder.setShowWhen(false)
-        builder.priority = NotificationCompat.PRIORITY_HIGH
+
+
+//        builder.priority = NotificationCompat.PRIORITY_HIGH
         builder.setOnlyAlertOnce(true)
         builder.setChannelId(NOTIFICATION_DEFAULT_CHANNEL_ID)
         return builder.build()

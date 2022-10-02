@@ -58,4 +58,6 @@ dependencies {
     implementation project(':data')
 
     implementation project(':repository')
+
+    implementation project(':app:player')
 }
