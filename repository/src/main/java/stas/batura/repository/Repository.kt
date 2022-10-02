@@ -3,6 +3,7 @@ package stas.batura.radioproject.data
 import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import ru.batura.stat.batchat.repository.room.PodcastDao
 import ru.batura.stat.batchat.repository.room.RadioDao
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
@@ -13,7 +14,7 @@ import stas.batura.room.podcast.SavedStatus
 
 
 class Repository(
-    private val radioDao: RadioDao,
+    private val radioDao: PodcastDao,
     private val retrofit: IRetrofit,
     private val preference: Preference
 ) : IRepository {
