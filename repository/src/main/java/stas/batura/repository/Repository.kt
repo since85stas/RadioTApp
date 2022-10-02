@@ -12,11 +12,11 @@ import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
 
-class Repository(  private val radioDao: RadioDao,
-
-                     private val retrofit: IRetrofit,
-                    private val preference: Preference
-                   ) : IRepository {
+class Repository(
+    private val radioDao: RadioDao,
+    private val retrofit: IRetrofit,
+    private val preference: Preference
+) : IRepository {
 
     private val TAG = Repository::class.java.simpleName
 
@@ -245,9 +245,9 @@ class Repository(  private val radioDao: RadioDao,
      * список по порядку
      * @param lastId номер последнего подкаста от которого выводим номера
      */
-    override fun numberTypeList(lastId:Int): Flow<List<Podcast>> {
-        return getUserPrefPNumber().flatMapLatest {
-                num -> getNPodcastsListBeforeId(num, lastId)
+    override fun numberTypeList(lastId: Int): Flow<List<Podcast>> {
+        return getUserPrefPNumber().flatMapLatest { num ->
+            getNPodcastsListBeforeId(num, lastId)
         }
     }
 
@@ -321,12 +321,12 @@ class Repository(  private val radioDao: RadioDao,
     /**
      * получаем выбранный для отображения год
      */
-    fun getPrefMaxPnumb(): Flow<Int>  = preference.getPrefMaxPnumb()
+    fun getPrefMaxPnumb(): Flow<Int> = preference.getPrefMaxPnumb()
 
     override fun getTypeAndNumb(): Flow<PodcastLoadInfo> =
         preference.getPrefListType().combine(getPrefLastPnumb()) { num, time ->
             PodcastLoadInfo(num, time)
-    }
+        }
 
     /**
      * сохраняем и переходим на след диаппозон показываемых подкастов
@@ -340,8 +340,8 @@ class Repository(  private val radioDao: RadioDao,
         val numb = getUserPrefPNumber().first()
         if (num == 1) {
             if (lastId + numb < maxId) setPrefLastPnumb(lastId + numb) else setPrefLastPnumb(maxId)
-        } else if (num == -1){
-            if (lastId - numb > 0) setPrefLastPnumb(lastId -numb) else setPrefLastPnumb(numb)
+        } else if (num == -1) {
+            if (lastId - numb > 0) setPrefLastPnumb(lastId - numb) else setPrefLastPnumb(numb)
         }
     }
 
