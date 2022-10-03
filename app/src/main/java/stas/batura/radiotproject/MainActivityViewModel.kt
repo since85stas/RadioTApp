@@ -237,4 +237,20 @@ class MainActivityViewModel constructor(
         }
     }
 
+    /**
+     * фабрика для создания модели
+     */
+    class Factory(
+        private val repository: IRepository,
+        private val application: Application
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)) {
+                return MainActivityViewModel(repository, application) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+
+    }
+
 }
