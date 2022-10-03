@@ -1,9 +1,8 @@
 package stas.batura.retrofit
 
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path
+import stas.batura.data.PodcastBody
 
 
 interface IRetrofit {

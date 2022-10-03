@@ -53,4 +53,6 @@ dependencies {
     implementation project(':retrofit')
 
     implementation project(':utils')
+
+    implementation project(':data')
 }
