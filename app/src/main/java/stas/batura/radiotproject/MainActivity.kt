@@ -25,6 +25,8 @@ import com.google.android.exoplayer2.util.Util
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import stas.batura.data.ListViewType
+import stas.batura.data.Year
 import stas.batura.player.MusicService
 
 private lateinit var appBarConfiguration: AppBarConfiguration
