@@ -21,6 +21,7 @@ import androidx.lifecycle.LifecycleService
 import androidx.media.session.MediaButtonReceiver
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.extractor.ExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -37,16 +38,17 @@ import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
 import stas.batura.radiotproject.MainActivity
 import stas.batura.room.podcast.Podcast
+import java.io.File
 
 class MusicService : LifecycleService() {
 
     val repositoryS: IRepository = ServiceLocator.provideRepository(applicationContext)
 
-    lateinit var dataSourceFactory: DataSource.Factory
+    val dataSourceFactory: DataSource.Factory = provideDatasourceFactory()
 
-    lateinit var mediaSession: MediaSessionCompat
+    val mediaSession: MediaSessionCompat = MediaSessionCompat(applicationContext,"Music Service")
 
-    lateinit var extractorsFactory: ExtractorsFactory
+    val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
 
     private val TAG = MusicService::class.java.simpleName
 
@@ -110,8 +112,14 @@ class MusicService : LifecycleService() {
                 )
             )
 
+        val   cache =
+            SimpleCache(
+                File(application.cacheDir.absolutePath + "/exoplayer"),
+                LeastRecentlyUsedCacheEvictor(1024 * 1024 * 100)
+            ) // 100 Mb max
+
         val dataSourceFactory = CacheDataSourceFactory(
-            newCache,
+            cache,
             httpDataSourceFactory,
             CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
         )
