@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:id="@+id/numberGroup"  android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_home"
+            android:title="home" />
+
+        <item
+            android:id="@+id/nav_fav"
+            android:title="fav"
+            android:icon="@drawable/ic_star_black_24dp"
+            />
+
+        <item
+            android:orderInCategory="1"
+            android:id="@+id/nav_5per_page"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="5 on page" />
+
+        <item
+            android:orderInCategory="2"
+            android:id="@+id/nav_10per_page"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="10 on page" />
+
+        <item
+            android:orderInCategory="3"
+            android:id="@+id/nav_20per_page"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="20 on page" />
+
+    </group>
+
+    <group android:id="@+id/yearGroup"  android:checkableBehavior="none">
+
+        <item
+            android:orderInCategory="4"
+            android:id="@+id/nav_year_2022"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="2022" />
+
+        <item
+            android:orderInCategory="5"
+            android:id="@+id/nav_year_2021"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="2021" />
+
+        <item
+            android:orderInCategory="6"
+            android:id="@+id/nav_year_2020"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="2020" />
+
+        <item
+            android:orderInCategory="7"
+            android:id="@+id/nav_year_2019"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="2019" />
+
+        <item
+            android:orderInCategory="8"
+            android:id="@+id/nav_year_2018"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="2018" />
+
+    </group>
+
+
+</menu>
