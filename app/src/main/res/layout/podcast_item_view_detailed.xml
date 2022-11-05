@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="podcast"
+            type="stas.batura.radioproject.data.room.Podcast" />
+
+        <variable
+            name="mainModel"
+            type="stas.batura.radioproject.MainActivityViewModel"
+            />
+
+        <variable
+            name="podcastViewModel"
+            type="stas.batura.radioproject.ui.podcastlist.PodcastListViewModel" />
+    </data>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="8dp"
+            android:onClick="@{() -> mainModel.movingPlayToPosition(podcast.lastPosition, podcast)}"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                >
+
+                <ImageView
+                    android:id="@+id/logo_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleText"
+                    android:src="@drawable/bat_logo_gr_smal"
+                    android:layout_marginLeft="16dp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/titleText"
+                    titleBind="@{podcast}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/playProgress"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="title"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="16dp"
+                    />
+
+                <ProgressBar
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:id="@+id/playProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintRight_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    bindProgress="@{podcast}"
+                    />
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/play_button"-->
+<!--                    android:src="@android:drawable/ic_media_play"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintLeft_toRightOf="@id/logo_image"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/titleText"-->
+<!--                    android:layout_marginLeft="12dp"-->
+<!--                    android:onClick="@{() -> mainModel.movingPlayToPosition(podcast.lastPosition, podcast)}"-->
+<!--                    />-->
+
+                <ProgressBar
+                    android:id="@+id/spinnerPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintRight_toLeftOf="@id/logo_image"
+                    app:layout_constraintTop_toBottomOf="@id/titleText"
+                    android:visibility="gone"
+                    />
+
+                <CheckBox
+                    android:text="темы"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/playProgress"
+                    android:checked="@{podcast.isDetailed}"
+                    android:onCheckedChanged="@{(view, checked) -> podcastViewModel.onEnabled(podcast, checked)}"
+                    />
+
+                <ImageView
+                    android:id="@+id/favorButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_favorite_border_24"
+                    app:layout_constraintLeft_toRightOf="@id/logo_image"
+                    app:layout_constraintTop_toBottomOf="@id/titleText"
+                    android:layout_margin="12dp"
+                    favoriteDisableVisibility="@{podcast}"
+                    android:onClick="@{() -> podcastViewModel.changeFavoritePodcastStatus(podcast.podcastId, true)}"
+                    >
+                </ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_favorite_24"
+                    app:layout_constraintLeft_toRightOf="@id/logo_image"
+                    app:layout_constraintTop_toBottomOf="@id/titleText"
+                    android:layout_margin="12dp"
+                    favoriteEnebleVisibility="@{podcast}"
+                    android:onClick="@{() -> podcastViewModel.changeFavoritePodcastStatus(podcast.podcastId, false)}"
+                    >
+                </ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_cloud_download_24"
+                    app:layout_constraintLeft_toRightOf="@id/favorButton"
+                    app:layout_constraintTop_toBottomOf="@id/titleText"
+                    android:layout_margin="12dp"
+                    downloadedVisibility="@{podcast}"
+                    android:onClick="@{() -> podcastViewModel.changePodcastToSavedStatus(podcast.podcastId)}"
+                    >
+                </ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_delete_24"
+                    app:layout_constraintLeft_toRightOf="@id/favorButton"
+                    app:layout_constraintTop_toBottomOf="@id/titleText"
+                    android:layout_margin="12dp"
+                    deleteVisibility="@{podcast}"
+                    android:onClick="@{() -> podcastViewModel.changePodcastToNotSavedStatus(podcast.podcastId)}"
+                    >
+                </ImageView>
+<!--                <TextView-->
+<!--                    urlBind="@{podcast}"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    app:layout_constraintHorizontal_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="url"-->
+<!--                    app:layout_constraintLeft_toRightOf="@id/titleText"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    />-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/timelabeles_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/logo_image"
+                    recyclerBarVisibility="@{podcast.isDetailed}"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+</layout>

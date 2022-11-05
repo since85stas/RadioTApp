@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="podacstListViewModel"
+            type="stas.batura.radioproject.ui.podcastlist.PodcastListViewModel" />
+
+        <variable
+            name="mainViewModel"
+            type="stas.batura.radioproject.MainActivityViewModel" />
+
+        <variable
+            name="adapter"
+            type="stas.batura.radioproject.ui.podcastlist.PodcastsAdapter" />
+
+        <import type="stas.batura.radioproject.data.dataUtils.Year"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize"
+        tools:context=".ui.podcastlist.PodcastListFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bindPodcastHeaderTitle="@{podacstListViewModel.podcastTypeAndNumb}"
+                style="@style/ListHeaderFont"
+                android:layout_marginStart="16dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bindPodcastHeaderNumbers="@{podacstListViewModel.newPodcastList}"
+                style="@style/ListHeaderFont"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="p"
+                android:onClick="@{()->podacstListViewModel.changeNextListByNum(-1)}"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="l"
+                android:onClick="@{()->podacstListViewModel.changeNextListByNum(1)}"
+                />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                progressBarVisibility="@{podacstListViewModel.spinner}"
+                />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/podcast_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+
+    </LinearLayout>
+</layout>
