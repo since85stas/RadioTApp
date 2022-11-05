@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.timelable_item_view.view.*
 import stas.batura.radiotproject.MainActivityViewModel
+import stas.batura.radiotproject.databinding.TimelableItemViewBinding
 import stas.batura.retrofit.TimeLabel
 import stas.batura.room.podcast.Podcast
 

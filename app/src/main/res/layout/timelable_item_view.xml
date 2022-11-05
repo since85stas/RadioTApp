@@ -4,7 +4,7 @@
     <data>
         <variable
             name="timeLable"
-            type="stas.batura.radioproject.data.net.TimeLabel" />
+            type="stas.batura.retrofit.TimeLabel" />
 
         <variable
             name="startTime"
@@ -12,11 +12,11 @@
 
         <variable
             name="podcast"
-            type="stas.batura.radioproject.data.room.Podcast" />
+            type="stas.batura.room.podcast.Podcast" />
 
         <variable
             name="mainviewModel"
-            type="stas.batura.radioproject.MainActivityViewModel" />
+            type="stas.batura.radiotproject.MainActivityViewModel" />
 
     </data>
 
