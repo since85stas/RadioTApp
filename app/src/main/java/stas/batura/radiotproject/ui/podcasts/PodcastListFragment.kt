@@ -9,16 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.ConcatAdapter
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_podcast_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import stas.batura.radioproject.MainActivityViewModel
-import stas.batura.radioproject.R
-import stas.batura.radioproject.data.ListViewType
-import stas.batura.radioproject.databinding.FragmentPodcastListBinding
+import stas.batura.radiotproject.MainActivityViewModel
+import stas.batura.radiotproject.R
+import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
 
-@AndroidEntryPoint
 class PodcastListFragment : Fragment() {
 
     private val TAG = PodcastListFragment::class.java.simpleName
@@ -52,7 +48,6 @@ class PodcastListFragment : Fragment() {
         return bindings.root
     }
 
-    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // адаптер для заголовка
 //        val headerAdapter = HeaderAdapter()
@@ -75,7 +70,6 @@ class PodcastListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    @ExperimentalCoroutinesApi
     override fun onStart() {
         addObservers()
         super.onStart()

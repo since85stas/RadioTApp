@@ -10,13 +10,13 @@
 
         <variable
             name="mainViewModel"
-            type="stas.batura.radioproject.MainActivityViewModel" />
+            type="stas.batura.radiotproject.MainActivityViewModel" />
 
         <variable
             name="adapter"
             type="stas.batura.radioproject.ui.podcastlist.PodcastsAdapter" />
 
-        <import type="stas.batura.radioproject.data.dataUtils.Year"/>
+        <import type="stas.batura.data.Year"/>
     </data>
 
     <LinearLayout

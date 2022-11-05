@@ -1,21 +1,21 @@
 package stas.batura.radioproject.ui.podcastlist
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import stas.batura.data.ListViewType
+import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
-import stas.batura.radioproject.data.ListViewType
-import stas.batura.radioproject.data.room.Podcast
-import stas.batura.radioproject.data.room.SavedStatus
+import stas.batura.room.podcast.Podcast
+import stas.batura.room.podcast.SavedStatus
 
-@ExperimentalCoroutinesApi
-class PodcastListViewModel @ViewModelInject constructor(val repository: IRepository): ViewModel() {
+class PodcastListViewModel (): ViewModel() {
 
     private val TAG = PodcastListViewModel::class.java.simpleName
+
+    private val repository: IRepository = ServiceLocator.provideRepository()
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

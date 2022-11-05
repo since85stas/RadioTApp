@@ -6,11 +6,11 @@
     <data>
         <variable
             name="podcast"
-            type="stas.batura.radioproject.data.room.Podcast" />
+            type="stas.batura.room.podcast.Podcast" />
 
         <variable
             name="mainModel"
-            type="stas.batura.radioproject.MainActivityViewModel"
+            type="stas.batura.radiotproject.MainActivityViewModel"
             />
 
         <variable

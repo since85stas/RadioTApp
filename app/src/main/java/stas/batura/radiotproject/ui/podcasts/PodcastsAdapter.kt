@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.podcast_item_view_detailed.view.*
-import stas.batura.radioproject.MainActivityViewModel
-import stas.batura.radioproject.data.room.Podcast
-import stas.batura.radioproject.databinding.PodcastItemViewDetailedBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import stas.batura.radiotproject.MainActivityViewModel
+import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
 import stas.batura.radiotproject.ui.podcasts.TimeStampsAdapter
+import stas.batura.room.podcast.Podcast
 
-//@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class PodcastsAdapter(
     val mainActivityViewModel: MainActivityViewModel,
     val listModel: PodcastListViewModel
