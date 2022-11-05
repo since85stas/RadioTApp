@@ -16,16 +16,20 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
+import stas.batura.di.ServiceLocator
 import stas.batura.radiotproject.player.MusicService
 import stas.batura.radioproject.data.IRepository
 import stas.batura.room.podcast.Podcast
 
 class MainActivityViewModel constructor(
-    val repository: IRepository
-    , val application: Application
+
 ) : ViewModel() {
 
     private val TAG = MainActivityViewModel::class.java.simpleName
+
+//    private val application = ServiceLocator.provideContext()
+
+    private val repository: IRepository = ServiceLocator.provideRepository()
 
     // binder instance
     var playerServiceBinder: MusicService.PlayerServiceBinder? = null
@@ -97,7 +101,7 @@ class MainActivityViewModel constructor(
                     playerServiceBinder = service as MusicService.PlayerServiceBinder
                     try {
                         mediaController.value = MediaControllerCompat(
-                            application,
+                            ServiceLocator.provideContext(),
                             playerServiceBinder!!.getMediaSessionToke()
                         )
 
@@ -236,20 +240,20 @@ class MainActivityViewModel constructor(
         }
     }
 
-    /**
-     * фабрика для создания модели
-     */
-    class Factory(
-        private val repository: IRepository,
-        private val application: Application
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)) {
-                return MainActivityViewModel(repository, application) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-
-    }
+//    /**
+//     * фабрика для создания модели
+//     */
+//    class Factory(
+//        private val repository: IRepository,
+//        private val application: Application
+//    ) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)) {
+//                return MainActivityViewModel(repository, application) as T
+//            }
+//            throw IllegalArgumentException("Unknown ViewModel class")
+//        }
+//
+//    }
 
 }

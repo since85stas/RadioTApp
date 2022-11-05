@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/navigation_podcastlist"
-        android:name=""
+        android:name="stas.batura.radioproject.ui.podcastlist.PodcastListFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_podcast_list" />
 

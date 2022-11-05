@@ -303,13 +303,13 @@ class Repository(
      * @param numb номер подкаста
      */
     fun setPrefLastPnumb(numb: Int) {
-        setPrefLastPnumb(numb)
+        preference.setPrefLastPnumb(numb)
     }
 
     /**
      * получаем выбранный для отображения год
      */
-    fun getPrefLastPnumb(): Flow<Int> = getPrefLastPnumb()
+    fun getPrefLastPnumb(): Flow<Int> = preference.getPrefLastPnumb()
 
     /**
      * сохраняем номер последнего подкаста в БД
