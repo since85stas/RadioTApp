@@ -5,6 +5,8 @@ import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
+import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import okhttp3.OkHttpClient
 import ru.batura.stat.batchat.repository.room.PodcastDao
@@ -15,6 +17,7 @@ import stas.batura.radioproject.data.Repository
 import stas.batura.retrofit.IRetrofit
 import stas.batura.retrofit.RetrofitClient
 import stas.batura.room.RadioDatabase
+import java.io.File
 
 object ServiceLocator {
 
@@ -27,6 +30,8 @@ object ServiceLocator {
     private var repository: Repository? = null
 
     private var application: Context? = null
+
+    private var  cache :SimpleCache? = null
 
     fun setContext(context: Context) {
         application = context
@@ -72,6 +77,21 @@ object ServiceLocator {
                 provideRetrofit(),
                 providePref()
             )
+        }
+    }
+
+    fun provideExoCache(): SimpleCache {
+
+        if (cache != null) {
+            return cache!!
+        } else {
+            cache =
+                SimpleCache(
+                    File(provideContext().cacheDir.absolutePath + "/exoplayer"),
+                    LeastRecentlyUsedCacheEvictor(1024 * 1024 * 100)
+                ) // 100 Mb max
+
+            return cache!!
         }
     }
 

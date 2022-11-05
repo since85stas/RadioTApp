@@ -66,7 +66,7 @@ class MusicService() : LifecycleService() {
     // билдер для данных
     private val metadataBuilder  = MediaMetadataCompat.Builder()
 
-    lateinit var cache: Cache
+//    val cache: Cache
 
     // плэйбэк
     private val stateBuilder: PlaybackStateCompat.Builder =
@@ -113,14 +113,9 @@ class MusicService() : LifecycleService() {
                 )
             )
 
-        val   cache =
-            SimpleCache(
-                File(ServiceLocator.provideContext().cacheDir.absolutePath + "/exoplayer"),
-                LeastRecentlyUsedCacheEvictor(1024 * 1024 * 100)
-            ) // 100 Mb max
 
         val dataSourceFactory = CacheDataSourceFactory(
-            cache,
+            ServiceLocator.provideExoCache(),
             httpDataSourceFactory,
             CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
         )
@@ -613,7 +608,7 @@ class MusicService() : LifecycleService() {
 
         mediaSession!!.release()
         exoPlayer!!.release()
-        cache.release()
+        ServiceLocator.provideExoCache().release()
 //        cache = null
     }
 
