@@ -22,6 +22,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import ru.batura.stat.batchat.repository.room.PodcastDao
 import ru.batura.stat.batchat.repository.room.RadioDao
 import stas.batura.room.podcast.CategoryDataConverter
 import stas.batura.room.podcast.Podcast
@@ -46,7 +47,7 @@ abstract class RadioDatabase : RoomDatabase() {
     /**
      * Connects the database to the DAO.
      */
-    abstract val radioDatabaseDao: RadioDao
+    abstract val radioDatabaseDao: PodcastDao
 
     /**
      * Define a companion object, this allows us to add functions on the SleepDatabase class.

@@ -12,6 +12,8 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.media.session.MediaButtonReceiver;
 
+import stas.batura.radiotproject.R;
+
 /**
  * Helper APIs for constructing MediaStyle notifications
  */
@@ -37,7 +39,7 @@ class MediaStyleHelper {
                 .setContentText(description.getSubtitle())
                 .setSubText(description.getDescription())
                 .setLargeIcon(description.getIconBitmap())
-                .setSmallIcon( stas.batura.player.R.drawable.bat_notif_icon_white)
+                .setSmallIcon( R.drawable.bat_notif_icon_white)
 
                 .setContentIntent(controller.getSessionActivity())
                 .setDeleteIntent(

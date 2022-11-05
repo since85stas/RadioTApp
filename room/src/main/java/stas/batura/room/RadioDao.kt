@@ -10,7 +10,6 @@ import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 import java.net.URL
 
-@Dao
 interface RadioDao: PodcastDao {
 
 
