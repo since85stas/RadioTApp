@@ -1,4 +1,4 @@
-package stas.batura.player
+package stas.batura.radiotproject.player
 
 import android.annotation.SuppressLint
 import android.app.*
@@ -36,6 +36,7 @@ import kotlinx.coroutines.Job
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
+import stas.batura.radiotproject.MainActivity
 import stas.batura.room.podcast.Podcast
 import java.io.File
 
@@ -166,7 +167,7 @@ class MusicService : LifecycleService() {
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
         mediaSession.setCallback(mediaSessionCallback)
 
-        val activityIntent = Intent(applicationContext, MainActivity :: class.java)
+        val activityIntent = Intent(applicationContext, MainActivity::class.java)
 
         // настраиваем активити
         mediaSession.setSessionActivity(
@@ -531,7 +532,10 @@ class MusicService : LifecycleService() {
 
     private fun getNotification(playbackState: Int): Notification? {
         val builder =
-            MediaStyleHelper.from(this, mediaSession)
+            MediaStyleHelper.from(
+                this,
+                mediaSession
+            )
         builder.addAction(
             NotificationCompat.Action(
                 android.R.drawable.ic_media_previous,

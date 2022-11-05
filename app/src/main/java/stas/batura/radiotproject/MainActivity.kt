@@ -3,7 +3,6 @@ package stas.batura.radiotproject
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -20,14 +19,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.util.Util
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
-import stas.batura.player.MusicService
+import stas.batura.radiotproject.player.MusicService
 
 private lateinit var appBarConfiguration: AppBarConfiguration
 

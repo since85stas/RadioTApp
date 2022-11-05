@@ -1,4 +1,4 @@
-package stas.batura.player;
+package stas.batura.radiotproject.player;
 
 // https://gist.github.com/ianhanniballake/47617ec3488e0257325c
 
@@ -37,7 +37,7 @@ class MediaStyleHelper {
                 .setContentText(description.getSubtitle())
                 .setSubText(description.getDescription())
                 .setLargeIcon(description.getIconBitmap())
-                .setSmallIcon( R.drawable.bat_notif_icon_white)
+                .setSmallIcon( stas.batura.player.R.drawable.bat_notif_icon_white)
 
                 .setContentIntent(controller.getSessionActivity())
                 .setDeleteIntent(
