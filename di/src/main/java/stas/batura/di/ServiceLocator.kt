@@ -26,10 +26,24 @@ object ServiceLocator {
 
     private var repository: Repository? = null
 
-    private fun provideDao(application: Context): PodcastDao {
+    private var application: Context? = null
+
+    fun setContext(context: Context) {
+        application = context
+    }
+
+    fun provideContext(): Context {
+        if (application != null) {
+            return application!!
+        } else {
+            throw IllegalAccessException()
+        }
+    }
+
+    private fun provideDao(): PodcastDao {
         if (dao != null) return dao!!
         else {
-            dao = RadioDatabase.getInstance(application).radioDatabaseDao
+            dao = RadioDatabase.getInstance(application!!).radioDatabaseDao
             return dao!!
         }
     }
@@ -42,21 +56,21 @@ object ServiceLocator {
         }
     }
 
-    private fun providePref(application: Context): Preference {
+    private fun providePref(): Preference {
         if (preferecen != null) return preferecen!!
         else {
-            preferecen =   PreferenceImp(application)
+            preferecen =   PreferenceImp(application!!)
             return preferecen!!
         }
     }
 
-    fun provideRepository(context: Context): Repository {
+    fun provideRepository(): Repository {
         if (repository != null) return repository!!
         else {
             return Repository(
-                provideDao(context),
+                provideDao(),
                 provideRetrofit(),
-                providePref(context)
+                providePref()
             )
         }
     }

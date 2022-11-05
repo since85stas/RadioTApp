@@ -37,16 +37,17 @@ import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
 import stas.batura.radiotproject.MainActivity
+import stas.batura.radiotproject.RadioApp
 import stas.batura.room.podcast.Podcast
 import java.io.File
 
-class MusicService : LifecycleService() {
+class MusicService() : LifecycleService() {
 
-    val repositoryS: IRepository = ServiceLocator.provideRepository(applicationContext)
+    var repositoryS: IRepository = ServiceLocator.provideRepository()
 
     val dataSourceFactory: DataSource.Factory = provideDatasourceFactory()
 
-    val mediaSession: MediaSessionCompat = MediaSessionCompat(applicationContext,"Music Service")
+    val mediaSession: MediaSessionCompat = MediaSessionCompat(ServiceLocator.provideContext(),"Music Service")
 
     val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
 
@@ -107,14 +108,14 @@ class MusicService : LifecycleService() {
             OkHttpDataSourceFactory(
                 OkHttpClient(),
                 Util.getUserAgent(
-                    applicationContext,
-                    applicationContext.getString(stas.batura.radiotproject.R.string.app_name)
+                    ServiceLocator.provideContext(),
+                    ServiceLocator.provideContext().getString(stas.batura.radiotproject.R.string.app_name)
                 )
             )
 
         val   cache =
             SimpleCache(
-                File(application.cacheDir.absolutePath + "/exoplayer"),
+                File(ServiceLocator.provideContext().cacheDir.absolutePath + "/exoplayer"),
                 LeastRecentlyUsedCacheEvictor(1024 * 1024 * 100)
             ) // 100 Mb max
 
