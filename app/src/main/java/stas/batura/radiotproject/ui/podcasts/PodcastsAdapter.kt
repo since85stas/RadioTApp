@@ -24,7 +24,6 @@ class PodcastsAdapter(
     ListAdapter<Podcast, PodcastsAdapter.ViewHolder>(TrackDiffCalback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewHolder =
         return ViewHolder.from(parent, mainActivityViewModel, listModel)
     }
 
@@ -94,7 +93,7 @@ class PodcastsAdapter(
             oldItem: Podcast,
             newItem: Podcast
         ): Boolean {
-            return oldItem.equals(newItem)
+            return oldItem.podcastId == newItem.podcastId
         }
 
         override fun areContentsTheSame(
