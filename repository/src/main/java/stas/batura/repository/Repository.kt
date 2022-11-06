@@ -252,6 +252,8 @@ class Repository(
         }
     }
 
+
+
     /**
      * список за год
      */
@@ -274,6 +276,13 @@ class Repository(
      */
     override fun favTypeList(): Flow<List<Podcast>> {
         return radioDao.getFavoritesPodcastsList()
+    }
+
+    /**
+     * список за год
+     */
+    override fun getAllPodcastsList(): Flow<List<Podcast>> {
+        return radioDao.getAllPodcastsList()
     }
 
     /**

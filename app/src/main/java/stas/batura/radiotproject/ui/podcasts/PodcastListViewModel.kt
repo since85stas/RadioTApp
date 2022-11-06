@@ -33,16 +33,18 @@ class PodcastListViewModel (): ViewModel() {
     val activeNumPref = repository.getPrefActivePodcastNum().asLiveData()
 
     // получаем список в зависимости от типа отображения
-    val newPodcastList: LiveData<List<Podcast>> = repository.getTypeAndNumb().
-        flatMapLatest { loadInfo ->
-            if (loadInfo.listType == ListViewType.YEAR) {
-                repository.yearTypeList()
-            } else if(loadInfo.listType == ListViewType.NUMBER){
-                repository.numberTypeList(loadInfo.lastNumb)
-            } else {
-                repository.favTypeList()
-            }
-        }.asLiveData()
+//    val newPodcastList: LiveData<List<Podcast>> = repository.getTypeAndNumb().
+//        flatMapLatest { loadInfo ->
+//            if (loadInfo.listType == ListViewType.YEAR) {
+//                repository.yearTypeList()
+//            } else if(loadInfo.listType == ListViewType.NUMBER){
+//                repository.numberTypeList(loadInfo.lastNumb)
+//            } else {
+//                repository.favTypeList()
+//            }
+//        }.asLiveData()
+
+    val newPodcastList: LiveData<List<Podcast>> = repository.getAllPodcastsList().asLiveData()
 
     val podcastTypeAndNumb = repository.getTypeAndNumb().asLiveData()
 

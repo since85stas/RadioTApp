@@ -1,5 +1,6 @@
 package stas.batura.room.podcast
 
+import android.util.Log
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
@@ -13,6 +14,7 @@ import stas.batura.retrofit.TimeLabel
 import stas.batura.utils.TIME_WEEK
 import stas.batura.utils.getLinksFromHtml
 import stas.batura.utils.getMillisTime
+import java.lang.NumberFormatException
 import java.lang.StringBuilder
 import java.util.regex.Pattern
 
@@ -76,8 +78,17 @@ data class Podcast(
             val reg = "\\D".toRegex()
             val num = reg.replace(podcastBody.title, "")
 
+            var podcastNum: Int
+
+            try {
+                podcastNum = num.toInt()
+            } catch (e: NumberFormatException) {
+                Log.d("CreatePodcast", "error: $e in $podcastBody")
+                podcastNum = 0
+            }
+
             return Podcast(
-                num.toInt(),
+                podcastNum,
                 podcastBody.url,
                 podcastBody.title,
                 podcastBody.date.toString(),

@@ -36,6 +36,8 @@ interface IRepository {
 
     fun favTypeList(): Flow<List<Podcast>>
 
+    fun getAllPodcastsList(): Flow<List<Podcast>>
+
     fun updateTrackDuration(podcastId: Int, duration: Long)
 
     fun updateTrackIdDetailed(podcastId: Int, isDetailed: Boolean)
