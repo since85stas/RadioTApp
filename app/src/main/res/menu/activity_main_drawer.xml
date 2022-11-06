@@ -14,24 +14,6 @@
             android:icon="@drawable/ic_star_black_24dp"
             />
 
-        <item
-            android:orderInCategory="1"
-            android:id="@+id/nav_5per_page"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="5 on page" />
-
-        <item
-            android:orderInCategory="2"
-            android:id="@+id/nav_10per_page"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="10 on page" />
-
-        <item
-            android:orderInCategory="3"
-            android:id="@+id/nav_20per_page"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="20 on page" />
-
     </group>
 
     <group android:id="@+id/yearGroup"  android:checkableBehavior="none">
@@ -54,17 +36,6 @@
             android:icon="@drawable/ic_star_black_24dp"
             android:title="2020" />
 
-        <item
-            android:orderInCategory="7"
-            android:id="@+id/nav_year_2019"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="2019" />
-
-        <item
-            android:orderInCategory="8"
-            android:id="@+id/nav_year_2018"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="2018" />
 
     </group>
 
