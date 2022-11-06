@@ -19,7 +19,7 @@ interface PodcastDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(plants: List<Podcast>)
 
-    @Query("SELECT * FROM podcast_table ORDER BY podcastId DESC")
+    @Query("SELECT * FROM podcast_table ORDER BY timeMillis DESC")
     fun getAllPodcastsList(): Flow<List<Podcast>>
 
     @Query("SELECT * FROM podcast_table WHERE isFavorite = 1 ORDER BY podcastId DESC")
