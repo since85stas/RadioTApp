@@ -1,8 +1,13 @@
 package stas.batura.data
 
 import stas.batura.retrofit.TimeLabel
+import stas.batura.room.podcast.Podcast
 import java.lang.StringBuilder
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Pattern
+
+
 
 /** Regular expression for parsing RFC3339 date/times.  */
 private val PATTERN = Pattern.compile(
@@ -75,3 +80,4 @@ fun setTrackDuratNative(dur: Long): String {
     }
     return timeStr.toString()
 }
+

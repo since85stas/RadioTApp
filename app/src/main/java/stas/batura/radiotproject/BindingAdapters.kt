@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat
 
 @BindingAdapter("titleBind")
 fun TextView.podcastTitleBind(podcast: Podcast) {
-    text = podcast.title
+    text = "${podcast.title} ${createPodcastDateTitle(podcast.timeMillis)} "
 }
 
 @BindingAdapter("urlBind")
