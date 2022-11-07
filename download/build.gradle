@@ -43,4 +43,9 @@ dependencies {
     //downloader
     implementation "androidx.tonyodev.fetch2:xfetch2:3.1.6"
     implementation "androidx.tonyodev.fetch2okhttp:xfetch2okhttp:3.1.6"
+
+    implementation project(':di')
+
+    // logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
