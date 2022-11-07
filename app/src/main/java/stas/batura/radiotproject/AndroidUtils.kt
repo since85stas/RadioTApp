@@ -4,7 +4,7 @@ import stas.batura.room.podcast.Podcast
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val SAVE_FILE_FORM = "yyyy-MM-dd"
+const val SAVE_FILE_FORM = "dd MMM yyyy"
 
 fun createPodcastDateTitle(time: Long): String {
     val calendar = Calendar.getInstance()
