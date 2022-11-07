@@ -194,6 +194,10 @@ class MainActivity : AppCompatActivity() {
     private fun startDownloadService() {
         val intent = Intent(applicationContext!!, DownloadService::class.java)
 
+        val link = "http://cdn.radio-t.com/rt_podcast788.mp3"
+
+        intent.putExtra(DownloadService.LINK_KEY, link)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent)
         } else {
