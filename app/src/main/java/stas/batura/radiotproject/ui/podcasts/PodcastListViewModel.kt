@@ -3,6 +3,7 @@ package stas.batura.radioproject.ui.podcastlist
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
