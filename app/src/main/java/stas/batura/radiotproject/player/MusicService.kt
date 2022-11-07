@@ -87,11 +87,6 @@ class MusicService() : LifecycleService() {
 
     var exoPlayer: SimpleExoPlayer? = null
 //    private var extractorsFactory: ExtractorsFactory? = null
-//    private var dataSourceFactory: DataSource.Factory? = null
-
-//    lateinit var musicRepository: MusicRepository
-
-    var fileDataSource : DataSource? = null
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var serviceJob = Job()
