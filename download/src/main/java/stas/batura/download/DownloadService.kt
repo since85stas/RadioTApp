@@ -9,6 +9,7 @@ import com.tonyodev.fetch2.FetchConfiguration
 import com.tonyodev.fetch2okhttp.OkHttpDownloader
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
+import timber.log.Timber
 
 class DownloadService(): Service(), DownloadCommands {
 
@@ -17,7 +18,7 @@ class DownloadService(): Service(), DownloadCommands {
     protected val fetch: Fetch = initDownloader()
 
     init {
-
+        Timber.d("Service start")
     }
 
     override fun progress(preogressPercent: Int) {
