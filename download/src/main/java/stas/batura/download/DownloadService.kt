@@ -10,11 +10,21 @@ import com.tonyodev.fetch2okhttp.OkHttpDownloader
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 
-class DownloadService(): Service() {
+class DownloadService(): Service(), DownloadCommands {
 
     protected var downloadLink: String? = null
 
+    protected val fetch: Fetch = initDownloader()
+
     init {
+
+    }
+
+    override fun progress(preogressPercent: Int) {
+
+    }
+
+    override fun sendMessage() {
 
     }
 
@@ -41,7 +51,7 @@ class DownloadService(): Service() {
             .build()
 
         val dm = Fetch.Impl.getInstance(fetchConfiguration)
-        dm.addListener(downloadHandler())
+        dm.addListener(DownloadHandler(this))
         return dm
     }
 

@@ -6,11 +6,12 @@ import com.tonyodev.fetch2.FetchListener
 import com.tonyodev.fetch2core.DownloadBlock
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * хэндлер для обработки загрузок кэшируемых медиа
  */
-class DownloadHandler(): FetchListener  {
+class DownloadHandler(private val downloadCommands: DownloadCommands): FetchListener  {
 
     override fun onQueued(download: Download, waitingOnNetwork: Boolean) {
         Timber.d("download is quaede: $download $waitingOnNetwork")
@@ -18,38 +19,10 @@ class DownloadHandler(): FetchListener  {
 
     override fun onCancelled(download: Download) {
         Timber.d("download is canceled: $download")
-        _progress.postValue(null)
     }
 
     override fun onCompleted(download: Download) {
         Timber.d("download completed, ${download.file}")
-        logInfo("download completed, ${download.file}")
-        val media = _mediaToCache.find { it.id == download.tag?.toLong() }
-
-        currentPlaylist?.setMediaIsCahed(download.tag?.toLong())
-        _progress.postValue(null)
-
-        if (downloadsNumber > 2) {
-            downloadsNumber--
-        } else if (downloadsNumber == 2) {
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    service!!.taskIsCompleted(currentTaskId, TaskResult(), authConfig)
-//                    Timber.i("Task is complete: id=${currentTaskId} ${"a"}")
-//                    logInfo("Task is complete: id=${currentTaskId} ${"a"}")
-//                }
-            completeCurrentTask()
-        }
-
-        if (media != null && appState.value == AppState.DEMO_CONTENT_PLAYER) {
-//                addToRotation(media)
-            _demoMedia.value = media
-            _demoMedia.value = null
-        }
-
-        ioScope.launch {
-            delay(300)
-            sendStrorageStats()
-        }
     }
 
     override fun onDeleted(download: Download) {
@@ -73,9 +46,6 @@ class DownloadHandler(): FetchListener  {
 
     override fun onError(download: Download, error: Error, throwable: Throwable?) {
         Timber.e("Downloading error: $download, $throwable")
-        _progress.postValue(null)
-
-        compileTaskCrash("Downloading error: $download, $throwable", currentTaskId)
     }
 
     override fun onRemoved(download: Download) {
@@ -87,9 +57,8 @@ class DownloadHandler(): FetchListener  {
         etaInMilliSeconds: Long,
         downloadedBytesPerSecond: Long
     ) {
+        downloadCommands.progress(download.progress)
         Timber.d("download progress: ${download.progress} perSec: $downloadedBytesPerSecond")
-        _progress.postValue(download.progress)
-        if (download.progress >= 100) _progress.postValue(null) //reset
     }
 
     override fun onResumed(download: Download) {
