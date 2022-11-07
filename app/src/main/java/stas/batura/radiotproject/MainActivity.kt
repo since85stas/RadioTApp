@@ -3,6 +3,7 @@ package stas.batura.radiotproject
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
+import stas.batura.download.DownloadService
 import stas.batura.radiotproject.player.MusicService
 
 private lateinit var appBarConfiguration: AppBarConfiguration
@@ -123,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 //            DownloadService.startForeground(this, PodcastDownloadService::class.java)
 //            Log.i(TAG, "onCreate: $e")
 //        }
-
+        startDownloadService()
     }
 
 
@@ -187,6 +189,16 @@ class MainActivity : AppCompatActivity() {
             serviceConnection,
             Context.BIND_AUTO_CREATE
         )
+    }
+
+    private fun startDownloadService() {
+        val intent = Intent(applicationContext!!, DownloadService::class.java)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
     }
 
     /**
