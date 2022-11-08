@@ -11,14 +11,30 @@ import timber.log.Timber
 import android.os.Build
 import android.R
 import android.app.*
+import android.content.Context
 import com.tonyodev.fetch2.*
-import com.tonyodev.fetch2core.Extras
 
 class DownloadService(): Service(), DownloadCommands {
 
     val CHANNEL_ID = "ForegroundServiceChannel"
 
+    val notificationBulder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        Notification.Builder(this, CHANNEL_ID)
+            .setContentTitle("Downloading...")
+            .setSmallIcon(R.drawable.arrow_down_float)
 
+    } else {
+        Timber.d("start")
+        Notification.Builder(this)
+            .setContentTitle("Downloading...")
+            .setSmallIcon(R.drawable.arrow_down_float)
+
+    }
+
+    // this will be initialized lazily
+    private val notificationManager: NotificationManager by lazy {
+        ServiceLocator.provideContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     protected var downloadLink: String? = null
 
@@ -35,20 +51,8 @@ class DownloadService(): Service(), DownloadCommands {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
 
-        val notification: Notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(this, CHANNEL_ID)
-                .setContentTitle("Downloading...")
-                .setSmallIcon(R.drawable.arrow_down_float)
-                .build()
-        } else {
-            Timber.d("start")
-            Notification.Builder(this)
-                .setContentTitle("Downloading...")
-                .setSmallIcon(R.drawable.arrow_down_float)
-                .build()
 
-        }
-        startForeground(1, notification)
+        startForeground(1, notificationBulder.build())
         //do heavy work on a background thread
         //stopSelf()
 
@@ -62,6 +66,9 @@ class DownloadService(): Service(), DownloadCommands {
 
     override fun progress(preogressPercent: Int) {
         Timber.d(preogressPercent.toString())
+        val notification = notificationBulder.setContentText("Downloading... progress: ${preogressPercent}")
+        notificationManager.notify(1, notification.build())
+
     }
 
     override fun sendMessage() {
