@@ -4,5 +4,5 @@ interface DownloadCommands {
 
     fun progress(preogressPercent: Int)
 
-    fun sendMessage()
+    fun sendMessage(result: DownloadResult)
 }

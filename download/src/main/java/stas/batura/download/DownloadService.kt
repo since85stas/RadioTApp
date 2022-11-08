@@ -13,19 +13,22 @@ import android.R
 import android.app.*
 import android.content.Context
 import com.tonyodev.fetch2.*
+import java.lang.Error
 
 class DownloadService(): Service(), DownloadCommands {
 
     val CHANNEL_ID = "ForegroundServiceChannel"
 
+    val NOTIF_ID = 44
+
     val notificationBulder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        Notification.Builder(this, CHANNEL_ID)
+        Notification.Builder(ServiceLocator.provideContext(), CHANNEL_ID)
             .setContentTitle("Downloading...")
             .setSmallIcon(R.drawable.arrow_down_float)
 
     } else {
         Timber.d("start")
-        Notification.Builder(this)
+        Notification.Builder(ServiceLocator.provideContext())
             .setContentTitle("Downloading...")
             .setSmallIcon(R.drawable.arrow_down_float)
 
@@ -52,7 +55,7 @@ class DownloadService(): Service(), DownloadCommands {
         createNotificationChannel()
 
 
-        startForeground(1, notificationBulder.build())
+        startForeground(NOTIF_ID, notificationBulder.build())
         //do heavy work on a background thread
         //stopSelf()
 
@@ -67,12 +70,19 @@ class DownloadService(): Service(), DownloadCommands {
     override fun progress(preogressPercent: Int) {
         Timber.d(preogressPercent.toString())
         val notification = notificationBulder.setContentText("Downloading... progress: ${preogressPercent}")
-        notificationManager.notify(1, notification.build())
+        notificationManager.notify(NOTIF_ID, notification.build())
 
     }
 
-    override fun sendMessage() {
-
+    override fun sendMessage(result: DownloadResult) {
+        when(result) {
+            is DownloadResult.OK -> {
+                stopSelf()
+            }
+            is DownloadResult.Error -> {
+                stopSelf()
+            }
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -120,7 +130,7 @@ class DownloadService(): Service(), DownloadCommands {
             val serviceChannel = NotificationChannel(
                 CHANNEL_ID,
                 "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_LOW
             )
             val manager = getSystemService(
                 NotificationManager::class.java

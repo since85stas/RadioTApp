@@ -19,10 +19,12 @@ class DownloadHandler(private val downloadCommands: DownloadCommands): FetchList
 
     override fun onCancelled(download: Download) {
         Timber.d("download is canceled: $download")
+        downloadCommands.sendMessage(DownloadResult.Error("canceled"))
     }
 
     override fun onCompleted(download: Download) {
         Timber.d("download completed, ${download.file}")
+        downloadCommands.sendMessage(DownloadResult.OK())
     }
 
     override fun onDeleted(download: Download) {
@@ -46,6 +48,7 @@ class DownloadHandler(private val downloadCommands: DownloadCommands): FetchList
 
     override fun onError(download: Download, error: Error, throwable: Throwable?) {
         Timber.e("Downloading error: $download, $throwable")
+        downloadCommands.sendMessage(DownloadResult.Error(error.toString()))
     }
 
     override fun onRemoved(download: Download) {
