@@ -80,6 +80,13 @@ object ServiceLocator {
         }
     }
 
+    fun providePodcastAudioCacheDir(): String {
+        val dir = provideContext().cacheDir.absolutePath + "/podcast/"
+        val file = File(dir)
+        file.mkdir()
+        return dir
+    }
+
     fun provideExoCache(): SimpleCache {
 
         if (cache != null) {

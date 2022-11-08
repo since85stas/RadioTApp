@@ -3,8 +3,6 @@ package stas.batura.download
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import com.tonyodev.fetch2.Fetch
-import com.tonyodev.fetch2.FetchConfiguration
 import com.tonyodev.fetch2okhttp.OkHttpDownloader
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
@@ -15,6 +13,8 @@ import com.google.android.exoplayer2.offline.DownloadService.startForeground
 
 import android.R
 import android.app.*
+import com.tonyodev.fetch2.*
+import com.tonyodev.fetch2core.Extras
 
 class DownloadService(): Service(), DownloadCommands {
 
@@ -50,6 +50,7 @@ class DownloadService(): Service(), DownloadCommands {
         //stopSelf()
 
         val link = intent?.extras?.getString(LINK_KEY)
+        startDownload(link!!)
 
         //do heavy work on a background thread
         //stopSelf();
@@ -57,7 +58,7 @@ class DownloadService(): Service(), DownloadCommands {
     }
 
     override fun progress(preogressPercent: Int) {
-
+        Timber.d(preogressPercent.toString())
     }
 
     override fun sendMessage() {
@@ -89,6 +90,19 @@ class DownloadService(): Service(), DownloadCommands {
         val dm = Fetch.Impl.getInstance(fetchConfiguration)
         dm.addListener(DownloadHandler(this))
         return dm
+    }
+
+    private fun startDownload(link: String) {
+        val cachePath = ServiceLocator.providePodcastAudioCacheDir() + "test_name.mp3"
+        val request = Request(link, cachePath)
+        request.tag = link
+        request.priority = Priority.HIGH
+//        request.extras = Extras(mapOf(TYPE_EXTRA to TYPE_CONTENT))
+        request.networkType = NetworkType.ALL
+
+        fetch.enqueue(
+            request, {}, {}
+        )
     }
 
     private fun createNotificationChannel() {

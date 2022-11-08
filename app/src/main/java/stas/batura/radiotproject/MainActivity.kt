@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         mainActivityViewModel.serviceConnection.observe(this) { it ->
             if (it != null) {
                 Log.d(TAG, "onCreate: " + it.toString())
-                bindCurrentService(it)
+//                bindCurrentService(it)
             }
         }
 
@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startDownloadService() {
-        val intent = Intent(applicationContext!!, DownloadService::class.java)
+        val intent = Intent(this, DownloadService::class.java)
 
         val link = "http://cdn.radio-t.com/rt_podcast788.mp3"
 
