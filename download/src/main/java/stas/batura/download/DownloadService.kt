@@ -9,8 +9,6 @@ import stas.batura.di.ServiceLocator
 import timber.log.Timber
 
 import android.os.Build
-import com.google.android.exoplayer2.offline.DownloadService.startForeground
-
 import android.R
 import android.app.*
 import com.tonyodev.fetch2.*
@@ -43,7 +41,12 @@ class DownloadService(): Service(), DownloadCommands {
                 .setSmallIcon(R.drawable.arrow_down_float)
                 .build()
         } else {
-            TODO("VERSION.SDK_INT < O")
+            Timber.d("start")
+            Notification.Builder(this)
+                .setContentTitle("Downloading...")
+                .setSmallIcon(R.drawable.arrow_down_float)
+                .build()
+
         }
         startForeground(1, notification)
         //do heavy work on a background thread
