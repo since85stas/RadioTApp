@@ -111,6 +111,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        mainActivityViewModel.downloadPodcastEvent.observe(this, Observer {
+            it?.let { podcast ->
+                downloadPodcast(podcast)
+            }
+        })
+
         // нициализируем сервис
         mainActivityViewModel.initMusicService()
 

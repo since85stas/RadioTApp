@@ -139,7 +139,7 @@
                     app:layout_constraintTop_toTopOf="@id/titleText"
                     app:layout_constraintBottom_toBottomOf="@id/titleText"
                     downloadedVisibility="@{podcast}"
-                    android:onClick="@{() -> podcastViewModel.changePodcastToSavedStatus(podcast.podcastId)}"
+                    android:onClick="@{() -> mainModel.startDownloadPodcast(podcast)}"
                     >
                 </ImageView>
 

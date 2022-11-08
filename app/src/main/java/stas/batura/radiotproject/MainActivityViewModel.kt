@@ -51,6 +51,10 @@ class MainActivityViewModel constructor(
     val createServiceListner: LiveData<Boolean>
         get() = _createServiceListner
 
+    private var _downloadPodcastEvent: MutableLiveData<Podcast?> = MutableLiveData(null)
+    val downloadPodcastEvent: LiveData<Podcast?>
+        get() = _downloadPodcastEvent
+
     val activePodcastPref: MutableLiveData<Podcast?> = MutableLiveData(null)
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -238,6 +242,14 @@ class MainActivityViewModel constructor(
                 repository.updateRedrawField(activePodcastPref.value!!.podcastId)
             }
         }
+    }
+
+    fun startDownloadPodcast(podcast: Podcast) {
+        _downloadPodcastEvent.value = podcast
+    }
+
+    fun endDownloadPodcast(podcastId: Int) {
+
     }
 
 //    /**

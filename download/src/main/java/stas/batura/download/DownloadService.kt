@@ -7,7 +7,6 @@ import com.tonyodev.fetch2okhttp.OkHttpDownloader
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 import timber.log.Timber
-
 import android.os.Build
 import android.R
 import android.app.*
@@ -21,6 +20,8 @@ class DownloadService(): Service(), DownloadCommands {
     val CHANNEL_ID = "ForegroundServiceChannel"
 
     val NOTIF_ID = 44
+
+    private var downloadId: Int? = null
 
     val notificationBulder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         Notification.Builder(ServiceLocator.provideContext(), CHANNEL_ID)
@@ -61,7 +62,8 @@ class DownloadService(): Service(), DownloadCommands {
         //stopSelf()
 
         val link = intent?.extras?.getString(LINK_KEY)
-        startDownload(link!!)
+        downloadId = intent?.extras?.getInt(PODCAST_ID, 0)
+        startDownload(link!!, downloadId!!)
 
         //do heavy work on a background thread
         //stopSelf();
@@ -117,8 +119,8 @@ class DownloadService(): Service(), DownloadCommands {
         return dm
     }
 
-    private fun startDownload(link: String) {
-        val cachePath = ServiceLocator.providePodcastAudioCacheDir() + "test_name.mp3"
+    private fun startDownload(link: String, id: Int) {
+        val cachePath = ServiceLocator.providePodcastAudioCacheDir() + "audio_$id.mp3"
         val request = Request(link, cachePath)
         request.tag = link
         request.priority = Priority.HIGH
