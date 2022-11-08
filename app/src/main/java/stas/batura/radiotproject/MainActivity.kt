@@ -29,6 +29,7 @@ import stas.batura.data.ListViewType
 import stas.batura.data.Year
 import stas.batura.download.DownloadService
 import stas.batura.radiotproject.player.MusicService
+import stas.batura.room.podcast.Podcast
 
 private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -117,21 +118,6 @@ class MainActivity : AppCompatActivity() {
         createSectionsInMenu()
 
 
-        // Start the download service if it should be running but it's not currently.
-        // Starting the service in the foreground causes notification flicker if there is no scheduled
-        // action. Starting it in the background throws an exception if the app is in the background too
-        // (e.g. if device screen is locked).
-//        try {
-//            DownloadService.start(this, PodcastDownloadService::class.java)
-//            Log.i(TAG, "onCreate: starting download serv")
-//            testDownload()
-//        } catch (e: IllegalStateException) {
-//            DownloadService.startForeground(this, PodcastDownloadService::class.java)
-//            Log.i(TAG, "onCreate: $e")
-//        }
-        startDownloadService()
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, IntentFilter("stas.batura.download.result"))
     }
 
 
@@ -152,6 +138,25 @@ class MainActivity : AppCompatActivity() {
 //            request,
 //            /* foreground= */ false
 //        )
+    }
+
+    private fun downloadPodcast(podcast: Podcast) {
+
+        val intent = Intent(this, DownloadService::class.java)
+
+        val link = podcast.audioUrl
+        intent.putExtra(DownloadService.LINK_KEY, link)
+        intent.putExtra(DownloadService.PODCAST_ID, podcast.podcastId)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
+
+        // начинаем слушать ответ от сервиса по загрузке
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(messageReceiver, IntentFilter(DownloadService.DOWNLOAD_RESULT))
     }
 
 
@@ -198,17 +203,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startDownloadService() {
-        val intent = Intent(this, DownloadService::class.java)
-
-        val link = "http://cdn.radio-t.com/rt_podcast788.mp3"
-
-        intent.putExtra(DownloadService.LINK_KEY, link)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent)
-        } else {
-            startService(intent)
-        }
     }
 
     /**

@@ -146,6 +146,7 @@ class DownloadService(): Service(), DownloadCommands {
 
     companion object {
         val LINK_KEY = "link"
+        val PODCAST_ID = "podcast_id"
         val DOWNLOAD_RESULT = "stas.batura.download.result"
     }
 
