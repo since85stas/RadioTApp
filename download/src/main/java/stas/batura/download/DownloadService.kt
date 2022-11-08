@@ -12,6 +12,7 @@ import android.os.Build
 import android.R
 import android.app.*
 import android.content.Context
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.tonyodev.fetch2.*
 import java.lang.Error
 
@@ -35,7 +36,7 @@ class DownloadService(): Service(), DownloadCommands {
     }
 
     // this will be initialized lazily
-    private val notificationManager: NotificationManager by lazy {
+    private val notificationManager by lazy {
         ServiceLocator.provideContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
@@ -75,11 +76,15 @@ class DownloadService(): Service(), DownloadCommands {
     }
 
     override fun sendMessage(result: DownloadResult) {
+        val intent = Intent(DOWNLOAD_RESULT)
+        val local = LocalBroadcastManager.getInstance(this)
         when(result) {
             is DownloadResult.OK -> {
+                val res = local.sendBroadcast(intent)
                 stopSelf()
             }
             is DownloadResult.Error -> {
+                val res = local.sendBroadcast(intent)
                 stopSelf()
             }
         }
@@ -141,6 +146,7 @@ class DownloadService(): Service(), DownloadCommands {
 
     companion object {
         val LINK_KEY = "link"
+        val DOWNLOAD_RESULT = "stas.batura.download.result"
     }
 
 }

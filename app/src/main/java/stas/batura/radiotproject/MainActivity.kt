@@ -2,6 +2,7 @@ package stas.batura.radiotproject
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -33,6 +35,8 @@ private lateinit var appBarConfiguration: AppBarConfiguration
 class MainActivity : AppCompatActivity() {
 
     private val TAG = MainActivity::class.java.simpleName
+
+    private val messageReceiver = MessageReceiver()
 
     lateinit var mainActivityViewModel: MainActivityViewModel
 
@@ -126,6 +130,8 @@ class MainActivity : AppCompatActivity() {
 //            Log.i(TAG, "onCreate: $e")
 //        }
         startDownloadService()
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, IntentFilter("stas.batura.download.result"))
     }
 
 

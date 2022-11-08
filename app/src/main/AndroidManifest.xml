@@ -44,6 +44,14 @@
             </intent-filter>
         </service>
 
+        <receiver
+            android:name=".MessageReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="stas.batura.download.result" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
