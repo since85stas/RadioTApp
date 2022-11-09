@@ -77,10 +77,5 @@ interface PodcastDao {
     suspend fun updateRedrawField(podcastId: Int)
 
     @Query("UPDATE podcast_table SET savedStatus= :savedStatus WHERE podcastId =:podcastId")
-    suspend fun updatePodcastSavedStatus(podcastId: Int ,savedStatus: SavedStatus, localPath:String) {
-
-    }
-
-    @Transaction
-    suspend fun testRans()
+    suspend fun updatePodcastSavedStatus(podcastId: Int ,savedStatus: SavedStatus)
 }

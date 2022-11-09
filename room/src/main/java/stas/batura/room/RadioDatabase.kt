@@ -48,7 +48,7 @@ abstract class RadioDatabase : RoomDatabase() {
     /**
      * Connects the database to the DAO.
      */
-    abstract val radioDatabaseDao: PodcastDao
+    abstract val radioDatabaseDao: RadioDao
 
     /**
      * Define a companion object, this allows us to add functions on the SleepDatabase class.

@@ -80,8 +80,10 @@ class Repository(
         } else {
             if (shouldUpdateRadioCacheDB()) {
                 val lastPodcast = radioDao.getLastPodcast()
-                lastPodcast?.let {
-                    updatePodacastLastNumInfo(it.numWeekGone(System.currentTimeMillis()))
+                if (lastPodcast != null)  {
+                    updatePodacastLastNumInfo(lastPodcast.numWeekGone(System.currentTimeMillis()))
+                } else {
+                    updatePodacastAllInfo()
                 }
 
             }
