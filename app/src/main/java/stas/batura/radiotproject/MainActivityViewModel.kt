@@ -248,7 +248,7 @@ class MainActivityViewModel constructor(
         _downloadPodcastEvent.value = podcast
     }
 
-    fun endDownloadPodcast(podcastId: Int) {
+    fun endDownloadPodcast(podcastId: Int, localPath: String) {
 
     }
 

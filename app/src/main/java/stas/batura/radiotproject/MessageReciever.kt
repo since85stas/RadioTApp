@@ -8,16 +8,13 @@ import stas.batura.download.DownloadService
 import stas.batura.download.DownloadServiceResult
 import timber.log.Timber
 
-class MessageReceiver : BroadcastReceiver() {
+class MessageReceiver(recieverResult: RecieverResult) : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.let {
-//            val podcastId = intent.getIntExtra(DownloadService.PODCAST_ID, 0)
-//            val cahedPath = intent.getSerializableExtra(DownloadService.CACHED_PATH)
             val cahedPath = intent.getSerializableExtra(DownloadService.CACHED_PATH)
-
             val downloadResult = cahedPath as DownloadServiceResult
-            Timber.d("rresult $downloadResult")
+            Timber.d("result $downloadResult")
         }
     }
 }

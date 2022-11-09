@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -27,17 +28,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
+import stas.batura.download.DownloadResult
 import stas.batura.download.DownloadService
+import stas.batura.download.DownloadServiceResult
 import stas.batura.radiotproject.player.MusicService
 import stas.batura.room.podcast.Podcast
 
 private lateinit var appBarConfiguration: AppBarConfiguration
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecieverResult {
 
     private val TAG = MainActivity::class.java.simpleName
 
-    private val messageReceiver = MessageReceiver()
+    private val messageReceiver = MessageReceiver(this)
 
     lateinit var mainActivityViewModel: MainActivityViewModel
 
@@ -249,5 +252,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    override fun donloadPodcastRsult(downloadServiceResult: DownloadServiceResult) {
+        when (downloadServiceResult.status) {
+            is DownloadResult.OK -> {
+                Toast.makeText(this, "Загрузка прошла успешно", Toast.LENGTH_LONG).show()
+                mainActivityViewModel.endDownloadPodcast(downloadServiceResult.entityId, downloadServiceResult.cachedPath)
+            }
+            is DownloadResult.Error -> {
+                Toast.makeText(this, "Ошибка загрузки. Попробуйте еще раз", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }
