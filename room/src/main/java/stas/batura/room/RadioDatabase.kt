@@ -24,6 +24,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import ru.batura.stat.batchat.repository.room.PodcastDao
 import ru.batura.stat.batchat.repository.room.RadioDao
+import stas.batura.room.download.PodcastDownload
 import stas.batura.room.podcast.CategoryDataConverter
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatusConverter
@@ -36,7 +37,7 @@ import stas.batura.room.podcast.TimeLabelsDataConverter
  * This pattern is pretty much the same for any database,
  * so you can reuse it.
  */
-@Database(entities =[Podcast::class], version = 1, exportSchema = false)
+@Database(entities =[Podcast::class, PodcastDownload::class], version = 2, exportSchema = false)
 @TypeConverters(
     CategoryDataConverter::class,
     TimeLabelsDataConverter::class,
