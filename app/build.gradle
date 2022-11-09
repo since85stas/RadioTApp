@@ -67,6 +67,9 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-service:2.2.0"
 
+    // logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     implementation project(':di')
 
     implementation project(':data')

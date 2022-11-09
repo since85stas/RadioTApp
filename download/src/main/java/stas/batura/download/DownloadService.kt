@@ -23,6 +23,8 @@ class DownloadService(): Service(), DownloadCommands {
 
     private var downloadId: Int? = null
 
+    private var cachedPath: String? = null
+
     val notificationBulder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         Notification.Builder(ServiceLocator.provideContext(), CHANNEL_ID)
             .setContentTitle("Downloading...")
@@ -78,7 +80,14 @@ class DownloadService(): Service(), DownloadCommands {
     }
 
     override fun sendMessage(result: DownloadResult) {
+
+        // отправляем в интент данные о пути к скачанному файлу
         val intent = Intent(DOWNLOAD_RESULT)
+//        intent.putExtra(PODCAST_ID, downloadId)
+//        intent.putExtra(CACHED_PATH, cachedPath)
+        val resultS = DownloadServiceResult(downloadId!!, DownloadResult.OK(), cachedPath!!)
+        intent.putExtra(CACHED_PATH, resultS)
+
         val local = LocalBroadcastManager.getInstance(this)
         when(result) {
             is DownloadResult.OK -> {
@@ -120,8 +129,8 @@ class DownloadService(): Service(), DownloadCommands {
     }
 
     private fun startDownload(link: String, id: Int) {
-        val cachePath = ServiceLocator.providePodcastAudioCacheDir() + "audio_$id.mp3"
-        val request = Request(link, cachePath)
+        cachedPath = ServiceLocator.providePodcastAudioCacheDir() + "audio_$id.mp3"
+        val request = Request(link, cachedPath!!)
         request.tag = link
         request.priority = Priority.HIGH
 //        request.extras = Extras(mapOf(TYPE_EXTRA to TYPE_CONTENT))
@@ -149,6 +158,7 @@ class DownloadService(): Service(), DownloadCommands {
     companion object {
         val LINK_KEY = "link"
         val PODCAST_ID = "podcast_id"
+        val CACHED_PATH = "podcast_id"
         val DOWNLOAD_RESULT = "stas.batura.download.result"
     }
 
