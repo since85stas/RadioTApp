@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         mainActivityViewModel.serviceConnection.observe(this) { it ->
             if (it != null) {
                 Log.d(TAG, "onCreate: " + it.toString())
-//                bindCurrentService(it)
+                bindCurrentService(it)
             }
         }
 
