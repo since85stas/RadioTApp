@@ -131,21 +131,6 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
 
     private fun testDownload() {
-////        val downloadRequest: DownloadRequest = DownloadRequest.Builder(
-////            "test3",
-////            Uri.parse("http://cdn.radio-t.com/rt_podcast669.mp3")
-////        ).build()
-//        val mediaItem = MediaItem.fromUri(Uri.parse("http://cdn.radio-t.com/rt_podcast669.mp3"))
-//        val helper = DownloadHelper.forMediaItem(
-//            applicationContext,
-//            mediaItem)
-//
-//        val request = helper.getDownloadRequest(Util.getUtf8Bytes(mediaItem.mediaId))
-//        DownloadService.sendAddDownload(
-//            this,
-//            PodcastDownloadService::class.java,
-//            request,
-//            /* foreground= */ false
 //        )
     }
 
