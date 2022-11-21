@@ -33,6 +33,7 @@ import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
@@ -250,7 +251,12 @@ class MusicService() : LifecycleService() {
                     Log.d(TAG, "onPlay: $podcast")
 
                     if(podcast?.savedStatus == SavedStatus.SAVED) {
-//                        val localUri = reposi
+                        CoroutineScope(Dispatchers.Default).launch {
+                            val localUri =
+                                repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
+
+                            prepareToPlay(Uri.parse(localUri))
+                        }
                     } else {
                         prepareToPlay(Uri.parse(podcast!!.audioUrl))
                     }

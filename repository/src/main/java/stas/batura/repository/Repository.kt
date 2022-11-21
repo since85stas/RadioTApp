@@ -397,10 +397,7 @@ class Repository(
     }
 
     override suspend fun getPodcastLocalPath(podcastId: Int): String {
-        val job = repScope.async {
-            radioDao.getPodcastLocalPath(podcastId)
-        }
-        return job.await()
+        return radioDao.getPodcastLocalPath(podcastId)
     }
 }
 
