@@ -14,7 +14,7 @@ import stas.batura.room.podcast.SavedStatus
 
 
 class Repository(
-    private val radioDao: PodcastDao,
+    private val radioDao: RadioDao,
     private val retrofit: IRetrofit,
     private val preference: Preference
 ) : IRepository {
@@ -396,6 +396,12 @@ class Repository(
         }
     }
 
+    override suspend fun getPodcastLocalPath(podcastId: Int): String {
+        val job = repScope.async {
+            radioDao.getPodcastLocalPath(podcastId)
+        }
+        return job.await()
+    }
 }
 
 data class PodcastLoadInfo(

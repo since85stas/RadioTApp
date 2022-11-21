@@ -53,4 +53,6 @@ interface IRepository {
     fun setFavoriteStatus(podcastId: Int, status: Boolean)
 
     fun updatePodcastSavedStatus(podcastId: Int,savedStatus: SavedStatus)
+
+    suspend fun getPodcastLocalPath(podcastId: Int): String
 }

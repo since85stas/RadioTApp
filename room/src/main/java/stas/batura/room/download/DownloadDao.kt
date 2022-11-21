@@ -12,7 +12,7 @@ interface DownloadDao {
     suspend fun insertDownload(podcastDownload: PodcastDownload)
 
     @Query("SELECT localPath FROM download_table WHERE podcastId = :podcastId")
-    suspend fun getPath(podcastId: Int): String
+    suspend fun getPodcastLocalPath(podcastId: Int): String
 
 
 }

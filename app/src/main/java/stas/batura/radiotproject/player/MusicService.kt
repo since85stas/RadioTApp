@@ -39,6 +39,7 @@ import stas.batura.radioproject.data.IRepository
 import stas.batura.radiotproject.MainActivity
 import stas.batura.radiotproject.RadioApp
 import stas.batura.room.podcast.Podcast
+import stas.batura.room.podcast.SavedStatus
 import timber.log.Timber
 import java.io.File
 
@@ -245,10 +246,15 @@ class MusicService() : LifecycleService() {
                 )
                 if (!mediaSession!!.isActive) {
 //                    val track: MusicRepository.Track = musicRepository.getCurrent()
-                    Log.d(TAG, "onPlay: not active")
                     updateMetadataFromTrack(podcast!!)
                     Log.d(TAG, "onPlay: $podcast")
-                    prepareToPlay(Uri.parse(podcast!!.audioUrl))
+
+                    if(podcast?.savedStatus == SavedStatus.SAVED) {
+//                        val localUri = reposi
+                    } else {
+                        prepareToPlay(Uri.parse(podcast!!.audioUrl))
+                    }
+
                     if (!isAudioFocusRequested) {
                         isAudioFocusRequested = true
                         var audioFocusResult: Int
