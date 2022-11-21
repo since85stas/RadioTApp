@@ -39,6 +39,7 @@ import stas.batura.radioproject.data.IRepository
 import stas.batura.radiotproject.MainActivity
 import stas.batura.radiotproject.RadioApp
 import stas.batura.room.podcast.Podcast
+import timber.log.Timber
 import java.io.File
 
 class MusicService() : LifecycleService() {
@@ -425,6 +426,8 @@ class MusicService() : LifecycleService() {
         ) {
         }
 
+
+
         override fun onLoadingChanged(isLoading: Boolean) {
         }
 
@@ -446,6 +449,7 @@ class MusicService() : LifecycleService() {
         }
 
         override fun onPlayerError(error: ExoPlaybackException) {
+            Timber.d(error.toString())
         }
 
         override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
@@ -458,7 +462,7 @@ class MusicService() : LifecycleService() {
             when (focusChange ) {
                 // Не очень красиво
                 AudioManager.AUDIOFOCUS_GAIN -> {
-//                    mediaSessionCallback.onPlay()
+                    mediaSessionCallback.onPlay()
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> mediaSessionCallback.onPause()
                 else -> mediaSessionCallback.onPause()
