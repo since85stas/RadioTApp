@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
     lateinit var mainActivityViewModel: MainActivityViewModel
 
+    lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val music = MusicService()
 
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
@@ -207,10 +210,15 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         nav_view.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
+                    navController.navigate(R.id.navigation_podcastlist)
                     true
                 }
                 R.id.nav_fav -> {
                     mainActivityViewModel.setPrefsListType(ListViewType.FAVORITE)
+                    true
+                }
+                R.id.nav_saved -> {
+                    navController.navigate(R.id.navigation_savedpodcastlist)
                     true
                 }
                 R.id.nav_year_2022 -> {
