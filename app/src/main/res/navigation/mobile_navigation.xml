@@ -12,4 +12,10 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_podcast_list" />
 
+    <fragment
+        android:id="@+id/navigation_savedpodcastlist"
+        android:name="stas.batura.radiotproject.ui.saved.SavedPodcastsFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_saved_podcasts" />
+
 </navigation>
