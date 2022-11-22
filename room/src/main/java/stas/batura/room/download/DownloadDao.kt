@@ -1,9 +1,6 @@
 package stas.batura.room.download
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface DownloadDao {
@@ -14,5 +11,6 @@ interface DownloadDao {
     @Query("SELECT localPath FROM download_table WHERE podcastId = :podcastId")
     suspend fun getPodcastLocalPath(podcastId: Int): String
 
-
+    @Query("DELETE FROM download_table WHERE podcastId = :podcastId")
+    suspend fun deletePodcastFromCache(podcastId: Int)
 }

@@ -399,6 +399,15 @@ class Repository(
     override suspend fun getPodcastLocalPath(podcastId: Int): String {
         return radioDao.getPodcastLocalPath(podcastId)
     }
+
+    override fun deletePodcastCahe(podcastId: Int) {
+        repScope.launch {
+            radioDao.updatePodcastSavedStatus(podcastId, SavedStatus.NOT_SAVED)
+            val localPath = radioDao.getPodcastLocalPath(podcastId)
+
+
+        }
+    }
 }
 
 data class PodcastLoadInfo(
