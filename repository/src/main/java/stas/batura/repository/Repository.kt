@@ -9,6 +9,7 @@ import stas.batura.data.ListViewType
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
 import stas.batura.retrofit.IRetrofit
+import stas.batura.room.download.PodcastDownload
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 import stas.batura.utils.deleteLocalFile
@@ -411,6 +412,14 @@ class Repository(
 
             // удаляем сохраненный файл
             deleteLocalFile(localPath)
+        }
+    }
+
+    override fun setPodcastToSaved(podcastId: Int, localPath: String) {
+        repScope.launch {
+            radioDao.updatePodcastSavedStatus(podcastId, SavedStatus.SAVED)
+
+            radioDao.insertDownload(PodcastDownload(podcastId, localPath))
         }
     }
 }

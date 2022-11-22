@@ -249,7 +249,7 @@ class MainActivityViewModel constructor(
     }
 
     fun endDownloadPodcast(podcastId: Int, localPath: String) {
-
+        repository.setPodcastToSaved(podcastId, localPath)
     }
 
 //    /**
