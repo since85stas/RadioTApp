@@ -11,6 +11,7 @@ import stas.batura.protostore.Preference
 import stas.batura.retrofit.IRetrofit
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
+import stas.batura.utils.deleteLocalFile
 
 
 class Repository(
@@ -405,7 +406,11 @@ class Repository(
             radioDao.updatePodcastSavedStatus(podcastId, SavedStatus.NOT_SAVED)
             val localPath = radioDao.getPodcastLocalPath(podcastId)
 
+            // убераем его из списка сохраненных
+            radioDao.deletePodcastFromCache(podcastId)
 
+            // удаляем сохраненный файл
+            deleteLocalFile(localPath)
         }
     }
 }
