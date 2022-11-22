@@ -146,12 +146,12 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_delete_24"
+                    android:src="@drawable/ic_baseline_download_done_24"
                     app:layout_constraintLeft_toRightOf="@id/favorButton"
                     app:layout_constraintTop_toTopOf="@id/titleText"
                     app:layout_constraintBottom_toBottomOf="@id/titleText"
+                    deleteVisibility="@{podcast}"
                     android:visibility="gone"
-                    android:onClick="@{() -> podcastViewModel.changePodcastToNotSavedStatus(podcast.podcastId)}"
                     >
                 </ImageView>
 <!--                <TextView-->
