@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.*
 import ru.batura.stat.batchat.repository.room.PodcastDao
 import ru.batura.stat.batchat.repository.room.RadioDao
 import stas.batura.data.ListViewType
+import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
 import stas.batura.retrofit.IRetrofit
@@ -37,6 +38,24 @@ class Repository(
      * the main thread on Android.
      */
     private val repScope = CoroutineScope(Dispatchers.IO + repositoryJob)
+
+    override val savedPodcasts = radioDao.getAllSavedData().combine(radioDao.getAllPodcastsList()) { downloads, all ->
+        val savedPodcast = mutableListOf<SavedPodcast>()
+
+        for (download in downloads) {
+            val podcast = all.find { it.podcastId == download.podcastId }
+            if (podcast != null) {
+                savedPodcast.add(
+                    SavedPodcast(
+                    download.podcastId,
+                    download.localPath,
+                    podcast.timeMillis,
+                    podcast.title)
+                )
+            }
+        }
+        savedPodcast.toList()
+    }
 
     init {
         Log.d(TAG, "repository started: ")
@@ -422,6 +441,8 @@ class Repository(
             radioDao.insertDownload(PodcastDownload(podcastId, localPath))
         }
     }
+
+
 }
 
 data class PodcastLoadInfo(

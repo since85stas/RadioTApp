@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.FragmentSavedPodcastsBinding
+import timber.log.Timber
 
 class SavedPodcastsFragment: Fragment() {
 
@@ -35,7 +36,11 @@ class SavedPodcastsFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+        savedPodcastViewModel.savedList.observe(viewLifecycleOwner) {savedList ->
+            Timber.d(savedList.toString())
+        }
+
     }
 
 
