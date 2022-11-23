@@ -16,5 +16,5 @@ interface DownloadDao {
     suspend fun deletePodcastFromCache(podcastId: Int)
 
     @Query("SELECT * FROM download_table")
-    fun getAllSavedData(): Flow<PodcastDownload>
+    fun getAllSavedData(): Flow<List<PodcastDownload>>
 }
