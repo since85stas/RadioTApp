@@ -1,6 +1,7 @@
 package stas.batura.room.download
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DownloadDao {
@@ -13,4 +14,7 @@ interface DownloadDao {
 
     @Query("DELETE FROM download_table WHERE podcastId = :podcastId")
     suspend fun deletePodcastFromCache(podcastId: Int)
+
+    @Query("SELECT * FROM download_table")
+    fun getAllSavedData(): Flow<PodcastDownload>
 }
