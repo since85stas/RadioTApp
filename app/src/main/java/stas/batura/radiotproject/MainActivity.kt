@@ -211,14 +211,17 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             when (it.itemId) {
                 R.id.nav_home -> {
                     navController.navigate(R.id.navigation_podcastlist)
+                    drawer_layout.closeDrawers()
                     true
                 }
                 R.id.nav_fav -> {
                     mainActivityViewModel.setPrefsListType(ListViewType.FAVORITE)
+                    drawer_layout.closeDrawers()
                     true
                 }
                 R.id.nav_saved -> {
                     navController.navigate(R.id.navigation_savedpodcastlist)
+                    drawer_layout.closeDrawers()
                     true
                 }
                 R.id.nav_year_2022 -> {
