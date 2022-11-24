@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/fragment_podcast_list.xml" value="0.1638888888888889" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/podcast_item_view_detailed.xml" value="0.14564336372847012" />
         <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/saved_podcast_item.xml" value="0.1638888888888889" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/timelable_item_view.xml" value="0.14564336372847012" />
       </map>
     </option>
   </component>
