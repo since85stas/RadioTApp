@@ -19,7 +19,7 @@
         <import type="stas.batura.data.Year"/>
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -27,12 +27,14 @@
         tools:context=".ui.podcastlist.PodcastListFragment">
 
         <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
             android:visibility="gone"
             progressBarVisibility="@{podacstListViewModel.spinner}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -41,7 +43,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
