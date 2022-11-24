@@ -13,7 +13,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/savedCardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_margin="8dp"
         android:padding="8dp"
         app:cardCornerRadius="12dp"
@@ -29,7 +29,8 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 savedTitleBind="@{savedPodcast}"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                />
 
             <ImageButton
                 android:layout_gravity="end"

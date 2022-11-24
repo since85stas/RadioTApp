@@ -15,6 +15,8 @@ class SavedPodcastsFragment: Fragment() {
 
     lateinit var savedPodcastViewModel: SavedPodcastViewModel
 
+    lateinit var savedPodcastAdapter: SavedPodcastAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +34,10 @@ class SavedPodcastsFragment: Fragment() {
 
         bindings.lifecycleOwner = viewLifecycleOwner
 
+        savedPodcastAdapter = SavedPodcastAdapter()
+
+        bindings.savedRecycler.adapter = savedPodcastAdapter
+
         return bindings.root
     }
 
@@ -39,6 +45,8 @@ class SavedPodcastsFragment: Fragment() {
 
         savedPodcastViewModel.savedList.observe(viewLifecycleOwner) {savedList ->
             Timber.d(savedList.toString())
+
+            savedPodcastAdapter.submitList(savedList)
         }
 
     }
