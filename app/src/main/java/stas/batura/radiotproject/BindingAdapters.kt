@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlayerControlView
 import kotlinx.android.synthetic.main.control_fragment_new.view.*
 import stas.batura.data.ListViewType
+import stas.batura.data.SavedPodcast
 import stas.batura.radioproject.data.PodcastLoadInfo
 import stas.batura.retrofit.TimeLabel
 import stas.batura.room.podcast.Podcast
@@ -21,6 +22,11 @@ import java.text.SimpleDateFormat
 @BindingAdapter("titleBind")
 fun TextView.podcastTitleBind(podcast: Podcast) {
     text = "${podcast.title} ${createPodcastDateTitle(podcast.timeMillis)} "
+}
+
+@BindingAdapter("savedTitleBind")
+fun TextView.podcastTitleBind(podcast: SavedPodcast) {
+    text = "${podcast.name} ${createPodcastDateTitle(podcast.time)} "
 }
 
 @BindingAdapter("urlBind")
