@@ -138,6 +138,7 @@ fun TextView.bindPodcastHeaderTitle(podcastInfo: PodcastLoadInfo) {
         ListViewType.NUMBER -> text = "Выпуски:"
         ListViewType.YEAR -> text = "Год:"
         ListViewType.MONTH -> text = "Месяц:"
+        else -> {}
     }
 }
 
