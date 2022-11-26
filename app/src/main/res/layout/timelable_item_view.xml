@@ -31,6 +31,7 @@
         <TextView
             android:id="@+id/topic_title"
             timelableTitleBind="@{timeLable}"
+            android:autoLink="web"
             android:text="Test title"
             android:layout_width="0dp"
             android:layout_weight="1"

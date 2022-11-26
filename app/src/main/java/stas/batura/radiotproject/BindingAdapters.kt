@@ -1,5 +1,8 @@
 package stas.batura.radiotproject
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
@@ -20,13 +23,13 @@ import stas.batura.room.podcast.SavedStatus
 import java.text.SimpleDateFormat
 
 @BindingAdapter("titleBind")
-fun TextView.podcastTitleBind(podcast: Podcast) {
-    text = "${podcast.title} ${createPodcastDateTitle(podcast.timeMillis)} "
+fun TextView.podcastTitleBind(title: String) {
+    text = "${title}: "
 }
 
-@BindingAdapter("savedTitleBind")
-fun TextView.podcastTitleBind(podcast: SavedPodcast) {
-    text = "${podcast.name} ${createPodcastDateTitle(podcast.time)} "
+@BindingAdapter("podcastTime")
+fun TextView.podactTime(time: Long) {
+    text = "${createPodcastDateTitle(time)} "
 }
 
 @BindingAdapter("urlBind")
@@ -105,7 +108,14 @@ fun TextView.timelableTimeBind(timeLabel: TimeLabel) {
 
 @BindingAdapter("timelableTitleBind")
 fun TextView.timelableTitleBind(timeLabel: TimeLabel) {
-    text = timeLabel.topic
+    val spannableString = SpannableString(timeLabel.topic)
+    spannableString.setSpan(
+        UnderlineSpan(),
+        0,
+        timeLabel.topic.length,
+        Spannable.SPAN_INCLUSIVE_INCLUSIVE
+    )
+    text = spannableString
 }
 
 @BindingAdapter("bindExoPla")

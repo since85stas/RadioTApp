@@ -26,11 +26,27 @@
             >
 
             <TextView
-                android:id="@+id/test"
-                android:layout_weight="1"
+                android:id="@+id/titleText"
+                titleBind="@{savedPodcast.name}"
                 android:layout_width="wrap_content"
-                savedTitleBind="@{savedPodcast}"
                 android:layout_height="wrap_content"
+                android:text="title"
+                android:textSize="20sp"
+                android:layout_marginLeft="16dp"
+                android:paddingEnd="12dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/podcastTime"
+                podcastTime="@{savedPodcast.time}"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="time"
+                android:textSize="20sp"
+                android:paddingEnd="12dp"
+                android:layout_marginStart="6dp"
                 />
 
             <ImageButton

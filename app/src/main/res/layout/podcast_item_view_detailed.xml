@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/titleText"
-                    titleBind="@{podcast}"
+                    titleBind="@{podcast.title}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
@@ -56,7 +56,18 @@
                     android:text="title"
                     android:textSize="20sp"
                     android:layout_marginLeft="16dp"
-                    android:paddingEnd="12dp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/podcastTime"
+                    podcastTime="@{podcast.timeMillis}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/titleText"
+                    android:text="time"
+                    android:textSize="20sp"
                     />
 
                 <ProgressBar
