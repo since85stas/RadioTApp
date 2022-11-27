@@ -1,5 +1,8 @@
 package stas.batura.radioproject.ui.podcastlist
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -57,16 +60,36 @@ class PodcastsAdapter(
                 Glide.with(binding.root.context)
                     .load(podcast.imageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(binding.root.logo_image)
+                    .into(binding.root.image_container)
 //            }
 
-            // если в данный момент проигрывается то включаем анимацию
-            if (podcast.podcastId == listModel.activeNumPref.value && mainActivityViewModel.spinnerPlay.value == true) {
-                Log.d("PodcastAdapter", "bind: $listModel.activeNumPref.value")
-                binding.spinnerPlay.visibility = View.VISIBLE
-            } else {
-                binding.spinnerPlay.visibility = View.GONE
+//            // если в данный момент проигрывается то включаем анимацию
+//            if (podcast.podcastId == listModel.activeNumPref.value && mainActivityViewModel.spinnerPlay.value == true) {
+//                Log.d("PodcastAdapter", "bind: $listModel.activeNumPref.value")
+//                binding.spinnerPlay.visibility = View.VISIBLE
+//            } else {
+//                binding.spinnerPlay.visibility = View.GONE
+//            }
+
+            binding.downloadImage.setOnClickListener {
+                mainActivityViewModel.startDownloadPodcast(podcast)
+
+                val animator = ObjectAnimator.ofFloat(it, View.ALPHA, 0.2f)
+                animator.duration = 1000
+                animator.repeatCount = ObjectAnimator.INFINITE
+                animator.repeatMode = ObjectAnimator.REVERSE
+                animator.start()
             }
+
+//            val animator = ObjectAnimator.ofFloat(binding.downloadImage, View.ROTATION, -360f, 0f)
+//            animator.duration = 5000
+//            animator.addListener(object : AnimatorListenerAdapter() {
+//                override fun onAnimationStart(animation: Animator) {
+//                    Log.d("t", "r")
+//                    super.onAnimationStart(animation)
+//                }
+//            })
+//            animator.start()
         }
 
         companion object {
