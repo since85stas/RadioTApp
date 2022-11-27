@@ -50,10 +50,12 @@
                 />
 
             <ImageButton
+                android:id="@+id/download_button"
                 android:layout_gravity="end"
                 android:src="@drawable/ic_baseline_delete_24"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                />
 
 
         </LinearLayout>

@@ -34,7 +34,7 @@ class SavedPodcastsFragment: Fragment() {
 
         bindings.lifecycleOwner = viewLifecycleOwner
 
-        savedPodcastAdapter = SavedPodcastAdapter()
+        savedPodcastAdapter = SavedPodcastAdapter(savedPodcastViewModel::deleteSavedPodcast)
 
         bindings.savedRecycler.adapter = savedPodcastAdapter
 
