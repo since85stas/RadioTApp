@@ -80,16 +80,6 @@ class PodcastsAdapter(
                 animator.repeatMode = ObjectAnimator.REVERSE
                 animator.start()
             }
-
-//            val animator = ObjectAnimator.ofFloat(binding.downloadImage, View.ROTATION, -360f, 0f)
-//            animator.duration = 5000
-//            animator.addListener(object : AnimatorListenerAdapter() {
-//                override fun onAnimationStart(animation: Animator) {
-//                    Log.d("t", "r")
-//                    super.onAnimationStart(animation)
-//                }
-//            })
-//            animator.start()
         }
 
         companion object {

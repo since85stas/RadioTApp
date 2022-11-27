@@ -255,7 +255,7 @@ class MusicService() : LifecycleService() {
                             val localUri =
                                 repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
 
-                            prepareToPlay(Uri.parse(localUri))
+                            CoroutineScope(Dispatchers.Main).launch {  prepareToPlay(Uri.parse(localUri)) }
                         }
                     } else {
                         prepareToPlay(Uri.parse(podcast!!.audioUrl))
