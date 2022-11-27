@@ -27,14 +27,14 @@ class DownloadService(): Service(), DownloadCommands {
 
     val notificationBulder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         Notification.Builder(ServiceLocator.provideContext(), CHANNEL_ID)
-            .setContentTitle("Downloading...")
-            .setSmallIcon(R.drawable.arrow_down_float)
+            .setContentTitle("Загрузка...")
+            .setSmallIcon(stas.batura.download.R.drawable.ic_baseline_cloud_download_24)
 
     } else {
         Timber.d("start")
         Notification.Builder(ServiceLocator.provideContext())
-            .setContentTitle("Downloading...")
-            .setSmallIcon(R.drawable.arrow_down_float)
+            .setContentTitle("Загрузка...")
+            .setSmallIcon(stas.batura.download.R.drawable.ic_baseline_cloud_download_24)
 
     }
 

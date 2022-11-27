@@ -15,6 +15,6 @@ interface DownloadDao {
     @Query("DELETE FROM download_table WHERE podcastId = :podcastId")
     suspend fun deletePodcastFromCache(podcastId: Int)
 
-    @Query("SELECT * FROM download_table")
+    @Query("SELECT * FROM download_table ORDER BY podcastId DESC")
     fun getAllSavedData(): Flow<List<PodcastDownload>>
 }
