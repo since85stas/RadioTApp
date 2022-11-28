@@ -28,6 +28,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.FileDataSource
 import com.google.android.exoplayer2.upstream.cache.*
 import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +49,7 @@ class MusicService() : LifecycleService() {
 
     var repositoryS: IRepository = ServiceLocator.provideRepository()
 
-    val dataSourceFactory: DataSource.Factory = provideDatasourceFactory()
+    val dataSourceFactory: DataSource.Factory? = null
 
     val mediaSession: MediaSessionCompat = MediaSessionCompat(ServiceLocator.provideContext(),"Music Service")
 
@@ -115,6 +116,21 @@ class MusicService() : LifecycleService() {
         val dataSourceFactory = CacheDataSourceFactory(
             ServiceLocator.provideExoCache(),
             httpDataSourceFactory,
+            CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
+        )
+
+        return dataSourceFactory
+    }
+
+    fun provideLocalDatasourceFactory(): DataSource.Factory {
+        val fileDataSource = FileDataSource()
+
+        val factory =
+            DataSource.Factory { fileDataSource }
+
+        val dataSourceFactory = CacheDataSourceFactory(
+            ServiceLocator.provideExoCache(),
+            factory,
             CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
         )
 
@@ -201,8 +217,6 @@ class MusicService() : LifecycleService() {
 
 //        extractorsFactory =
 
-        Log.d(TAG, "onCreate: " + dataSourceFactory)
-
     }
 
     override fun unbindService(conn: ServiceConnection) {
@@ -255,10 +269,12 @@ class MusicService() : LifecycleService() {
                             val localUri =
                                 repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
 
-                            CoroutineScope(Dispatchers.Main).launch {  prepareToPlay(Uri.parse(localUri)) }
+                            CoroutineScope(Dispatchers.Main).launch {
+                                prepareToPlay(Uri.parse(localUri), true)
+                            }
                         }
                     } else {
-                        prepareToPlay(Uri.parse(podcast!!.audioUrl))
+                        prepareToPlay(Uri.parse(podcast!!.audioUrl), false)
                     }
 
                     if (!isAudioFocusRequested) {
@@ -378,14 +394,32 @@ class MusicService() : LifecycleService() {
 //        }
 
         // подготавливаем трэк
-        fun prepareToPlay(uri: Uri) {
+        fun prepareToPlay(uri: Uri, islocal: Boolean) {
 
             Log.d(TAG, "prepareToPlay: $uri" )
 
                 currentUri = uri
-                val mediaSource =
-                    ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null)
-                exoPlayer!!.prepare(mediaSource)
+                if (!islocal) {
+                    val mediaSource =
+                        ExtractorMediaSource(
+                            uri,
+                            provideDatasourceFactory(),
+                            extractorsFactory,
+                            null,
+                            null
+                        )
+                    exoPlayer!!.prepare(mediaSource)
+                } else {
+                    val mediaSource =
+                        ExtractorMediaSource(
+                            uri,
+                            provideLocalDatasourceFactory(),
+                            extractorsFactory,
+                            null,
+                            null
+                        )
+                    exoPlayer!!.prepare(mediaSource)
+                }
         }
 
         // обновляем данные о треке
@@ -437,8 +471,6 @@ class MusicService() : LifecycleService() {
             trackSelections: TrackSelectionArray
         ) {
         }
-
-
 
         override fun onLoadingChanged(isLoading: Boolean) {
         }

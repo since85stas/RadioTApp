@@ -29,7 +29,6 @@ class DownloadService(): Service(), DownloadCommands {
         Notification.Builder(ServiceLocator.provideContext(), CHANNEL_ID)
             .setContentTitle("Загрузка...")
             .setSmallIcon(stas.batura.download.R.drawable.ic_baseline_cloud_download_24)
-
     } else {
         Timber.d("start")
         Notification.Builder(ServiceLocator.provideContext())
