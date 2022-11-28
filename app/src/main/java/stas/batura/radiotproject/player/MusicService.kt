@@ -248,13 +248,14 @@ class MusicService() : LifecycleService() {
 
             Log.d(TAG, "onPlay: ")
 
-            if (!exoPlayer!!.playWhenReady) {
-                startService(
-                    Intent(
-                        applicationContext,
-                        MusicService::class.java
+            exoPlayer?.let {
+                if (!exoPlayer!!.playWhenReady) {
+                    startService(
+                        Intent(
+                            applicationContext,
+                            MusicService::class.java
+                        )
                     )
-                )
 //                if (!mediaSession!!.isActive) {
 //                    val track: MusicRepository.Track = musicRepository.getCurrent()
                     updateMetadataFromTrack(podcast!!)
@@ -278,21 +279,20 @@ class MusicService() : LifecycleService() {
                     }
                     mediaSession!!.isActive = true // Сразу после получения фокуса
 //                }
-                registerReceiver(
-                    becomingNoisyReceiver,
-                    IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-                )
-                exoPlayer!!.playWhenReady = true
+                    registerReceiver(
+                        becomingNoisyReceiver,
+                        IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+                    )
+                    exoPlayer!!.playWhenReady = true
+                }
+
+                exoPlayer!!.seekTo(playbackPosition)
             }
 
             Log.d(TAG, "onPlay: prepeared $podcast")
 
             // переводим в нужную точку
-            try {
-                exoPlayer!!.seekTo(playbackPosition)
-            } catch (e: IllegalSeekPositionException) {
-                Log.d(TAG, e.toString())
-            }
+
 
             mediaSession!!.setPlaybackState(
                 stateBuilder.setState(
