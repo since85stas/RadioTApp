@@ -3,28 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/drawable-v24/ic_baseline_cloud_download_24.xml" value="0.2796875" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/drawable-v24/my_boarder.xml" value="0.2713541666666667" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/app_bar_main.xml" value="0.22708333333333333" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/content_main.xml" value="0.22708333333333333" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/control_fragment_new.xml" value="0.1" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/fragment_podcast_list.xml" value="0.21197916666666666" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/main_fragment.xml" value="0.2635416666666667" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/nav_header_main.xml" value="0.22708333333333333" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/new_exo.xml" value="0.23541666666666666" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/podcast_item_view_detailed.xml" value="0.21197916666666666" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/podcast_list_header.xml" value="0.21197916666666666" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/timelable_item_view.xml" value="0.21197916666666666" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/menu/activity_main_drawer.xml" value="0.2594871794871795" />
-        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22708333333333333" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/fragment_podcast_list.xml" value="0.1638888888888889" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/fragment_saved_podcasts.xml" value="0.1" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/podcast_item_view_detailed.xml" value="0.14564336372847012" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/podcast_list_header.xml" value="0.14537037037037037" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/saved_podcast_item.xml" value="0.1638888888888889" />
+        <entry key="..\:/_progs/Android/RadioTProject/app/src/main/res/layout/timelable_item_view.xml" value="0.14564336372847012" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
-  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

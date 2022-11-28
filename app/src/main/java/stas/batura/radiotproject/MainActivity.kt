@@ -2,17 +2,22 @@ package stas.batura.radiotproject
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -24,15 +29,23 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
+import stas.batura.download.DownloadResult
+import stas.batura.download.DownloadService
+import stas.batura.download.DownloadServiceResult
 import stas.batura.radiotproject.player.MusicService
+import stas.batura.room.podcast.Podcast
 
 private lateinit var appBarConfiguration: AppBarConfiguration
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecieverResult {
 
     private val TAG = MainActivity::class.java.simpleName
 
+    private val messageReceiver = MessageReceiver(this)
+
     lateinit var mainActivityViewModel: MainActivityViewModel
+
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val music = MusicService()
@@ -46,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
@@ -104,6 +117,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        mainActivityViewModel.downloadPodcastEvent.observe(this, Observer {
+            it?.let { podcast ->
+                downloadPodcast(podcast)
+            }
+        })
+
         // нициализируем сервис
         mainActivityViewModel.initMusicService()
 
@@ -111,39 +130,30 @@ class MainActivity : AppCompatActivity() {
         createSectionsInMenu()
 
 
-        // Start the download service if it should be running but it's not currently.
-        // Starting the service in the foreground causes notification flicker if there is no scheduled
-        // action. Starting it in the background throws an exception if the app is in the background too
-        // (e.g. if device screen is locked).
-//        try {
-//            DownloadService.start(this, PodcastDownloadService::class.java)
-//            Log.i(TAG, "onCreate: starting download serv")
-//            testDownload()
-//        } catch (e: IllegalStateException) {
-//            DownloadService.startForeground(this, PodcastDownloadService::class.java)
-//            Log.i(TAG, "onCreate: $e")
-//        }
-
     }
 
 
     private fun testDownload() {
-////        val downloadRequest: DownloadRequest = DownloadRequest.Builder(
-////            "test3",
-////            Uri.parse("http://cdn.radio-t.com/rt_podcast669.mp3")
-////        ).build()
-//        val mediaItem = MediaItem.fromUri(Uri.parse("http://cdn.radio-t.com/rt_podcast669.mp3"))
-//        val helper = DownloadHelper.forMediaItem(
-//            applicationContext,
-//            mediaItem)
-//
-//        val request = helper.getDownloadRequest(Util.getUtf8Bytes(mediaItem.mediaId))
-//        DownloadService.sendAddDownload(
-//            this,
-//            PodcastDownloadService::class.java,
-//            request,
-//            /* foreground= */ false
 //        )
+    }
+
+    private fun downloadPodcast(podcast: Podcast) {
+
+        val intent = Intent(this, DownloadService::class.java)
+
+        val link = podcast.audioUrl
+        intent.putExtra(DownloadService.LINK_KEY, link)
+        intent.putExtra(DownloadService.PODCAST_ID, podcast.podcastId)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
+
+        // начинаем слушать ответ от сервиса по загрузке
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(messageReceiver, IntentFilter(DownloadService.DOWNLOAD_RESULT))
     }
 
 
@@ -189,6 +199,9 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun startDownloadService() {
+    }
+
     /**
      * создает отображение списка секций в меню
      */
@@ -197,10 +210,18 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
+                    navController.navigate(R.id.navigation_podcastlist)
+                    drawer_layout.closeDrawers()
                     true
                 }
                 R.id.nav_fav -> {
                     mainActivityViewModel.setPrefsListType(ListViewType.FAVORITE)
+                    drawer_layout.closeDrawers()
+                    true
+                }
+                R.id.nav_saved -> {
+                    navController.navigate(R.id.navigation_savedpodcastlist)
+                    drawer_layout.closeDrawers()
                     true
                 }
                 R.id.nav_year_2022 -> {
@@ -227,5 +248,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    override fun donloadPodcastRsult(downloadServiceResult: DownloadServiceResult) {
+        when (downloadServiceResult.status) {
+            is DownloadResult.OK -> {
+                Toast.makeText(this, "Загрузка прошла успешно", Toast.LENGTH_LONG).show()
+                mainActivityViewModel.endDownloadPodcast(downloadServiceResult.entityId, downloadServiceResult.cachedPath)
+            }
+            is DownloadResult.Error -> {
+                Toast.makeText(this, "Ошибка загрузки. Попробуйте еще раз", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }

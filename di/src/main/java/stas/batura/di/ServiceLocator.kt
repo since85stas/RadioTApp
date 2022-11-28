@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import okhttp3.OkHttpClient
 import ru.batura.stat.batchat.repository.room.PodcastDao
+import ru.batura.stat.batchat.repository.room.RadioDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
 import stas.batura.protostore.UserPreferencesSerializer
@@ -21,7 +22,7 @@ import java.io.File
 
 object ServiceLocator {
 
-    private var dao: PodcastDao? = null
+    private var dao: RadioDao? = null
 
     private var retrofit: IRetrofit? = null
 
@@ -45,7 +46,7 @@ object ServiceLocator {
         }
     }
 
-    private fun provideDao(): PodcastDao {
+    private fun provideDao(): RadioDao {
         if (dao != null) return dao!!
         else {
             dao = RadioDatabase.getInstance(application!!).radioDatabaseDao
@@ -78,6 +79,13 @@ object ServiceLocator {
                 providePref()
             )
         }
+    }
+
+    fun providePodcastAudioCacheDir(): String {
+        val dir = provideContext().cacheDir.absolutePath + "/podcast/"
+        val file = File(dir)
+        file.mkdir()
+        return dir
     }
 
     fun provideExoCache(): SimpleCache {

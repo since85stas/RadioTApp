@@ -6,15 +6,18 @@ import kotlinx.coroutines.flow.*
 import ru.batura.stat.batchat.repository.room.PodcastDao
 import ru.batura.stat.batchat.repository.room.RadioDao
 import stas.batura.data.ListViewType
+import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
 import stas.batura.retrofit.IRetrofit
+import stas.batura.room.download.PodcastDownload
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
+import stas.batura.utils.deleteLocalFile
 
 
 class Repository(
-    private val radioDao: PodcastDao,
+    private val radioDao: RadioDao,
     private val retrofit: IRetrofit,
     private val preference: Preference
 ) : IRepository {
@@ -35,6 +38,24 @@ class Repository(
      * the main thread on Android.
      */
     private val repScope = CoroutineScope(Dispatchers.IO + repositoryJob)
+
+    override val savedPodcasts = radioDao.getAllSavedData().combine(radioDao.getAllPodcastsList()) { downloads, all ->
+        val savedPodcast = mutableListOf<SavedPodcast>()
+
+        for (download in downloads) {
+            val podcast = all.find { it.podcastId == download.podcastId }
+            if (podcast != null) {
+                savedPodcast.add(
+                    SavedPodcast(
+                    download.podcastId,
+                    download.localPath,
+                    podcast.timeMillis,
+                    podcast.title)
+                )
+            }
+        }
+        savedPodcast.toList()
+    }
 
     init {
         Log.d(TAG, "repository started: ")
@@ -80,8 +101,10 @@ class Repository(
         } else {
             if (shouldUpdateRadioCacheDB()) {
                 val lastPodcast = radioDao.getLastPodcast()
-                lastPodcast?.let {
-                    updatePodacastLastNumInfo(it.numWeekGone(System.currentTimeMillis()))
+                if (lastPodcast != null)  {
+                    updatePodacastLastNumInfo(lastPodcast.numWeekGone(System.currentTimeMillis()))
+                } else {
+                    updatePodacastAllInfo()
                 }
 
             }
@@ -393,6 +416,32 @@ class Repository(
             radioDao.updatePodcastSavedStatus(podcastId, savedStatus)
         }
     }
+
+    override suspend fun getPodcastLocalPath(podcastId: Int): String {
+        return radioDao.getPodcastLocalPath(podcastId)
+    }
+
+    override fun deletePodcastCahe(podcastId: Int) {
+        repScope.launch {
+            radioDao.updatePodcastSavedStatus(podcastId, SavedStatus.NOT_SAVED)
+            val localPath = radioDao.getPodcastLocalPath(podcastId)
+
+            // убераем его из списка сохраненных
+            radioDao.deletePodcastFromCache(podcastId)
+
+            // удаляем сохраненный файл
+            deleteLocalFile(localPath)
+        }
+    }
+
+    override fun setPodcastToSaved(podcastId: Int, localPath: String) {
+        repScope.launch {
+            radioDao.updatePodcastSavedStatus(podcastId, SavedStatus.SAVED)
+
+            radioDao.insertDownload(PodcastDownload(podcastId, localPath))
+        }
+    }
+
 
 }
 

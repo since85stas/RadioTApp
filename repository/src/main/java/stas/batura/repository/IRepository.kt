@@ -2,6 +2,7 @@ package stas.batura.radioproject.data
 
 import kotlinx.coroutines.flow.Flow
 import stas.batura.data.ListViewType
+import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
@@ -53,4 +54,13 @@ interface IRepository {
     fun setFavoriteStatus(podcastId: Int, status: Boolean)
 
     fun updatePodcastSavedStatus(podcastId: Int,savedStatus: SavedStatus)
+
+    fun setPodcastToSaved(podcastId: Int, localPath:String)
+
+    suspend fun getPodcastLocalPath(podcastId: Int): String
+
+    fun deletePodcastCahe(podcastId: Int)
+
+    val savedPodcasts: Flow<List<SavedPodcast>>
+
 }

@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:name=".RadioApp"
+        android:usesCleartextTraffic="true"
         >
         <activity
             android:name=".MainActivity"
@@ -34,6 +35,24 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </service>
+
+        <service
+            android:name="stas.batura.download.DownloadService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".MessageReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="stas.batura.download.result" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

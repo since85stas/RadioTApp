@@ -28,24 +28,26 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.FileDataSource
 import com.google.android.exoplayer2.upstream.cache.*
 import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
 import stas.batura.radiotproject.MainActivity
 import stas.batura.radiotproject.RadioApp
 import stas.batura.room.podcast.Podcast
+import stas.batura.room.podcast.SavedStatus
+import timber.log.Timber
 import java.io.File
 
 class MusicService() : LifecycleService() {
 
     var repositoryS: IRepository = ServiceLocator.provideRepository()
-
-    val dataSourceFactory: DataSource.Factory = provideDatasourceFactory()
 
     val mediaSession: MediaSessionCompat = MediaSessionCompat(ServiceLocator.provideContext(),"Music Service")
 
@@ -66,8 +68,6 @@ class MusicService() : LifecycleService() {
     // билдер для данных
     private val metadataBuilder  = MediaMetadataCompat.Builder()
 
-//    val cache: Cache
-
     // плэйбэк
     private val stateBuilder: PlaybackStateCompat.Builder =
         PlaybackStateCompat.Builder().setActions(
@@ -87,11 +87,6 @@ class MusicService() : LifecycleService() {
 
     var exoPlayer: SimpleExoPlayer? = null
 //    private var extractorsFactory: ExtractorsFactory? = null
-//    private var dataSourceFactory: DataSource.Factory? = null
-
-//    lateinit var musicRepository: MusicRepository
-
-    var fileDataSource : DataSource? = null
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var serviceJob = Job()
@@ -117,6 +112,21 @@ class MusicService() : LifecycleService() {
         val dataSourceFactory = CacheDataSourceFactory(
             ServiceLocator.provideExoCache(),
             httpDataSourceFactory,
+            CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
+        )
+
+        return dataSourceFactory
+    }
+
+    fun provideLocalDatasourceFactory(): DataSource.Factory {
+        val fileDataSource = FileDataSource()
+
+        val factory =
+            DataSource.Factory { fileDataSource }
+
+        val dataSourceFactory = CacheDataSourceFactory(
+            ServiceLocator.provideExoCache(),
+            factory,
             CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
         )
 
@@ -203,8 +213,6 @@ class MusicService() : LifecycleService() {
 
 //        extractorsFactory =
 
-        Log.d(TAG, "onCreate: " + dataSourceFactory)
-
     }
 
     override fun unbindService(conn: ServiceConnection) {
@@ -240,19 +248,21 @@ class MusicService() : LifecycleService() {
 
             Log.d(TAG, "onPlay: ")
 
-            if (!exoPlayer!!.playWhenReady) {
-                startService(
-                    Intent(
-                        applicationContext,
-                        MusicService::class.java
+            exoPlayer?.let {
+                if (!exoPlayer!!.playWhenReady) {
+                    startService(
+                        Intent(
+                            applicationContext,
+                            MusicService::class.java
+                        )
                     )
-                )
-                if (!mediaSession!!.isActive) {
+//                if (!mediaSession!!.isActive) {
 //                    val track: MusicRepository.Track = musicRepository.getCurrent()
-                    Log.d(TAG, "onPlay: not active")
                     updateMetadataFromTrack(podcast!!)
                     Log.d(TAG, "onPlay: $podcast")
-                    prepareToPlay(Uri.parse(podcast!!.audioUrl))
+
+                    playTrack()
+
                     if (!isAudioFocusRequested) {
                         isAudioFocusRequested = true
                         var audioFocusResult: Int
@@ -268,22 +278,21 @@ class MusicService() : LifecycleService() {
                         if (audioFocusResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) return
                     }
                     mediaSession!!.isActive = true // Сразу после получения фокуса
+//                }
+                    registerReceiver(
+                        becomingNoisyReceiver,
+                        IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+                    )
+                    exoPlayer!!.playWhenReady = true
                 }
-                registerReceiver(
-                    becomingNoisyReceiver,
-                    IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-                )
-                exoPlayer!!.playWhenReady = true
+
+                exoPlayer!!.seekTo(playbackPosition)
             }
 
             Log.d(TAG, "onPlay: prepeared $podcast")
 
             // переводим в нужную точку
-            try {
-                exoPlayer!!.seekTo(playbackPosition)
-            } catch (e: IllegalSeekPositionException) {
-                Log.d(TAG, e.toString())
-            }
+
 
             mediaSession!!.setPlaybackState(
                 stateBuilder.setState(
@@ -356,28 +365,48 @@ class MusicService() : LifecycleService() {
             stopSelf()
         }
 
+        private fun playTrack() {
+            if(podcast?.savedStatus == SavedStatus.SAVED) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    val localUri =
+                        repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
 
-        /**
-         * играем по uri
-         */
-//        override fun onPlayFromUri(uri: Uri?, extras: Bundle?) {
-////            val track = musicRepository.getTrackByUri(uri)
-//            updateMetadataFromTrack(podcast)
-//
-//            refreshNotificationAndForegroundStatus(currentState)
-//
-//            prepareToPlay(Uri.parse(podcast.url))
-//        }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        prepareToPlay(Uri.parse(localUri), true)
+                    }
+                }
+            } else {
+                prepareToPlay(Uri.parse(podcast!!.audioUrl), false)
+            }
+        }
 
         // подготавливаем трэк
-        fun prepareToPlay(uri: Uri) {
+        fun prepareToPlay(uri: Uri, islocal: Boolean) {
 
             Log.d(TAG, "prepareToPlay: $uri" )
 
                 currentUri = uri
-                val mediaSource =
-                    ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null)
-                exoPlayer!!.prepare(mediaSource)
+                if (!islocal) {
+                    val mediaSource =
+                        ExtractorMediaSource(
+                            uri,
+                            provideDatasourceFactory(),
+                            extractorsFactory,
+                            null,
+                            null
+                        )
+                    exoPlayer!!.prepare(mediaSource)
+                } else {
+                    val mediaSource =
+                        ExtractorMediaSource(
+                            uri,
+                            provideLocalDatasourceFactory(),
+                            extractorsFactory,
+                            null,
+                            null
+                        )
+                    exoPlayer!!.prepare(mediaSource)
+                }
         }
 
         // обновляем данные о треке
@@ -450,7 +479,12 @@ class MusicService() : LifecycleService() {
             }
         }
 
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            Timber.d("isPlay $isPlaying")
+        }
+
         override fun onPlayerError(error: ExoPlaybackException) {
+            Timber.d(error.toString())
         }
 
         override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
@@ -463,7 +497,7 @@ class MusicService() : LifecycleService() {
             when (focusChange ) {
                 // Не очень красиво
                 AudioManager.AUDIOFOCUS_GAIN -> {
-//                    mediaSessionCallback.onPlay()
+                    mediaSessionCallback.onPlay()
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> mediaSessionCallback.onPause()
                 else -> mediaSessionCallback.onPause()
@@ -504,6 +538,9 @@ class MusicService() : LifecycleService() {
             playbackPosition = position
 
             this@MusicService.podcast = podcast
+
+//            this@MusicService.exoPlayer?.play()
+//            this@MusicService.mediaSession.controller.
         }
 
 //        fun updateCurrentLastPosit()
