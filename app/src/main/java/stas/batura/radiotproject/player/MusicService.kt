@@ -49,8 +49,6 @@ class MusicService() : LifecycleService() {
 
     var repositoryS: IRepository = ServiceLocator.provideRepository()
 
-    val dataSourceFactory: DataSource.Factory? = null
-
     val mediaSession: MediaSessionCompat = MediaSessionCompat(ServiceLocator.provideContext(),"Music Service")
 
     val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
@@ -69,8 +67,6 @@ class MusicService() : LifecycleService() {
 
     // билдер для данных
     private val metadataBuilder  = MediaMetadataCompat.Builder()
-
-//    val cache: Cache
 
     // плэйбэк
     private val stateBuilder: PlaybackStateCompat.Builder =
@@ -259,23 +255,12 @@ class MusicService() : LifecycleService() {
                         MusicService::class.java
                     )
                 )
-                if (!mediaSession!!.isActive) {
+//                if (!mediaSession!!.isActive) {
 //                    val track: MusicRepository.Track = musicRepository.getCurrent()
                     updateMetadataFromTrack(podcast!!)
                     Log.d(TAG, "onPlay: $podcast")
 
-                    if(podcast?.savedStatus == SavedStatus.SAVED) {
-                        CoroutineScope(Dispatchers.Default).launch {
-                            val localUri =
-                                repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
-
-                            CoroutineScope(Dispatchers.Main).launch {
-                                prepareToPlay(Uri.parse(localUri), true)
-                            }
-                        }
-                    } else {
-                        prepareToPlay(Uri.parse(podcast!!.audioUrl), false)
-                    }
+                    playTrack()
 
                     if (!isAudioFocusRequested) {
                         isAudioFocusRequested = true
@@ -292,7 +277,7 @@ class MusicService() : LifecycleService() {
                         if (audioFocusResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) return
                     }
                     mediaSession!!.isActive = true // Сразу после получения фокуса
-                }
+//                }
                 registerReceiver(
                     becomingNoisyReceiver,
                     IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
@@ -380,18 +365,20 @@ class MusicService() : LifecycleService() {
             stopSelf()
         }
 
+        private fun playTrack() {
+            if(podcast?.savedStatus == SavedStatus.SAVED) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    val localUri =
+                        repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
 
-        /**
-         * играем по uri
-         */
-//        override fun onPlayFromUri(uri: Uri?, extras: Bundle?) {
-////            val track = musicRepository.getTrackByUri(uri)
-//            updateMetadataFromTrack(podcast)
-//
-//            refreshNotificationAndForegroundStatus(currentState)
-//
-//            prepareToPlay(Uri.parse(podcast.url))
-//        }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        prepareToPlay(Uri.parse(localUri), true)
+                    }
+                }
+            } else {
+                prepareToPlay(Uri.parse(podcast!!.audioUrl), false)
+            }
+        }
 
         // подготавливаем трэк
         fun prepareToPlay(uri: Uri, islocal: Boolean) {
@@ -492,6 +479,10 @@ class MusicService() : LifecycleService() {
             }
         }
 
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            Timber.d("isPlay $isPlaying")
+        }
+
         override fun onPlayerError(error: ExoPlaybackException) {
             Timber.d(error.toString())
         }
@@ -547,6 +538,9 @@ class MusicService() : LifecycleService() {
             playbackPosition = position
 
             this@MusicService.podcast = podcast
+
+//            this@MusicService.exoPlayer?.play()
+//            this@MusicService.mediaSession.controller.
         }
 
 //        fun updateCurrentLastPosit()
