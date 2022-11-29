@@ -18,6 +18,7 @@ import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
 import stas.batura.radiotproject.ui.podcasts.TimeStampsAdapter
 import stas.batura.room.podcast.Podcast
+import stas.batura.room.podcast.SavedStatus
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PodcastsAdapter(
@@ -53,32 +54,24 @@ class PodcastsAdapter(
 
             binding.executePendingBindings()
 
-            // если это выбранный обект меняюем вид
-//            if (podcast.podcastId == listModel.activeNumPref.value) {
-////                binding.logoImage.setImageResource(R.drawable.ic_pause_black_24dp)
-//            } else {
-                Glide.with(binding.root.context)
+            Glide.with(binding.root.context)
                     .load(podcast.imageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.root.image_container)
-//            }
 
-//            // если в данный момент проигрывается то включаем анимацию
-//            if (podcast.podcastId == listModel.activeNumPref.value && mainActivityViewModel.spinnerPlay.value == true) {
-//                Log.d("PodcastAdapter", "bind: $listModel.activeNumPref.value")
-//                binding.spinnerPlay.visibility = View.VISIBLE
-//            } else {
-//                binding.spinnerPlay.visibility = View.GONE
-//            }
 
             binding.downloadImage.setOnClickListener {
                 mainActivityViewModel.startDownloadPodcast(podcast)
+            }
 
-                val animator = ObjectAnimator.ofFloat(it, View.ALPHA, 0.2f)
-                animator.duration = 1000
-                animator.repeatCount = ObjectAnimator.INFINITE
-                animator.repeatMode = ObjectAnimator.REVERSE
-                animator.start()
+            if (podcast.savedStatus == SavedStatus.LOADING) {
+                binding.downloadImage.apply {
+                    val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0.2f)
+                    animator.duration = 1300
+                    animator.repeatCount = ObjectAnimator.INFINITE
+                    animator.repeatMode = ObjectAnimator.REVERSE
+                    animator.start()
+                }
             }
         }
 

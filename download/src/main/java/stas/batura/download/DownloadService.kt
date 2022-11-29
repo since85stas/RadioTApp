@@ -42,8 +42,6 @@ class DownloadService(): Service(), DownloadCommands {
         ServiceLocator.provideContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-    protected var downloadLink: String? = null
-
     protected val fetch: Fetch = initDownloader()
 
     init {
@@ -57,10 +55,7 @@ class DownloadService(): Service(), DownloadCommands {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
 
-
         startForeground(NOTIF_ID, notificationBulder.build())
-        //do heavy work on a background thread
-        //stopSelf()
 
         val link = intent?.extras?.getString(LINK_KEY)
         downloadId = intent?.extras?.getInt(PODCAST_ID, 0)
@@ -73,7 +68,7 @@ class DownloadService(): Service(), DownloadCommands {
 
     override fun progress(preogressPercent: Int) {
         Timber.d(preogressPercent.toString())
-        val notification = notificationBulder.setContentText("Downloading... progress: ${preogressPercent}")
+        val notification = notificationBulder.setContentText("Downloading Podcast $PODCAST_ID... progress: ${preogressPercent}")
         notificationManager.notify(NOTIF_ID, notification.build())
 
     }
