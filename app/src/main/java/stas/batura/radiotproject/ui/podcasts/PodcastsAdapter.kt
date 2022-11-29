@@ -59,6 +59,12 @@ class PodcastsAdapter(
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.root.image_container)
 
+            binding.cardView.apply {
+                ObjectAnimator.ofArgb(this, "strokeColor", Color.RED).apply {
+                    duration = 1000
+                    start()
+                }
+            }
 
             binding.downloadImage.setOnClickListener {
                 mainActivityViewModel.startDownloadPodcast(podcast)
