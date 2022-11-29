@@ -1,9 +1,7 @@
-package stas.batura.radioproject.ui.podcastlist
+package stas.batura.radiotproject.ui.podcasts
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.util.Log
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +12,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.podcast_item_view_detailed.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import stas.batura.radioproject.ui.podcastlist.PodcastListViewModel
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
-import stas.batura.radiotproject.ui.podcasts.TimeStampsAdapter
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
@@ -59,12 +57,12 @@ class PodcastsAdapter(
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.root.image_container)
 
-            binding.cardView.apply {
-                ObjectAnimator.ofArgb(this, "strokeColor", Color.RED).apply {
-                    duration = 1000
-                    start()
-                }
-            }
+//            binding.cardView.apply {
+//                ObjectAnimator.ofArgb(this, "strokeColor", Color.RED).apply {
+//                    duration = 1000
+//                    start()
+//                }
+//            }
 
             binding.downloadImage.setOnClickListener {
                 mainActivityViewModel.startDownloadPodcast(podcast)
@@ -85,7 +83,8 @@ class PodcastsAdapter(
             fun from(
                 parent: ViewGroup,
                 mainActivityViewModel: MainActivityViewModel,
-                listModel: PodcastListViewModel): ViewHolder {
+                listModel: PodcastListViewModel
+            ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = PodcastItemViewDetailedBinding.inflate(
                     layoutInflater,

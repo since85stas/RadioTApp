@@ -14,7 +14,7 @@
 
         <variable
             name="adapter"
-            type="stas.batura.radioproject.ui.podcastlist.PodcastsAdapter" />
+            type="stas.batura.radiotproject.ui.podcasts.PodcastsAdapter" />
 
         <import type="stas.batura.data.Year"/>
     </data>
