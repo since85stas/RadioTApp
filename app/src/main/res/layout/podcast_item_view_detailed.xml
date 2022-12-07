@@ -26,6 +26,9 @@
             android:padding="8dp"
             android:onClick="@{() -> mainModel.movingPlayToPosition(podcast.lastPosition, podcast)}"
             app:cardCornerRadius="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
