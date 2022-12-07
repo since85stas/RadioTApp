@@ -49,7 +49,8 @@ class MusicService() : LifecycleService() {
 
     var repositoryS: IRepository = ServiceLocator.provideRepository()
 
-    val mediaSession: MediaSessionCompat = MediaSessionCompat(ServiceLocator.provideContext(),"Music Service")
+    val mediaSession: MediaSessionCompat =
+        MediaSessionCompat(ServiceLocator.provideContext(), "Music Service")
 
     val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
 
@@ -61,12 +62,12 @@ class MusicService() : LifecycleService() {
 
     private val NOTIFICATION_DEFAULT_CHANNEL_ID = "default_channel"
 
-    private var podcast: Podcast? =  null
+    private var podcast: Podcast? = null
 
     var playbackPosition: Long = 0
 
     // билдер для данных
-    private val metadataBuilder  = MediaMetadataCompat.Builder()
+    private val metadataBuilder = MediaMetadataCompat.Builder()
 
     // плэйбэк
     private val stateBuilder: PlaybackStateCompat.Builder =
@@ -104,7 +105,8 @@ class MusicService() : LifecycleService() {
                 OkHttpClient(),
                 Util.getUserAgent(
                     ServiceLocator.provideContext(),
-                    ServiceLocator.provideContext().getString(stas.batura.radiotproject.R.string.app_name)
+                    ServiceLocator.provideContext()
+                        .getString(stas.batura.radiotproject.R.string.app_name)
                 )
             )
 
@@ -233,7 +235,7 @@ class MusicService() : LifecycleService() {
     /**
      * создаем колбэк для управления сервисом
      */
-    private val  mediaSessionCallback = object : MediaSessionCompat.Callback() {
+    private val mediaSessionCallback = object : MediaSessionCompat.Callback() {
 
         private var currentUri: Uri? = null
         var currentState = PlaybackStateCompat.STATE_STOPPED
@@ -249,13 +251,13 @@ class MusicService() : LifecycleService() {
             Log.d(TAG, "onPlay: ")
 
             exoPlayer?.let {
-                if (!exoPlayer!!.playWhenReady) {
-                    startService(
-                        Intent(
-                            applicationContext,
-                            MusicService::class.java
-                        )
-                    )
+//                if (!exoPlayer!!.playWhenReady) {
+//                    startService(
+//                        Intent(
+//                            applicationContext,
+//                            MusicService::class.java
+//                        )
+//                    )
 //                if (!mediaSession!!.isActive) {
 //                    val track: MusicRepository.Track = musicRepository.getCurrent()
                     updateMetadataFromTrack(podcast!!)
@@ -284,7 +286,7 @@ class MusicService() : LifecycleService() {
                         IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
                     )
                     exoPlayer!!.playWhenReady = true
-                }
+//                }
 
                 exoPlayer!!.seekTo(playbackPosition)
             }
@@ -366,38 +368,35 @@ class MusicService() : LifecycleService() {
         }
 
 
-
         // подготавливаем трэк
         fun prepareToPlay(uri: Uri, islocal: Boolean) {
 
-            Log.d(TAG, "prepareToPlay: $uri" )
-
-                currentUri = uri
-                if (!islocal) {
-                    val mediaSource =
-                        ExtractorMediaSource(
-                            uri,
-                            provideDatasourceFactory(),
-                            extractorsFactory,
-                            null,
-                            null
-                        )
-                    exoPlayer!!.prepare(mediaSource)
-                } else {
-                    val mediaSource =
-                        ExtractorMediaSource(
-                            uri,
-                            provideLocalDatasourceFactory(),
-                            extractorsFactory,
-                            null,
-                            null
-                        )
-                    exoPlayer!!.prepare(mediaSource)
-                }
+            currentUri = uri
+            if (!islocal) {
+                val mediaSource =
+                    ExtractorMediaSource(
+                        uri,
+                        provideDatasourceFactory(),
+                        extractorsFactory,
+                        null,
+                        null
+                    )
+                exoPlayer!!.prepare(mediaSource)
+            } else {
+                val mediaSource =
+                    ExtractorMediaSource(
+                        uri,
+                        provideLocalDatasourceFactory(),
+                        extractorsFactory,
+                        null,
+                        null
+                    )
+                exoPlayer!!.prepare(mediaSource)
+            }
         }
 
         fun playTrack() {
-            if(podcast?.savedStatus == SavedStatus.SAVED) {
+            if (podcast?.savedStatus == SavedStatus.SAVED) {
                 CoroutineScope(Dispatchers.Default).launch {
                     val localUri =
                         repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
@@ -471,7 +470,7 @@ class MusicService() : LifecycleService() {
             Log.d(TAG, "onPlayerStateChanged: $playbackState")
             if (playWhenReady && playbackState == ExoPlayer.STATE_ENDED) {
 //                mediaSessionCallback.onSkipToNext()
-            }           else  if (playbackState == ExoPlayer.STATE_READY ) {
+            } else if (playbackState == ExoPlayer.STATE_READY) {
                 val realDurationMillis = exoPlayer!!.duration
 
                 // updating duration in DB
@@ -494,9 +493,9 @@ class MusicService() : LifecycleService() {
     }
 
     // отклик на фокус
-    private val audioFocusChangeListener : OnAudioFocusChangeListener =
-        OnAudioFocusChangeListener { focusChange : Int ->
-            when (focusChange ) {
+    private val audioFocusChangeListener: OnAudioFocusChangeListener =
+        OnAudioFocusChangeListener { focusChange: Int ->
+            when (focusChange) {
                 // Не очень красиво
                 AudioManager.AUDIOFOCUS_GAIN -> {
                     mediaSessionCallback.onPlay()
@@ -518,9 +517,9 @@ class MusicService() : LifecycleService() {
         }
     }
 
-    inner class PlayerServiceBinder : Binder () {
+    inner class PlayerServiceBinder : Binder() {
 
-        fun  getMediaSessionToke() : MediaSessionCompat.Token{
+        fun getMediaSessionToke(): MediaSessionCompat.Token {
             return mediaSession!!.sessionToken
         }
 
@@ -528,20 +527,13 @@ class MusicService() : LifecycleService() {
             return exoPlayer
         }
 
-//        fun setPodcast(podcast: Podcast) {
-//            Log.d(TAG, "setPodcast: ")
-//            playbackPosition = 0
-//
-//            this@MusicService.podcast = podcast
-//        }
-
         fun setPodcastWithPosition(podcast: Podcast, position: Long) {
             Log.d(TAG, "setPodcastWithPosition: $podcast posit $position")
             playbackPosition = position
 
             this@MusicService.podcast = podcast
 
-           this@MusicService.exoPlayer?.play()
+            this@MusicService.exoPlayer?.play()
 //            this@MusicService.mediaSession.controller.
         }
 
