@@ -365,20 +365,7 @@ class MusicService() : LifecycleService() {
             stopSelf()
         }
 
-        private fun playTrack() {
-            if(podcast?.savedStatus == SavedStatus.SAVED) {
-                CoroutineScope(Dispatchers.Default).launch {
-                    val localUri =
-                        repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
 
-                    CoroutineScope(Dispatchers.Main).launch {
-                        prepareToPlay(Uri.parse(localUri), true)
-                    }
-                }
-            } else {
-                prepareToPlay(Uri.parse(podcast!!.audioUrl), false)
-            }
-        }
 
         // подготавливаем трэк
         fun prepareToPlay(uri: Uri, islocal: Boolean) {
@@ -407,6 +394,21 @@ class MusicService() : LifecycleService() {
                         )
                     exoPlayer!!.prepare(mediaSource)
                 }
+        }
+
+        fun playTrack() {
+            if(podcast?.savedStatus == SavedStatus.SAVED) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    val localUri =
+                        repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        prepareToPlay(Uri.parse(localUri), true)
+                    }
+                }
+            } else {
+                prepareToPlay(Uri.parse(podcast!!.audioUrl), false)
+            }
         }
 
         // обновляем данные о треке
@@ -539,7 +541,7 @@ class MusicService() : LifecycleService() {
 
             this@MusicService.podcast = podcast
 
-//            this@MusicService.exoPlayer?.play()
+           this@MusicService.exoPlayer?.play()
 //            this@MusicService.mediaSession.controller.
         }
 

@@ -79,7 +79,7 @@ class TimeStampsAdapter (
             oldItem: TimeLabel,
             newItem: TimeLabel
         ): Boolean {
-            return oldItem.equals(newItem)
+            return oldItem.topic == newItem.topic
         }
 
         override fun areContentsTheSame(
