@@ -6,7 +6,7 @@
     <data>
         <variable
             name="podacstListViewModel"
-            type="stas.batura.radioproject.ui.podcastlist.PodcastListViewModel" />
+            type="stas.batura.radiotproject.ui.podcasts.PodcastListViewModel" />
 
         <variable
             name="mainViewModel"

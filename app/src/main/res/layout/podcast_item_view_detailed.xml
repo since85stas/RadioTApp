@@ -15,7 +15,7 @@
 
         <variable
             name="podcastViewModel"
-            type="stas.batura.radioproject.ui.podcastlist.PodcastListViewModel" />
+            type="stas.batura.radiotproject.ui.podcasts.PodcastListViewModel" />
     </data>
 
         <com.google.android.material.card.MaterialCardView
