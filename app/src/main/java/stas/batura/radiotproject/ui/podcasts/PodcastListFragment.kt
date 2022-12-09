@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import kotlinx.android.synthetic.main.fragment_podcast_list.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
@@ -29,6 +32,8 @@ class PodcastListFragment : Fragment() {
     private lateinit var adapter: PodcastsAdapter
 
     private lateinit var bindings: FragmentPodcastListBinding
+
+    private var shouldScroll = true
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -66,7 +71,10 @@ class PodcastListFragment : Fragment() {
                 adapter.submitList(podcasts)
 
                 podcastListViewModel.activeNumPref.value?.let {
-                    scrollToPosition(podcasts, it)
+                    if (shouldScroll) {
+                        shouldScroll = false
+                        scrollToPosition(podcasts, it)
+                    }
                 }
             } else {
                 Log.d(TAG, "onViewCreated: podcasts is null")
@@ -87,17 +95,22 @@ class PodcastListFragment : Fragment() {
     }
 
     private fun scrollToPosition(podcastList: List<Podcast>, podcastId: Int) {
-        var find = 0
-        var count = 0
-        for (p in podcastList) {
-            if (p.podcastId == podcastId) {
-                find = count
-                break
-            }
-            count ++
-        }
 
-        bindings.podcastRecycler.smoothScrollToPosition(find)
+        CoroutineScope(Dispatchers.Default).launch {
+            var find = 0
+            var count = 0
+            for (p in podcastList) {
+                if (p.podcastId == podcastId) {
+                    find = count
+                    break
+                }
+                count++
+            }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                bindings.podcastRecycler.scrollToPosition(find)
+            }
+        }
     }
 
     /**
