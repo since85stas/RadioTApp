@@ -178,7 +178,7 @@ fun ImageView.favoriteDisableVisibility(podcast: Podcast) {
 
 @BindingAdapter("downloadedVisibility")
 fun ImageView.downloadedVisibility(podcast: Podcast) {
-    if (podcast.savedStatus == SavedStatus.NOT_SAVED) {
+    if (podcast.savedStatus == SavedStatus.NOT_SAVED || podcast.savedStatus == SavedStatus.LOADING) {
         visibility = View.VISIBLE
     } else {
         visibility = View.INVISIBLE

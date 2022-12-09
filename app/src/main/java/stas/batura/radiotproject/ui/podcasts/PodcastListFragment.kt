@@ -14,6 +14,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
+import stas.batura.radiotproject.ui.podcasts.PodcastListViewModel
+import stas.batura.radiotproject.ui.podcasts.PodcastsAdapter
 
 class PodcastListFragment : Fragment() {
 

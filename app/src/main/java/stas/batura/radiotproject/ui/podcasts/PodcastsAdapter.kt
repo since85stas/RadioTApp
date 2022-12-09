@@ -1,9 +1,6 @@
-package stas.batura.radioproject.ui.podcastlist
+package stas.batura.radiotproject.ui.podcasts
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +12,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.podcast_item_view_detailed.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import stas.batura.radiotproject.MainActivityViewModel
+import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
-import stas.batura.radiotproject.ui.podcasts.TimeStampsAdapter
 import stas.batura.room.podcast.Podcast
+import stas.batura.room.podcast.SavedStatus
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PodcastsAdapter(
@@ -53,32 +51,37 @@ class PodcastsAdapter(
 
             binding.executePendingBindings()
 
-            // если это выбранный обект меняюем вид
-//            if (podcast.podcastId == listModel.activeNumPref.value) {
-////                binding.logoImage.setImageResource(R.drawable.ic_pause_black_24dp)
-//            } else {
-                Glide.with(binding.root.context)
+            Glide.with(binding.root.context)
                     .load(podcast.imageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.root.image_container)
-//            }
 
-//            // если в данный момент проигрывается то включаем анимацию
-//            if (podcast.podcastId == listModel.activeNumPref.value && mainActivityViewModel.spinnerPlay.value == true) {
-//                Log.d("PodcastAdapter", "bind: $listModel.activeNumPref.value")
-//                binding.spinnerPlay.visibility = View.VISIBLE
-//            } else {
-//                binding.spinnerPlay.visibility = View.GONE
+//            binding.cardView.apply {
+//                ObjectAnimator.ofArgb(this, "strokeColor", Color.RED).apply {
+//                    duration = 1000
+//                    start()
+//                }
 //            }
 
             binding.downloadImage.setOnClickListener {
                 mainActivityViewModel.startDownloadPodcast(podcast)
+            }
 
-                val animator = ObjectAnimator.ofFloat(it, View.ALPHA, 0.2f)
-                animator.duration = 1000
-                animator.repeatCount = ObjectAnimator.INFINITE
-                animator.repeatMode = ObjectAnimator.REVERSE
-                animator.start()
+            if (podcast.savedStatus == SavedStatus.LOADING) {
+                binding.downloadImage.apply {
+                    val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0.2f)
+                    animator.duration = 1300
+                    animator.repeatCount = ObjectAnimator.INFINITE
+                    animator.repeatMode = ObjectAnimator.REVERSE
+                    animator.start()
+                }
+            }
+
+            if (podcast.isActive) {
+                binding.cardView.strokeColor = binding.root.context.resources.getColor(R.color.colorAccent)
+                binding.cardView.strokeWidth = 4
+            } else {
+                binding.cardView.strokeWidth = 0
             }
         }
 
@@ -86,7 +89,8 @@ class PodcastsAdapter(
             fun from(
                 parent: ViewGroup,
                 mainActivityViewModel: MainActivityViewModel,
-                listModel: PodcastListViewModel): ViewHolder {
+                listModel: PodcastListViewModel
+            ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = PodcastItemViewDetailedBinding.inflate(
                     layoutInflater,

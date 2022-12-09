@@ -124,6 +124,7 @@ abstract class RadioDatabase : RoomDatabase() {
                             // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
                             .fallbackToDestructiveMigration()
                             .addCallback(rdc)
+//                            .allowMainThreadQueries()
                             .build()
                     // Assign INSTANCE to the newly created database.
                     INSTANCE = instance

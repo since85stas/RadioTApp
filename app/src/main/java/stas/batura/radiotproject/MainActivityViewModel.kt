@@ -20,6 +20,7 @@ import stas.batura.di.ServiceLocator
 import stas.batura.radiotproject.player.MusicService
 import stas.batura.radioproject.data.IRepository
 import stas.batura.room.podcast.Podcast
+import stas.batura.room.podcast.SavedStatus
 
 class MainActivityViewModel constructor(
 
@@ -245,6 +246,10 @@ class MainActivityViewModel constructor(
     }
 
     fun startDownloadPodcast(podcast: Podcast) {
+
+        // обновляем статус о загрузке
+        repository.updatePodcastSavedStatus(podcastId = podcast.podcastId, savedStatus = SavedStatus.LOADING)
+
         _downloadPodcastEvent.value = podcast
     }
 

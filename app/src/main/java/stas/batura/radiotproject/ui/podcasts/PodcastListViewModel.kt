@@ -1,12 +1,10 @@
-package stas.batura.radioproject.ui.podcastlist
+package stas.batura.radiotproject.ui.podcasts
 
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
 import stas.batura.room.podcast.Podcast
@@ -45,7 +43,21 @@ class PodcastListViewModel (): ViewModel() {
 //            }
 //        }.asLiveData()
 
-    val newPodcastList: LiveData<List<Podcast>> = repository.getAllPodcastsList().asLiveData()
+//    val newPodcastList: LiveData<List<Podcast>> = repository.getAllPodcastsList().asLiveData()
+
+    val newPodcastList: LiveData<List<Podcast>> =
+        repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
+
+            for (podcast in list) {
+                if(podcast.podcastId == actNum) {
+                    podcast.isActive = true
+                } else {
+                    podcast.isActive = false
+                }
+            }
+
+            list
+    }.asLiveData()
 
     val podcastTypeAndNumb = repository.getTypeAndNumb().asLiveData()
 

@@ -15,10 +15,10 @@
 
         <variable
             name="podcastViewModel"
-            type="stas.batura.radioproject.ui.podcastlist.PodcastListViewModel" />
+            type="stas.batura.radiotproject.ui.podcasts.PodcastListViewModel" />
     </data>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,6 +26,10 @@
             android:padding="8dp"
             android:onClick="@{() -> mainModel.movingPlayToPosition(podcast.lastPosition, podcast)}"
             app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -186,5 +190,5 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 </layout>
