@@ -16,6 +16,7 @@ import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
 import stas.batura.radiotproject.ui.podcasts.PodcastListViewModel
 import stas.batura.radiotproject.ui.podcasts.PodcastsAdapter
+import stas.batura.room.podcast.Podcast
 
 class PodcastListFragment : Fragment() {
 
@@ -26,6 +27,8 @@ class PodcastListFragment : Fragment() {
     private lateinit var mainviewModel: MainActivityViewModel
 
     private lateinit var adapter: PodcastsAdapter
+
+    private lateinit var bindings: FragmentPodcastListBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,7 +41,7 @@ class PodcastListFragment : Fragment() {
         // TODO: проверить состояние модели после перезапуска активити
         mainviewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
-        val bindings: FragmentPodcastListBinding = DataBindingUtil.inflate(inflater,
+        bindings  = DataBindingUtil.inflate(inflater,
         R.layout.fragment_podcast_list,
         container,
         false)
@@ -51,19 +54,20 @@ class PodcastListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // адаптер для заголовка
-//        val headerAdapter = HeaderAdapter()
 
         // адаптер для списка
         adapter = PodcastsAdapter(mainActivityViewModel = mainviewModel, listModel = podcastListViewModel)
 
 //        val concatAdapter = ConcatAdapter(headerAdapter, adapter)
-        podcast_recycler.adapter = adapter
+        bindings.podcastRecycler.adapter = adapter
 
         podcastListViewModel.newPodcastList.observe(viewLifecycleOwner) {podcasts ->
             if (podcasts != null) {
                 adapter.submitList(podcasts)
-                Log.d(TAG, "onViewCreated: size ${podcasts.size}")
+
+                podcastListViewModel.activeNumPref.value?.let {
+                    scrollToPosition(podcasts, it)
+                }
             } else {
                 Log.d(TAG, "onViewCreated: podcasts is null")
             }
@@ -80,6 +84,20 @@ class PodcastListFragment : Fragment() {
     override fun onPause() {
         removeObservers()
         super.onPause()
+    }
+
+    private fun scrollToPosition(podcastList: List<Podcast>, podcastId: Int) {
+        var find = 0
+        var count = 0
+        for (p in podcastList) {
+            if (p.podcastId == podcastId) {
+                find = count
+                break
+            }
+            count ++
+        }
+
+        bindings.podcastRecycler.smoothScrollToPosition(find)
     }
 
     /**
