@@ -293,11 +293,12 @@ class MusicService() : LifecycleService() {
 
 //                }
                 exoPlayer!!.playWhenReady = true
-                setTrack()
 
-                exoPlayer!!.prepare()
+                playTrack()
 
-                exoPlayer!!.seekTo(playbackPosition)
+//                exoPlayer!!.prepare()
+//
+//                exoPlayer!!.seekTo(playbackPosition)
 
 
 
@@ -409,9 +410,13 @@ class MusicService() : LifecycleService() {
                     )
                 exoPlayer!!.setMediaSource(mediaSource)
             }
+
+            exoPlayer!!.prepare()
+
+            exoPlayer!!.seekTo(playbackPosition)
         }
 
-        fun setTrack() {
+        fun playTrack() {
             if (podcast?.savedStatus == SavedStatus.SAVED) {
                 CoroutineScope(Dispatchers.Default).launch {
                     println("main runBlocking: I'm working in thread ${Thread.currentThread().name}")

@@ -57,7 +57,7 @@ interface IRepository {
 
     fun setPodcastToSaved(podcastId: Int, localPath:String)
 
-    fun getPodcastLocalPath(podcastId: Int): String
+    suspend fun getPodcastLocalPath(podcastId: Int): String
 
     fun deletePodcastCahe(podcastId: Int)
 
