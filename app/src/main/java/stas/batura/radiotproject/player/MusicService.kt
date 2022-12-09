@@ -39,11 +39,9 @@ import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
 import stas.batura.radiotproject.MainActivity
-import stas.batura.radiotproject.RadioApp
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 import timber.log.Timber
-import java.io.File
 
 class MusicService() : LifecycleService() {
 
@@ -237,6 +235,8 @@ class MusicService() : LifecycleService() {
      */
     private val mediaSessionCallback = object : MediaSessionCompat.Callback() {
 
+
+
         private var currentUri: Uri? = null
         var currentState = PlaybackStateCompat.STATE_STOPPED
 
@@ -244,6 +244,13 @@ class MusicService() : LifecycleService() {
         override fun onPrepare() {
             super.onPrepare()
         }
+
+        override fun onSeekTo(pos: Long) {
+            super.onSeekTo(pos)
+            Log.d(TAG, "onSeekTo: ")
+        }
+
+
 
         // при начале проигрыша
         override fun onPlay() {
@@ -260,35 +267,43 @@ class MusicService() : LifecycleService() {
 //                    )
 //                if (!mediaSession!!.isActive) {
 //                    val track: MusicRepository.Track = musicRepository.getCurrent()
-                    updateMetadataFromTrack(podcast!!)
-                    Log.d(TAG, "onPlay: $podcast")
+                updateMetadataFromTrack(podcast!!)
+                Log.d(TAG, "onPlay: $podcast")
 
-                    playTrack()
-
-                    if (!isAudioFocusRequested) {
-                        isAudioFocusRequested = true
-                        var audioFocusResult: Int
-                        audioFocusResult = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            audioManager!!.requestAudioFocus(audioFocusRequest!!)
-                        } else {
-                            audioManager!!.requestAudioFocus(
-                                audioFocusChangeListener,
-                                AudioManager.STREAM_MUSIC,
-                                AudioManager.AUDIOFOCUS_GAIN
-                            )
-                        }
-                        if (audioFocusResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) return
+                if (!isAudioFocusRequested) {
+                    isAudioFocusRequested = true
+                    var audioFocusResult: Int
+                    audioFocusResult = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        audioManager!!.requestAudioFocus(audioFocusRequest!!)
+                    } else {
+                        audioManager!!.requestAudioFocus(
+                            audioFocusChangeListener,
+                            AudioManager.STREAM_MUSIC,
+                            AudioManager.AUDIOFOCUS_GAIN
+                        )
                     }
-                    mediaSession!!.isActive = true // Сразу после получения фокуса
+                    if (audioFocusResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) return
+                }
+                mediaSession!!.isActive = true // Сразу после получения фокуса
 //                }
-                    registerReceiver(
-                        becomingNoisyReceiver,
-                        IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-                    )
-                    exoPlayer!!.playWhenReady = true
+                registerReceiver(
+                    becomingNoisyReceiver,
+                    IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+                )
+
 //                }
+                exoPlayer!!.playWhenReady = true
+                setTrack()
+
+                exoPlayer!!.prepare()
 
                 exoPlayer!!.seekTo(playbackPosition)
+
+
+
+
+
+
             }
 
             Log.d(TAG, "onPlay: prepeared $podcast")
@@ -310,7 +325,8 @@ class MusicService() : LifecycleService() {
 
         // при остановки проигрыша
         override fun onPause() {
-            Log.d(TAG, "onPause: ")
+            Log.d(TAG, "onPause: ${mediaSession.isActive}")
+
             playbackPosition = exoPlayer!!.currentPosition
 
             updateCurrePodcastPosit(playbackPosition)
@@ -369,7 +385,7 @@ class MusicService() : LifecycleService() {
 
 
         // подготавливаем трэк
-        fun prepareToPlay(uri: Uri, islocal: Boolean) {
+        fun setTrackPathToPlay(uri: Uri, islocal: Boolean) {
 
             currentUri = uri
             if (!islocal) {
@@ -381,7 +397,7 @@ class MusicService() : LifecycleService() {
                         null,
                         null
                     )
-                exoPlayer!!.prepare(mediaSource)
+                exoPlayer!!.setMediaSource(mediaSource)
             } else {
                 val mediaSource =
                     ExtractorMediaSource(
@@ -391,22 +407,24 @@ class MusicService() : LifecycleService() {
                         null,
                         null
                     )
-                exoPlayer!!.prepare(mediaSource)
+                exoPlayer!!.setMediaSource(mediaSource)
             }
         }
 
-        fun playTrack() {
+        fun setTrack() {
             if (podcast?.savedStatus == SavedStatus.SAVED) {
                 CoroutineScope(Dispatchers.Default).launch {
+                    println("main runBlocking: I'm working in thread ${Thread.currentThread().name}")
                     val localUri =
                         repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
 
                     CoroutineScope(Dispatchers.Main).launch {
-                        prepareToPlay(Uri.parse(localUri), true)
+                        println("main runBlocking: I'm working in thread ${Thread.currentThread().name}")
+                        setTrackPathToPlay(Uri.parse(localUri), true)
                     }
                 }
             } else {
-                prepareToPlay(Uri.parse(podcast!!.audioUrl), false)
+                setTrackPathToPlay(Uri.parse(podcast!!.audioUrl), false)
             }
         }
 
@@ -500,8 +518,12 @@ class MusicService() : LifecycleService() {
                 AudioManager.AUDIOFOCUS_GAIN -> {
                     mediaSessionCallback.onPlay()
                 }
-                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> mediaSessionCallback.onPause()
-                else -> mediaSessionCallback.onPause()
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+//                    mediaSessionCallback.onPause()
+                }
+                else -> {
+                    mediaSessionCallback.onPause()
+                }
             }
         }
 
@@ -533,7 +555,7 @@ class MusicService() : LifecycleService() {
 
             this@MusicService.podcast = podcast
 
-            this@MusicService.exoPlayer?.play()
+//            this@MusicService.exoPlayer?.play()
 //            this@MusicService.mediaSession.controller.
         }
 

@@ -417,7 +417,7 @@ class Repository(
         }
     }
 
-    override suspend fun getPodcastLocalPath(podcastId: Int): String {
+    override fun getPodcastLocalPath(podcastId: Int): String {
         return radioDao.getPodcastLocalPath(podcastId)
     }
 
