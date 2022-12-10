@@ -43,7 +43,7 @@ interface PodcastDao {
     @Query("SELECT * FROM podcast_table WHERE podcastId = :num")
     suspend fun getPodcastByNum (num: Int): Podcast?
 
-    @Query("SELECT * FROM podcast_table ORDER BY podcastId DESC")
+    @Query("SELECT * FROM podcast_table ORDER BY timeMillis DESC")
     suspend fun getLastPodcast(): Podcast?
 
     @Query("UPDATE podcast_table SET isActive = 1 WHERE podcastId = :podcastId")
@@ -78,4 +78,7 @@ interface PodcastDao {
 
     @Query("UPDATE podcast_table SET savedStatus= :savedStatus WHERE podcastId =:podcastId")
     suspend fun updatePodcastSavedStatus(podcastId: Int ,savedStatus: SavedStatus)
+
+    @Query("SELECT COUNT(*) FROM podcast_table")
+    suspend fun getNumberPodcastsInTable(): Int
 }
