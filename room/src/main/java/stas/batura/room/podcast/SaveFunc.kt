@@ -7,6 +7,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import stas.batura.retrofit.TimeLabel
+import java.io.IOException
 import java.lang.StringBuilder
 import java.sql.Time
 import java.text.SimpleDateFormat
@@ -18,11 +19,15 @@ import java.util.regex.Pattern
 class TimeLabelsDataConverter {
 
     @TypeConverter()
-    fun fromTimeLableList(value: List<TimeLabel>): String {
-        val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        val type = Types.newParameterizedType(List::class.java, TimeLabel::class.java)
-        val jsonAdapter: JsonAdapter<List<TimeLabel>> = moshi.adapter<List<TimeLabel>>(type)
-        return jsonAdapter.toJson(value)
+    fun fromTimeLableList(value: List<TimeLabel>?): String {
+        if (value != null) {
+            val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            val type = Types.newParameterizedType(List::class.java, TimeLabel::class.java)
+            val jsonAdapter: JsonAdapter<List<TimeLabel>> = moshi.adapter<List<TimeLabel>>(type)
+            return jsonAdapter.toJson(value)
+        } else {
+            return ""
+        }
     }
 
     @TypeConverter
@@ -30,8 +35,13 @@ class TimeLabelsDataConverter {
         val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val type = Types.newParameterizedType(List::class.java, TimeLabel::class.java)
         val jsonAdapter: JsonAdapter<List<TimeLabel>> = moshi.adapter<List<TimeLabel>>(type)
-        val out = jsonAdapter.fromJson(value)
-        return out ?: emptyList()
+
+        try {
+            val out = jsonAdapter.fromJson(value)
+            return out ?: emptyList()
+        } catch (e: IOException) {
+            return emptyList()
+        }
     }
 
 }

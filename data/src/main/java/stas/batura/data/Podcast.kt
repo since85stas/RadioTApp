@@ -15,6 +15,7 @@ import stas.batura.retrofit.TimeLabel
 import stas.batura.utils.TIME_WEEK
 import stas.batura.utils.getLinksFromHtml
 import stas.batura.utils.getMillisTime
+import java.io.IOException
 import java.lang.NumberFormatException
 import java.lang.StringBuilder
 import java.util.regex.Pattern
@@ -155,15 +156,25 @@ class CategoryDataConverter {
     private val type = Types.newParameterizedType(List::class.java, String::class.java)
 
     @TypeConverter()
-    fun fromCountryLangList(value: List<String>): String {
-        val jsonAdapter: JsonAdapter<List<String>> = moshi.adapter<List<String>>(type)
-        return jsonAdapter.toJson(value)
+    fun fromCountryLangList(value: List<String>?): String {
+        if (value != null) {
+            val jsonAdapter: JsonAdapter<List<String>> = moshi.adapter<List<String>>(type)
+            return jsonAdapter.toJson(value)
+        } else {
+            return ""
+        }
     }
 
     @TypeConverter
     fun toCountryLangList(value: String): List<String> {
         val jsonAdapter: JsonAdapter<List<String>> = moshi.adapter<List<String>>(type)
-        return jsonAdapter.fromJson(value) ?: emptyList()
+        try {
+            return jsonAdapter.fromJson(value) ?: emptyList()
+        } catch (e: IOException) {
+            println(e.toString())
+            return emptyList()
+        }
+
     }
 
 }

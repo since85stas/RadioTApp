@@ -56,13 +56,6 @@ class PodcastsAdapter(
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.root.image_container)
 
-//            binding.cardView.apply {
-//                ObjectAnimator.ofArgb(this, "strokeColor", Color.RED).apply {
-//                    duration = 1000
-//                    start()
-//                }
-//            }
-
             binding.downloadImage.setOnClickListener {
                 mainActivityViewModel.startDownloadPodcast(podcast)
             }
@@ -79,10 +72,11 @@ class PodcastsAdapter(
 
             if (podcast.isActive) {
                 binding.cardView.strokeColor = binding.root.context.resources.getColor(R.color.colorAccent)
-                binding.cardView.strokeWidth = 4
+                binding.cardView.strokeWidth = 5
             } else {
                 binding.cardView.strokeWidth = 0
             }
+
         }
 
         companion object {
