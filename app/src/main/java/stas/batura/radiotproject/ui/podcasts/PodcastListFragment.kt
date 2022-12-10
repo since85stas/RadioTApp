@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.ConcatAdapter
 import kotlinx.android.synthetic.main.fragment_podcast_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,9 +18,11 @@ import kotlinx.coroutines.launch
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
+import stas.batura.radiotproject.ui.podcasts.FooterAdapter
 import stas.batura.radiotproject.ui.podcasts.PodcastListViewModel
 import stas.batura.radiotproject.ui.podcasts.PodcastsAdapter
 import stas.batura.room.podcast.Podcast
+import timber.log.Timber
 
 class PodcastListFragment : Fragment() {
 
@@ -30,6 +33,8 @@ class PodcastListFragment : Fragment() {
     private lateinit var mainviewModel: MainActivityViewModel
 
     private lateinit var adapter: PodcastsAdapter
+
+    private lateinit var concatAdapter: ConcatAdapter
 
     private lateinit var bindings: FragmentPodcastListBinding
 
@@ -63,12 +68,20 @@ class PodcastListFragment : Fragment() {
         // адаптер для списка
         adapter = PodcastsAdapter(mainActivityViewModel = mainviewModel, listModel = podcastListViewModel)
 
-//        val concatAdapter = ConcatAdapter(headerAdapter, adapter)
-        bindings.podcastRecycler.adapter = adapter
+        val footerAdapter = FooterAdapter()
+
+        concatAdapter = ConcatAdapter(adapter)
+
+        bindings.podcastRecycler.adapter = concatAdapter
 
         podcastListViewModel.newPodcastList.observe(viewLifecycleOwner) {podcasts ->
             if (podcasts != null) {
                 adapter.submitList(podcasts)
+
+                concatAdapter.addAdapter(footerAdapter)
+
+
+                Timber.d("adapters: ${concatAdapter.adapters}")
 
                 podcastListViewModel.activeNumPref.value?.let {
                     if (shouldScroll) {
