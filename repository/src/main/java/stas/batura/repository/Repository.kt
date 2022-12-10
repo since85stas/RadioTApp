@@ -59,10 +59,6 @@ class Repository(
 
     init {
         Log.d(TAG, "repository started: ")
-
-        repScope.launch {
-            addMorePodcasts()
-        }
     }
 
     /**
@@ -446,7 +442,7 @@ class Repository(
         }
     }
 
-    suspend fun addMorePodcasts() {
+    override suspend fun addMorePodcasts() {
         val num = radioDao.getNumberPodcastsInTable()
 
         val biggerList = retrofit.getLastNPodcasts(num + 50)
@@ -454,7 +450,6 @@ class Repository(
         for (i in (num-1) until biggerList.size) {
             radioDao.insertPodcast(Podcast.FromPodcastBody.build(biggerList[i]))
         }
-        Log.d(TAG, "addMorePodcasts: $biggerList")
     }
 
 

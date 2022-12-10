@@ -63,4 +63,6 @@ interface IRepository {
 
     val savedPodcasts: Flow<List<SavedPodcast>>
 
+    suspend fun addMorePodcasts()
+
 }

@@ -108,6 +108,12 @@ class PodcastListViewModel (): ViewModel() {
         repository.updateTrackIdDetailed(podcast.podcastId, enabled)
     }
 
+    fun addMorePodcasts() {
+        launchDataLoad {
+            repository.addMorePodcasts()
+        }
+    }
+
     fun getNextNPodcasts() {
 //        repository.setPrefLastPtime(pod)
     }

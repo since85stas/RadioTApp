@@ -68,7 +68,7 @@ class PodcastListFragment : Fragment() {
         // адаптер для списка
         adapter = PodcastsAdapter(mainActivityViewModel = mainviewModel, listModel = podcastListViewModel)
 
-        val footerAdapter = FooterAdapter()
+        val footerAdapter = FooterAdapter(podcastListViewModel ::addMorePodcasts)
 
         concatAdapter = ConcatAdapter(adapter)
 
