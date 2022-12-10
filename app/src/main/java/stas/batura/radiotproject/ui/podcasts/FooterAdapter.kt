@@ -8,6 +8,8 @@ import stas.batura.data.SavedPodcast
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.PodcastFooterBinding
 import stas.batura.radiotproject.databinding.SavedPodcastItemBinding
+import stas.batura.radiotproject.ext.setDebounceOnCLick
+import stas.batura.radiotproject.utils.DebouncingOnClickListener
 import timber.log.Timber
 
 class FooterAdapter(private val addClick: () -> Unit): RecyclerView.Adapter<FooterAdapter.FooterViewHolder>(){
@@ -19,7 +21,7 @@ class FooterAdapter(private val addClick: () -> Unit): RecyclerView.Adapter<Foot
             parent,
             false
         )
-        binding.addMore.setOnClickListener {
+        binding.addMore.setDebounceOnCLick(2000L) {
             addClick()
         }
         return FooterViewHolder(binding)
