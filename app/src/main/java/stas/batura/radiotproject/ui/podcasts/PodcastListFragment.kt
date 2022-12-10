@@ -78,8 +78,8 @@ class PodcastListFragment : Fragment() {
             if (podcasts != null) {
                 adapter.submitList(podcasts)
 
+                // добавляем футер
                 concatAdapter.addAdapter(footerAdapter)
-
 
                 Timber.d("adapters: ${concatAdapter.adapters}")
 
