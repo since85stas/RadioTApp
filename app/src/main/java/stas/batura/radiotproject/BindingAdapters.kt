@@ -193,3 +193,12 @@ fun ImageView.deleteVisibility(podcast: Podcast) {
         visibility = View.INVISIBLE
     }
 }
+
+@BindingAdapter("themesVisibility")
+fun CheckBox.themesVisibility(podcast: Podcast) {
+    if (podcast.timeLabels != null && !podcast.timeLabels!!.isEmpty()) {
+        visibility = View.VISIBLE
+    } else {
+        visibility = View.INVISIBLE
+    }
+}
