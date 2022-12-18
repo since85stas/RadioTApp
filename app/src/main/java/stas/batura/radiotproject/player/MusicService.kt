@@ -47,8 +47,8 @@ class MusicService() : LifecycleService() {
 
     var repositoryS: IRepository = ServiceLocator.provideRepository()
 
-    val mediaSession: MediaSessionCompat =
-        MediaSessionCompat(ServiceLocator.provideContext(), "Music Service")
+    var mediaSession: MediaSessionCompat? = null
+//        MediaSessionCompat(ServiceLocator.provideContext(), "Music Service")
 
     val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
 
@@ -144,11 +144,11 @@ class MusicService() : LifecycleService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             // настраиваем уведомления
-            @SuppressLint("WrongConstant") val notificationChannel =
+           val notificationChannel =
                 NotificationChannel(
                     NOTIFICATION_DEFAULT_CHANNEL_ID,
                     NOTIF_CHANNEL_NAME,
-                    NotificationManagerCompat.IMPORTANCE_DEFAULT
+                    NotificationManagerCompat.IMPORTANCE_HIGH
                 )
             val notificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -170,20 +170,21 @@ class MusicService() : LifecycleService() {
         }
 
         // создаем и настраиваем медиа сессию
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-        mediaSession.setCallback(mediaSessionCallback)
+        mediaSession = MediaSessionCompat(this,"Music Service")
+        mediaSession!!.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+        mediaSession!!.setCallback(mediaSessionCallback)
 
-        val activityIntent = Intent(applicationContext, MainActivity::class.java)
-
-        // настраиваем активити
-        mediaSession.setSessionActivity(
-            PendingIntent.getActivity(
-                applicationContext,
-                0,
-                activityIntent,
-                0
-            )
-        )
+//        val activityIntent = Intent(applicationContext, MainActivity::class.java)
+//
+//        // настраиваем активити
+//        mediaSession!!.setSessionActivity(
+//            PendingIntent.getActivity(
+//                applicationContext,
+//                0,
+//                activityIntent,
+//                0
+//            )
+//        )
 
         val mediaButtonIntent = Intent(
             Intent.ACTION_MEDIA_BUTTON, null, applicationContext,
@@ -326,7 +327,7 @@ class MusicService() : LifecycleService() {
 
         // при остановки проигрыша
         override fun onPause() {
-            Log.d(TAG, "onPause: ${mediaSession.isActive}")
+            Log.d(TAG, "onPause: ${mediaSession?.isActive}")
 
             playbackPosition = exoPlayer!!.currentPosition
 
@@ -590,16 +591,16 @@ class MusicService() : LifecycleService() {
                 this,
                 mediaSession
             )
-        builder.addAction(
-            NotificationCompat.Action(
-                android.R.drawable.ic_media_previous,
-                "prevoius",
-                MediaButtonReceiver.buildMediaButtonPendingIntent(
-                    this,
-                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-                )
-            )
-        )
+//        builder.addAction(
+//            NotificationCompat.Action(
+//                android.R.drawable.ic_media_previous,
+//                "prevoius",
+//                MediaButtonReceiver.buildMediaButtonPendingIntent(
+//                    this,
+//                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+//                )
+//            )
+//        )
         if (playbackState == PlaybackStateCompat.STATE_PLAYING) builder.addAction(
             NotificationCompat.Action(
                 android.R.drawable.ic_media_pause,
@@ -619,19 +620,19 @@ class MusicService() : LifecycleService() {
                 )
             )
         )
-        builder.addAction(
-            NotificationCompat.Action(
-                android.R.drawable.ic_media_next,
-                "next",
-                MediaButtonReceiver.buildMediaButtonPendingIntent(
-                    this,
-                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-                )
-            )
-        )
+//        builder.addAction(
+//            NotificationCompat.Action(
+//                android.R.drawable.ic_media_next,
+//                "next",
+//                MediaButtonReceiver.buildMediaButtonPendingIntent(
+//                    this,
+//                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+//                )
+//            )
+//        )
         builder.setStyle(
             androidx.media.app.NotificationCompat.MediaStyle()
-                .setShowActionsInCompactView(1)
+                .setShowActionsInCompactView(0)
                 .setShowCancelButton(true)
                 .setCancelButtonIntent(
                     MediaButtonReceiver.buildMediaButtonPendingIntent(
