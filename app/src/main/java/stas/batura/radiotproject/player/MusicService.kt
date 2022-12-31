@@ -3,10 +3,13 @@ package stas.batura.radiotproject.player
 import android.annotation.SuppressLint
 import android.app.*
 import android.content.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.OnAudioFocusChangeListener
+import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -19,6 +22,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
 import androidx.media.session.MediaButtonReceiver
+import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
@@ -148,7 +152,7 @@ class MusicService() : LifecycleService() {
                 NotificationChannel(
                     NOTIFICATION_DEFAULT_CHANNEL_ID,
                     NOTIF_CHANNEL_NAME,
-                    NotificationManagerCompat.IMPORTANCE_HIGH
+                    NotificationManager.IMPORTANCE_HIGH
                 )
             val notificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -171,35 +175,26 @@ class MusicService() : LifecycleService() {
 
         // создаем и настраиваем медиа сессию
         mediaSession = MediaSessionCompat(this,"Music Service")
-        mediaSession!!.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-        mediaSession!!.setCallback(mediaSessionCallback)
 
-//        val activityIntent = Intent(applicationContext, MainActivity::class.java)
-//
-//        // настраиваем активити
-//        mediaSession!!.setSessionActivity(
-//            PendingIntent.getActivity(
-//                applicationContext,
-//                0,
-//                activityIntent,
-//                0
-//            )
-//        )
+        mediaSession?.apply {
+            setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+            setCallback(mediaSessionCallback)
 
-        val mediaButtonIntent = Intent(
-            Intent.ACTION_MEDIA_BUTTON, null, applicationContext,
-            MediaButtonReceiver::class.java
-        )
-
-        // настраиваем получатель кнопок
-        mediaSession!!.setMediaButtonReceiver(
-            PendingIntent.getBroadcast(
-                applicationContext,
-                0,
-                mediaButtonIntent,
-                0
+            val mediaButtonIntent = Intent(
+                Intent.ACTION_MEDIA_BUTTON, null, applicationContext,
+                MediaButtonReceiver::class.java
             )
-        )
+
+            // настраиваем получатель кнопок
+            setMediaButtonReceiver(
+                PendingIntent.getBroadcast(
+                    applicationContext,
+                    0,
+                    mediaButtonIntent,
+                    0
+                )
+            )
+        }
 
         // создаем плеер
         exoPlayer = ExoPlayerFactory.newSimpleInstance(
@@ -211,8 +206,6 @@ class MusicService() : LifecycleService() {
 
         // добавляем слушатель
         exoPlayer!!.addListener(exoPlayerListener)
-
-//        extractorsFactory =
 
     }
 
@@ -235,7 +228,6 @@ class MusicService() : LifecycleService() {
      * создаем колбэк для управления сервисом
      */
     private val mediaSessionCallback = object : MediaSessionCompat.Callback() {
-
 
 
         private var currentUri: Uri? = null
@@ -285,7 +277,7 @@ class MusicService() : LifecycleService() {
                     }
                     if (audioFocusResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) return
                 }
-                mediaSession!!.isActive = true // Сразу после получения фокуса
+                mediaSession?.isActive = true // Сразу после получения фокуса
 //                }
                 registerReceiver(
                     becomingNoisyReceiver,
@@ -296,15 +288,6 @@ class MusicService() : LifecycleService() {
                 exoPlayer!!.playWhenReady = true
 
                 playTrack()
-
-//                exoPlayer!!.prepare()
-//
-//                exoPlayer!!.seekTo(playbackPosition)
-
-
-
-
-
 
             }
 
@@ -443,24 +426,24 @@ class MusicService() : LifecycleService() {
 //                    BitmapFactory.decodeResource(BitmapFactory.decodeFile(podcast.imageUrl))
 //                )
             } else {
-//                val image = Glide.with(this@MusicService).load(podcast.imageUrl).
-//                    into(Bitmap())
-//                val image = WebImage(
-//                    Uri.Builder()
-//                        .encodedPath(track.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
-//                        .build()
-//                )
-//                metadataBuilder.putBitmap(
-//                    MediaMetadataCompat.METADATA_KEY_ART,
-//                    bitmap
-//                )
+
+                CoroutineScope(Dispatchers.IO).launch {
+
+                    val image = Glide.with(ServiceLocator.provideContext())
+                        .asBitmap()
+                        .load(podcast.imageUrl)
+                        .into(100, 100)
+                        .get();
+
+                    metadataBuilder.putBitmap(
+                        MediaMetadataCompat.METADATA_KEY_ART,
+                        image
+                    )
+                    metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, podcast.title)
+                    mediaSession!!.setMetadata(metadataBuilder.build())
+                }
             }
 
-            metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, podcast.title)
-//            metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, podcast.)
-//            metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, track.artist)
-//            metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, track.duration)
-            mediaSession!!.setMetadata(metadataBuilder.build())
 
         }
     }
@@ -522,10 +505,12 @@ class MusicService() : LifecycleService() {
             when (focusChange) {
                 // Не очень красиво
                 AudioManager.AUDIOFOCUS_GAIN -> {
-                    mediaSessionCallback.onPlay()
+                    if (mediaSessionCallback.currentState == PlaybackStateCompat.STATE_PLAYING) {
+                        mediaSessionCallback.onPlay()
+                    }
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-//                    mediaSessionCallback.onPause()
+                    mediaSessionCallback.onPause()
                 }
                 else -> {
                     mediaSessionCallback.onPause()
@@ -591,16 +576,7 @@ class MusicService() : LifecycleService() {
                 this,
                 mediaSession
             )
-//        builder.addAction(
-//            NotificationCompat.Action(
-//                android.R.drawable.ic_media_previous,
-//                "prevoius",
-//                MediaButtonReceiver.buildMediaButtonPendingIntent(
-//                    this,
-//                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-//                )
-//            )
-//        )
+
         if (playbackState == PlaybackStateCompat.STATE_PLAYING) builder.addAction(
             NotificationCompat.Action(
                 android.R.drawable.ic_media_pause,
@@ -620,16 +596,7 @@ class MusicService() : LifecycleService() {
                 )
             )
         )
-//        builder.addAction(
-//            NotificationCompat.Action(
-//                android.R.drawable.ic_media_next,
-//                "next",
-//                MediaButtonReceiver.buildMediaButtonPendingIntent(
-//                    this,
-//                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-//                )
-//            )
-//        )
+
         builder.setStyle(
             androidx.media.app.NotificationCompat.MediaStyle()
                 .setShowActionsInCompactView(0)
@@ -641,17 +608,12 @@ class MusicService() : LifecycleService() {
                     )
                 )
                 .setMediaSession(mediaSession!!.sessionToken)
-        ) // setMediaSession требуется для Android Wear
-//        builder.setSmallIcon(R.mipmap.ic_launcher)
-//        builder.color = ContextCompat.getColor(
-//            this,
-//            R.color.colorPrimaryDark
-//        )
-        // The whole background (in MediaStyle), not just icon background
+        )
+
         builder.setShowWhen(false)
 
 
-//        builder.priority = NotificationCompat.PRIORITY_HIGH
+        builder.priority = NotificationCompat.PRIORITY_HIGH
         builder.setOnlyAlertOnce(true)
         builder.setChannelId(NOTIFICATION_DEFAULT_CHANNEL_ID)
         return builder.build()
