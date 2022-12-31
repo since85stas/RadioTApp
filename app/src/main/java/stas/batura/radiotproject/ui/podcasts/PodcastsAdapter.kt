@@ -1,6 +1,7 @@
 package stas.batura.radiotproject.ui.podcasts
 
 import android.animation.ObjectAnimator
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class PodcastsAdapter(
     val mainActivityViewModel: MainActivityViewModel,
     val listModel: PodcastListViewModel
@@ -25,7 +25,13 @@ class PodcastsAdapter(
     ListAdapter<Podcast, PodcastsAdapter.ViewHolder>(TrackDiffCalback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent, mainActivityViewModel, listModel)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = PodcastItemViewDetailedBinding.inflate(
+            layoutInflater,
+            parent,
+            false
+        )
+        return ViewHolder(binding, mainActivityViewModel, listModel)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -39,6 +45,8 @@ class PodcastsAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root){
 
+        var animator: ObjectAnimator? = null
+
         fun bind(podcast: Podcast) {
             binding.podcast = podcast
             binding.mainModel = mainActivityViewModel
@@ -48,8 +56,6 @@ class PodcastsAdapter(
             val adapter = TimeStampsAdapter(mainActivityViewModel, podcast)
             binding.root.timelabeles_recycler.adapter = adapter
             adapter.submitList(podcast.timeLabels)
-
-            binding.executePendingBindings()
 
             Glide.with(binding.root.context)
                     .load(podcast.imageUrl)
@@ -62,11 +68,16 @@ class PodcastsAdapter(
 
             if (podcast.savedStatus == SavedStatus.LOADING) {
                 binding.downloadImage.apply {
-                    val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0.2f)
-                    animator.duration = 1300
-                    animator.repeatCount = ObjectAnimator.INFINITE
-                    animator.repeatMode = ObjectAnimator.REVERSE
-                    animator.start()
+                    animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0.2f)
+                    animator?.duration = 1300
+                    animator?.repeatCount = ObjectAnimator.INFINITE
+                    animator?.repeatMode = ObjectAnimator.REVERSE
+                    animator?.start()
+                }
+            } else {
+                if (animator != null) {
+                    binding?.downloadImage?.alpha = 1f
+                    animator?.cancel()
                 }
             }
 
@@ -77,22 +88,8 @@ class PodcastsAdapter(
                 binding.cardView.strokeWidth = 0
             }
 
-        }
+            binding.executePendingBindings()
 
-        companion object {
-            fun from(
-                parent: ViewGroup,
-                mainActivityViewModel: MainActivityViewModel,
-                listModel: PodcastListViewModel
-            ): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = PodcastItemViewDetailedBinding.inflate(
-                    layoutInflater,
-                    parent,
-                    false
-                )
-                return ViewHolder(binding, mainActivityViewModel, listModel)
-            }
         }
 
 
