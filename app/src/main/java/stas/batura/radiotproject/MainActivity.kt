@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-        val music = MusicService()
+//        val music = MusicService()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -77,10 +77,6 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         loadNavHeader()
 
         mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-
-//        val bindings: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-//        bindings.lifecycleOwner = this
-//        bindings.mainViewModel = mainActivityViewModel
 
         // слушаем когда запускать сервис
         mainActivityViewModel.createServiceListner.observe(this) { it ->
