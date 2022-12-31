@@ -18,7 +18,6 @@ import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class PodcastsAdapter(
     val mainActivityViewModel: MainActivityViewModel,
     val listModel: PodcastListViewModel
@@ -33,7 +32,6 @@ class PodcastsAdapter(
             false
         )
         return ViewHolder(binding, mainActivityViewModel, listModel)
-//        return ViewHolder.from(parent, mainActivityViewModel, listModel)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -58,8 +56,6 @@ class PodcastsAdapter(
             val adapter = TimeStampsAdapter(mainActivityViewModel, podcast)
             binding.root.timelabeles_recycler.adapter = adapter
             adapter.submitList(podcast.timeLabels)
-
-
 
             Glide.with(binding.root.context)
                     .load(podcast.imageUrl)
@@ -95,22 +91,6 @@ class PodcastsAdapter(
             binding.executePendingBindings()
 
         }
-
-//        companion object {
-//            fun from(
-//                parent: ViewGroup,
-//                mainActivityViewModel: MainActivityViewModel,
-//                listModel: PodcastListViewModel
-//            ): ViewHolder {
-//                val layoutInflater = LayoutInflater.from(parent.context)
-//                val binding = PodcastItemViewDetailedBinding.inflate(
-//                    layoutInflater,
-//                    parent,
-//                    false
-//                )
-//                return ViewHolder(binding, mainActivityViewModel, listModel)
-//            }
-//        }
 
 
     }
