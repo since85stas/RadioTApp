@@ -1,5 +1,6 @@
 package stas.batura.radiotproject
 
+import android.animation.ObjectAnimator
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -202,3 +203,14 @@ fun CheckBox.themesVisibility(podcast: Podcast) {
         visibility = View.INVISIBLE
     }
 }
+
+//@BindingAdapter("applyAnimation")
+//fun ImageView.applyAnimation(podcast: Podcast) {
+//    if (podcast.savedStatus == SavedStatus.LOADING) {
+//        val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0.2f)
+//        animator.duration = 1300
+//        animator.repeatCount = ObjectAnimator.INFINITE
+//        animator.repeatMode = ObjectAnimator.REVERSE
+//        animator.start()
+//    }
+//}

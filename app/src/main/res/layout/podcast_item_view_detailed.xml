@@ -132,6 +132,7 @@
                     android:paddingStart="12dp"
                     favoriteDisableVisibility="@{podcast}"
                     android:onClick="@{() -> podcastViewModel.changeFavoritePodcastStatus(podcast.podcastId, true)}"
+
                     >
                 </ImageView>
 
@@ -156,7 +157,8 @@
                     android:src="@drawable/ic_baseline_cloud_download_24"
                     app:layout_constraintBottom_toBottomOf="@id/titleText"
                     app:layout_constraintEnd_toStartOf="@id/favorButton"
-                    app:layout_constraintTop_toTopOf="@id/titleText" />
+                    app:layout_constraintTop_toTopOf="@id/titleText"
+                    />
 
                 <ImageView
                     android:layout_width="wrap_content"
