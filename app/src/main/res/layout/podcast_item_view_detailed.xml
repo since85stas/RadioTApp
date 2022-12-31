@@ -115,6 +115,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/image_container"
+                    themesVisibility="@{podcast}"
                     android:checked="@{podcast.isDetailed}"
                     android:onCheckedChanged="@{(view, checked) -> podcastViewModel.onEnabled(podcast, checked)}"
                     />

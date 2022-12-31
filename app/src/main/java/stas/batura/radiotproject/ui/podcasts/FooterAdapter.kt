@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import stas.batura.data.SavedPodcast
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.PodcastFooterBinding
 import stas.batura.radiotproject.databinding.SavedPodcastItemBinding
+import stas.batura.radiotproject.ext.setDebounceOnCLick
+import stas.batura.radiotproject.utils.DebouncingOnClickListener
 import timber.log.Timber
 
-class FooterAdapter: RecyclerView.Adapter<FooterAdapter.FooterViewHolder>(){
+class FooterAdapter(private val addClick: () -> Unit): RecyclerView.Adapter<FooterAdapter.FooterViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FooterViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -18,6 +21,9 @@ class FooterAdapter: RecyclerView.Adapter<FooterAdapter.FooterViewHolder>(){
             parent,
             false
         )
+        binding.addMore.setDebounceOnCLick(2000L) {
+            addClick()
+        }
         return FooterViewHolder(binding)
     }
 

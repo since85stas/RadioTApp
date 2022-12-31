@@ -39,10 +39,15 @@
         <service
             android:name="stas.batura.download.DownloadService"
             android:exported="false">
+        </service>
+
+        <receiver
+            android:exported="false"
+            android:name="androidx.media.session.MediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
-        </service>
+        </receiver>
 
         <receiver
             android:name=".MessageReceiver"

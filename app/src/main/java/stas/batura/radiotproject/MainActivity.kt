@@ -25,6 +25,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
@@ -48,6 +49,8 @@ class MainActivity : AppCompatActivity(), RecieverResult {
     lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         val music = MusicService()
 
         super.onCreate(savedInstanceState)
