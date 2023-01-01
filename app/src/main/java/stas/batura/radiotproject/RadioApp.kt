@@ -9,6 +9,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.android.exoplayer2.ExoPlayer
 import stas.batura.di.ServiceLocator
 import stas.batura.radiotproject.player.MusicService
 
@@ -35,6 +36,8 @@ class RadioApp(): Application() {
         var mediaController: MediaControllerCompat? = null
 
         val callbackChanges: MutableLiveData<PlaybackStateCompat?> = MutableLiveData(null)
+
+        val exoPlayer: MutableLiveData<ExoPlayer> = MutableLiveData()
 
         private val callback = object : MediaControllerCompat.Callback() {
                 override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
@@ -65,7 +68,7 @@ class RadioApp(): Application() {
                                 serviceBinder!!.getMediaSessionToke()
                             )
 
-                            val exoPlayer = serviceBinder?.getPlayer()
+                            exoPlayer.value = serviceBinder?.getPlayer()
 
                             mediaController.registerCallback(callback)
                             callback.onPlaybackStateChanged(mediaController.playbackState)

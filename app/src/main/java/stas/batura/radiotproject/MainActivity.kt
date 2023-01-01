@@ -123,7 +123,9 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         })
 
         // нициализируем сервис
-        mainActivityViewModel.initMusicService()
+//        mainActivityViewModel.initMusicService()
+
+        bindCurrentService(RadioApp.ServiceHelper.getServiceConnection())
 
         // описываем nav drawer
         createSectionsInMenu()

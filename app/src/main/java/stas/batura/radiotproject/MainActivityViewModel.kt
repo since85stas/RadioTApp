@@ -48,7 +48,7 @@ class MainActivityViewModel constructor(
     // checking connection
     val serviceConnection: MutableLiveData<ServiceConnection?> = MutableLiveData(null)
 
-    val exoPlayer: MutableLiveData<ExoPlayer> = MutableLiveData()
+    val exoPlayer: LiveData<ExoPlayer> = RadioApp.ServiceHelper.exoPlayer
 
     val callbackChanges: MutableLiveData<PlaybackStateCompat?> = RadioApp.ServiceHelper.callbackChanges
 
