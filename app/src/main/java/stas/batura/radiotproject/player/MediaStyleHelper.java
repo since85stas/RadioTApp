@@ -8,6 +8,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.media.session.MediaButtonReceiver;
@@ -27,24 +28,27 @@ class MediaStyleHelper {
      * @return A pre-built notification with information from the given media session.
      */
     static NotificationCompat.Builder from(Context context, MediaSessionCompat mediaSession) {
-        MediaControllerCompat controller = mediaSession.getController();
-        MediaMetadataCompat mediaMetadata = controller.getMetadata();
-        MediaDescriptionCompat description = mediaMetadata.getDescription();
-
-//        controller.ga
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder
-                .setContentTitle(description.getTitle())
-                .setContentText(description.getSubtitle())
-                .setSubText(description.getDescription())
-                .setLargeIcon(description.getIconBitmap())
-                .setSmallIcon( R.drawable.bat_notif_icon_white)
 
-                .setContentIntent(controller.getSessionActivity())
-                .setDeleteIntent(
-                        MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        MediaControllerCompat controller = mediaSession.getController();
+        MediaMetadataCompat mediaMetadata = controller.getMetadata();
+
+        if (mediaMetadata != null) {
+            MediaDescriptionCompat description = mediaMetadata.getDescription();
+            builder.setContentTitle(description.getTitle())
+                    .setContentText(description.getSubtitle())
+                    .setSubText(description.getDescription())
+                    .setLargeIcon(description.getIconBitmap())
+                    .setSmallIcon(R.drawable.bat_notif_icon_white)
+
+                    .setContentIntent(controller.getSessionActivity())
+                    .setDeleteIntent(
+                            MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        } else {
+            Log.d("mediastyle", "from: metaData: null");
+        }
         return builder;
     }
 }
