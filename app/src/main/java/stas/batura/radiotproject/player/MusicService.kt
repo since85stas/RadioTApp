@@ -545,12 +545,7 @@ class MusicService() : LifecycleService() {
             playbackPosition = position
 
             this@MusicService.podcast = podcast
-
-//            this@MusicService.exoPlayer?.play()
-//            this@MusicService.mediaSession.controller.
         }
-
-//        fun updateCurrentLastPosit()
 
     }
 

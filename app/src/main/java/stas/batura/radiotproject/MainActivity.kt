@@ -78,12 +78,12 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
         mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-        // слушаем когда запускать сервис
-        mainActivityViewModel.createServiceListner.observe(this) { it ->
-            if (it) {
-                mainActivityViewModel.initMusicService()
-            }
-        }
+//        // слушаем когда запускать сервис
+//        mainActivityViewModel.createServiceListner.observe(this) { it ->
+//            if (it) {
+//                mainActivityViewModel.initMusicService()
+//            }
+//        }
 
         // слушаем когда сервис успешно коннектится
         mainActivityViewModel.serviceConnection.observe(this) { it ->
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         })
 
         // нициализируем сервис
-        mainActivityViewModel.initMusicService()
+        bindCurrentService(RadioApp.ServiceHelper.getServiceConnection())
 
         // описываем nav drawer
         createSectionsInMenu()
