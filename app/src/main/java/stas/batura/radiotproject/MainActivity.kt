@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-//        val music = MusicService()
+        val music = MusicService()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

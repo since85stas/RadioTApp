@@ -39,11 +39,11 @@ class RadioApp(): Application() {
 
         val exoPlayer: MutableLiveData<ExoPlayer> = MutableLiveData()
 
-        private val callback = object : MediaControllerCompat.Callback() {
-                override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-                    callbackChanges.value = state
-                }
-            }
+//        private val callback = object : MediaControllerCompat.Callback() {
+//                override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
+//                    callbackChanges.value = state
+//                }
+//            }
 
 //        fun getServiceBinder(): MusicService.PlayerServiceBinder {
 //            if (serviceBinder != null) {
@@ -61,17 +61,24 @@ class RadioApp(): Application() {
 
                 val s = object : ServiceConnection {
                     override fun onServiceConnected(name: ComponentName, service: IBinder) {
+
+                        val callback = object : MediaControllerCompat.Callback() {
+                            override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
+                                callbackChanges.value = state
+                            }
+                        }
+
                         serviceBinder = service as MusicService.PlayerServiceBinder
                         try {
-                            val mediaController = MediaControllerCompat(
+                            mediaController = MediaControllerCompat(
                                 ServiceLocator.provideContext(),
                                 serviceBinder!!.getMediaSessionToke()
                             )
 
                             exoPlayer.value = serviceBinder?.getPlayer()
 
-                            mediaController.registerCallback(callback)
-                            callback.onPlaybackStateChanged(mediaController.playbackState)
+                            mediaController?.registerCallback(callback)
+                            callback.onPlaybackStateChanged(mediaController?.playbackState)
                         } catch (e: RemoteException) {
                             Log.e(TAG, "onServiceConnected: $e",)
 //                            mediaController.value = null
@@ -81,7 +88,7 @@ class RadioApp(): Application() {
                     override fun onServiceDisconnected(name: ComponentName) {
                         serviceBinder = null
                         if (mediaController != null) {
-                            mediaController!!.unregisterCallback(callback)
+//                            mediaController!!.unregisterCallback(callback)
                             mediaController = null
                         }
                     }
