@@ -45,14 +45,6 @@ class RadioApp(): Application() {
                 }
             }
 
-//        fun getServiceBinder(): MusicService.PlayerServiceBinder {
-//            if (serviceBinder != null) {
-//                return serviceBinder
-//            } else {
-//
-//            }
-//        }
-
         fun getServiceConnection(): ServiceConnection {
             if (serviceConnection != null) {
                 return serviceConnection!!
@@ -75,12 +67,12 @@ class RadioApp(): Application() {
                             callback.onPlaybackStateChanged(mediaController?.playbackState)
                         } catch (e: RemoteException) {
                             Log.e(TAG, "onServiceConnected: $e",)
-//                            mediaController.value = null
                         }
                     }
 
                     override fun onServiceDisconnected(name: ComponentName) {
                         serviceBinder = null
+                        serviceConnection = null
                         if (mediaController != null) {
                             mediaController!!.unregisterCallback(callback)
                             mediaController = null

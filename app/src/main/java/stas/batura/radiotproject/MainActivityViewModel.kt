@@ -28,22 +28,7 @@ class MainActivityViewModel constructor(
 
     private val TAG = MainActivityViewModel::class.java.simpleName
 
-//    private val application = ServiceLocator.provideContext()
-
     private val repository: IRepository = ServiceLocator.provideRepository()
-
-//    // binder instance
-//    var playerServiceBinder: MusicService.PlayerServiceBinder? = null
-//
-//    // media controller for interaction
-//    val mediaController: MutableLiveData<MediaControllerCompat?> = MutableLiveData()
-
-//    // getting changes from service
-//    private var callback: MediaControllerCompat.Callback? = object : MediaControllerCompat.Callback() {
-//        override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-//            callbackChanges.value = state
-//        }
-//    }
 
     // checking connection
     val serviceConnection: MutableLiveData<ServiceConnection?> = MutableLiveData(null)
@@ -51,10 +36,6 @@ class MainActivityViewModel constructor(
     val exoPlayer: LiveData<ExoPlayer> = RadioApp.ServiceHelper.exoPlayer
 
     val callbackChanges: LiveData<PlaybackStateCompat?> = RadioApp.ServiceHelper.callbackChanges
-
-//    private var _createServiceListner: MutableLiveData<Boolean> = MutableLiveData(false)
-//    val createServiceListner: LiveData<Boolean>
-//        get() = _createServiceListner
 
     private var _downloadPodcastEvent: MutableLiveData<Podcast?> = MutableLiveData(null)
     val downloadPodcastEvent: LiveData<Podcast?>
@@ -91,48 +72,6 @@ class MainActivityViewModel constructor(
     fun playAnimNotVisible() {
         _spinnerPlay.value = false
     }
-
-//    /**
-//     * создает музыкальный сервис и его контроллер
-//     */
-//    fun initMusicService() {
-//        if (serviceConnection.value == null) {
-//            // привязываем колбека и лайв дэйта
-////            callback = object : MediaControllerCompat.Callback() {
-////                override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-////                    callbackChanges.value = state
-////                }
-////            }
-//
-//            // соединение с сервисом
-//            serviceConnection.value = object : ServiceConnection {
-//                override fun onServiceConnected(name: ComponentName, service: IBinder) {
-//                    playerServiceBinder = service as MusicService.PlayerServiceBinder
-//                    try {
-//                        mediaController.value = MediaControllerCompat(
-//                            ServiceLocator.provideContext(),
-//                            playerServiceBinder!!.getMediaSessionToke()
-//                        )
-//
-//                        exoPlayer.value = playerServiceBinder!!.getPlayer()
-//
-//                        mediaController.value!!.registerCallback(callback!!)
-////                        callback!!.onPlaybackStateChanged(mediaController.value!!.playbackState)
-//                    } catch (e: RemoteException) {
-//                        mediaController.value = null
-//                    }
-//                }
-//
-//                override fun onServiceDisconnected(name: ComponentName) {
-//                    playerServiceBinder = null
-//                    if (mediaController.value != null) {
-//                        mediaController.value!!.unregisterCallback(callback!!)
-//                        mediaController.value = null
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     /**
      * нажали плей
