@@ -39,17 +39,17 @@ class RadioApp(): Application() {
 
         val exoPlayer: MutableLiveData<ExoPlayer> = MutableLiveData()
 
-//        private val callback = object : MediaControllerCompat.Callback() {
-//                override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-//                    callbackChanges.value = state
-//                }
-//            }
+        private val callback = object : MediaControllerCompat.Callback() {
+                override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
+                    callbackChanges.value = state
+                }
+            }
 
 //        fun getServiceBinder(): MusicService.PlayerServiceBinder {
 //            if (serviceBinder != null) {
 //                return serviceBinder
 //            } else {
-//
+//                serviceBinder = service as MusicService.PlayerServiceBinder
 //            }
 //        }
 
@@ -58,17 +58,9 @@ class RadioApp(): Application() {
                 return serviceConnection!!
             } else {
 
-
                 val s = object : ServiceConnection {
                     override fun onServiceConnected(name: ComponentName, service: IBinder) {
 
-                        val callback = object : MediaControllerCompat.Callback() {
-                            override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-                                callbackChanges.value = state
-                            }
-                        }
-
-                        serviceBinder = service as MusicService.PlayerServiceBinder
                         try {
                             mediaController = MediaControllerCompat(
                                 ServiceLocator.provideContext(),
@@ -88,7 +80,7 @@ class RadioApp(): Application() {
                     override fun onServiceDisconnected(name: ComponentName) {
                         serviceBinder = null
                         if (mediaController != null) {
-//                            mediaController!!.unregisterCallback(callback)
+                            mediaController!!.unregisterCallback(callback)
                             mediaController = null
                         }
                     }
