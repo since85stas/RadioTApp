@@ -49,7 +49,7 @@ class RadioApp(): Application() {
 //            if (serviceBinder != null) {
 //                return serviceBinder
 //            } else {
-//                serviceBinder = service as MusicService.PlayerServiceBinder
+//
 //            }
 //        }
 
@@ -62,6 +62,8 @@ class RadioApp(): Application() {
                     override fun onServiceConnected(name: ComponentName, service: IBinder) {
 
                         try {
+                            serviceBinder = service as MusicService.PlayerServiceBinder
+
                             mediaController = MediaControllerCompat(
                                 ServiceLocator.provideContext(),
                                 serviceBinder!!.getMediaSessionToke()

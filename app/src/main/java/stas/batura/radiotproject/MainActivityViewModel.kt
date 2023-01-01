@@ -50,7 +50,7 @@ class MainActivityViewModel constructor(
 
     val exoPlayer: LiveData<ExoPlayer> = RadioApp.ServiceHelper.exoPlayer
 
-    val callbackChanges: MutableLiveData<PlaybackStateCompat?> = RadioApp.ServiceHelper.callbackChanges
+    val callbackChanges: LiveData<PlaybackStateCompat?> = RadioApp.ServiceHelper.callbackChanges
 
 //    private var _createServiceListner: MutableLiveData<Boolean> = MutableLiveData(false)
 //    val createServiceListner: LiveData<Boolean>
