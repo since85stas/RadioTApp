@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import stas.batura.radiotproject.MainActivity
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
@@ -91,6 +93,16 @@ class PodcastListFragment : Fragment() {
                 }
             } else {
                 Log.d(TAG, "onViewCreated: podcasts is null")
+            }
+        }
+
+        podcastListViewModel.spinner.observe(viewLifecycleOwner) {
+            val toolbar = (requireActivity() as MainActivity).toolbar
+            val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)
+            if (it) {
+                toolspinner.visibility = View.VISIBLE
+            } else {
+                toolspinner.visibility = View.GONE
             }
         }
 
