@@ -26,17 +26,6 @@
         android:layout_marginTop="?attr/actionBarSize"
         tools:context=".ui.podcastlist.PodcastListFragment">
 
-        <ProgressBar
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="4dp"
-            android:visibility="gone"
-            progressBarVisibility="@{podacstListViewModel.spinner}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/podcast_recycler"
             android:layout_width="match_parent"
