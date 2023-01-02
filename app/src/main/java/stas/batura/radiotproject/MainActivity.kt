@@ -12,6 +12,7 @@ import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -33,6 +34,7 @@ import stas.batura.data.Year
 import stas.batura.download.DownloadResult
 import stas.batura.download.DownloadService
 import stas.batura.download.DownloadServiceResult
+import stas.batura.radiotproject.databinding.ActivityMainBinding
 import stas.batura.radiotproject.player.MusicService
 import stas.batura.room.podcast.Podcast
 
@@ -48,15 +50,21 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
     lateinit var navController: NavController
 
+    lateinit var binding: ActivityMainBinding
+
+    lateinit var toolbar: Toolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
 //        val music = MusicService()
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
+
+        toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
