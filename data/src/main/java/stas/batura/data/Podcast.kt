@@ -142,7 +142,7 @@ data class Podcast(
 
 
     override fun toString(): String {
-        return "Podcast $podcastId $url $title $lastPosition $durationInMillis"
+        return "Podcast $podcastId $url $title $isActive"
     }
 }
 

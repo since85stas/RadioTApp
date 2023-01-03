@@ -85,6 +85,7 @@ class PodcastListFragment : Fragment() {
 
                 Timber.d("list changes: observe")
 
+                // в начале скроллим до активного подкаста
                 podcastListViewModel.activeNumPref.value?.let {
                     if (shouldScroll) {
                         shouldScroll = false
