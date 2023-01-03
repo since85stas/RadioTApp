@@ -24,7 +24,7 @@ class ControlFragment () : Fragment() {
 
     private val TAG = "controlfragment"
 
-    private var isPlayButtonClicked = false
+//    private var isPlayButtonClicked = false
 
     companion object {
         fun newInstance() = ControlFragment()
@@ -58,7 +58,7 @@ class ControlFragment () : Fragment() {
 
         play_pause_button.setOnClickListener( object : View.OnClickListener {
             override fun onClick(view: View) {
-                isPlayButtonClicked = true
+//                isPlayButtonClicked = true
                 mainViewModel.changePlayState()
             }
         })
@@ -106,7 +106,7 @@ class ControlFragment () : Fragment() {
     }
 
     override fun onStop() {
-        isPlayButtonClicked = false
+//        isPlayButtonClicked = false
 
         super.onStop()
     }

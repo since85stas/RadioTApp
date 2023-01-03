@@ -95,7 +95,7 @@ class MainActivityViewModel constructor(
      * изменяем состояние кнопки
      */
     fun changePlayState() {
-        if (RadioApp.ServiceHelper != null && callbackChanges.value != null) {
+        if ( callbackChanges.value != null) {
             if (callbackChanges.value!!.state == PlaybackStateCompat.STATE_PLAYING) {
                 RadioApp.ServiceHelper.mediaController?.transportControls?.pause()
             } else {

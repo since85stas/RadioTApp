@@ -43,6 +43,7 @@ import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
 import stas.batura.radioproject.data.IRepository
 import stas.batura.radiotproject.MainActivity
+import stas.batura.radiotproject.R
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 import timber.log.Timber
@@ -607,10 +608,10 @@ class MusicService() : LifecycleService() {
 
         builder.setShowWhen(false)
 
-
         builder.priority = NotificationCompat.PRIORITY_HIGH
         builder.setOnlyAlertOnce(true)
         builder.setChannelId(NOTIFICATION_DEFAULT_CHANNEL_ID)
+        builder.setSmallIcon(R.drawable.bat_notif_icon_white)
         return builder.build()
     }
 
