@@ -165,16 +165,16 @@ class MainActivityViewModel constructor(
         repository.setPrefActivePodcastNum(number)
     }
 
-//    /**
-//     * получаем активный подкаст в ViewModel
-//     * @param num: номер выбранного подкаста
-//     */
-//    fun updateActivePodcast(num: Int) {
-//        viewModelScope.launch {
-//            val podcast = repository.getActivePodcastSus(num)
-//            activePodcastPref.value = podcast
-//        }
-//    }
+    /**
+     * получаем активный подкаст в ViewModel
+     * @param num: номер выбранного подкаста
+     */
+    fun updateActivePodcast(num: Int) {
+        viewModelScope.launch {
+            val podcast = repository.getActivePodcastSus(num)
+            activePodcastPref.value = podcast
+        }
+    }
 
 //    // TODO: подумать как изменить
 //    /**

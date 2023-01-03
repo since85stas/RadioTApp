@@ -83,7 +83,7 @@ class PodcastListFragment : Fragment() {
                 // добавляем футер
                 concatAdapter.addAdapter(footerAdapter)
 
-                Timber.d("adapters: ${concatAdapter.adapters}")
+                Timber.d("list changes: observe")
 
                 podcastListViewModel.activeNumPref.value?.let {
                     if (shouldScroll) {

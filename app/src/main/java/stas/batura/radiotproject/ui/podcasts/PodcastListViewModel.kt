@@ -48,6 +48,7 @@ class PodcastListViewModel (): ViewModel() {
     val newPodcastList: LiveData<List<Podcast>> =
         repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
 
+            val timeS: Long = System.currentTimeMillis()
             for (podcast in list) {
                 if(podcast.podcastId == actNum) {
                     podcast.isActive = true
@@ -55,6 +56,8 @@ class PodcastListViewModel (): ViewModel() {
                     podcast.isActive = false
                 }
             }
+            val dur = System.currentTimeMillis() - timeS
+            Log.d(TAG, "time: $dur")
 
             list
     }.asLiveData()
