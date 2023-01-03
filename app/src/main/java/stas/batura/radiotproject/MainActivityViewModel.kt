@@ -165,28 +165,28 @@ class MainActivityViewModel constructor(
         repository.setPrefActivePodcastNum(number)
     }
 
-    /**
-     * получаем активный подкаст в ViewModel
-     * @param num: номер выбранного подкаста
-     */
-    fun updateActivePodcast(num: Int) {
-        viewModelScope.launch {
-            val podcast = repository.getActivePodcastSus(num)
-            activePodcastPref.value = podcast
-        }
-    }
+//    /**
+//     * получаем активный подкаст в ViewModel
+//     * @param num: номер выбранного подкаста
+//     */
+//    fun updateActivePodcast(num: Int) {
+//        viewModelScope.launch {
+//            val podcast = repository.getActivePodcastSus(num)
+//            activePodcastPref.value = podcast
+//        }
+//    }
 
-    // TODO: подумать как изменить
-    /**
-     * вспомог функция, для принуд перерисовки одной строки в списке
-     */
-    fun redrawItemById() {
-        if (activePodcastPref.value != null) {
-            viewModelScope.launch {
-                repository.updateRedrawField(activePodcastPref.value!!.podcastId)
-            }
-        }
-    }
+//    // TODO: подумать как изменить
+//    /**
+//     * вспомог функция, для принуд перерисовки одной строки в списке
+//     */
+//    fun redrawItemById() {
+//        if (activePodcastPref.value != null) {
+//            viewModelScope.launch {
+//                repository.updateRedrawField(activePodcastPref.value!!.podcastId)
+//            }
+//        }
+//    }
 
     fun startDownloadPodcast(podcast: Podcast) {
 
