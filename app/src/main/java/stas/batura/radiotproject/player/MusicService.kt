@@ -496,11 +496,15 @@ class MusicService() : LifecycleService() {
                 // Не очень красиво
                 AudioManager.AUDIOFOCUS_GAIN -> {
                     if (mediaSessionCallback.currentState == PlaybackStateCompat.STATE_PLAYING) {
+                        exoPlayer?.volume = 1.0f
                         mediaSessionCallback.onPlay()
                     }
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                    mediaSessionCallback.onPause()
+                    exoPlayer?.volume = 0.5f
+                }
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
+                    Log.d(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK: ")
                 }
                 else -> {
                     mediaSessionCallback.onPause()
