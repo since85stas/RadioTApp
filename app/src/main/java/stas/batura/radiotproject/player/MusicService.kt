@@ -252,15 +252,7 @@ class MusicService() : LifecycleService() {
             Log.d(TAG, "onPlay: ")
 
             exoPlayer?.let {
-//                if (!exoPlayer!!.playWhenReady) {
-//                    startService(
-//                        Intent(
-//                            applicationContext,
-//                            MusicService::class.java
-//                        )
-//                    )
-//                if (!mediaSession!!.isActive) {
-//                    val track: MusicRepository.Track = musicRepository.getCurrent()
+
                 updateMetadataFromTrack(podcast!!)
                 Log.d(TAG, "onPlay: $podcast")
 
@@ -279,34 +271,31 @@ class MusicService() : LifecycleService() {
                     if (audioFocusResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) return
                 }
                 mediaSession?.isActive = true // Сразу после получения фокуса
-//                }
                 registerReceiver(
                     becomingNoisyReceiver,
                     IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
                 )
 
-//                }
                 exoPlayer!!.playWhenReady = true
 
-                playTrack()
+                // переводим в нужную точку
+                mediaSession!!.setPlaybackState(
+                    stateBuilder.setState(
+                        PlaybackStateCompat.STATE_PLAYING,
+                        PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                        1f
+                    ).build()
+                )
+                currentState = PlaybackStateCompat.STATE_PLAYING
 
+                refreshNotificationAndForegroundStatus(currentState)
+
+                playTrack()
             }
 
             Log.d(TAG, "onPlay: prepeared $podcast")
 
-            // переводим в нужную точку
 
-
-            mediaSession!!.setPlaybackState(
-                stateBuilder.setState(
-                    PlaybackStateCompat.STATE_PLAYING,
-                    PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
-                    1f
-                ).build()
-            )
-            currentState = PlaybackStateCompat.STATE_PLAYING
-
-            refreshNotificationAndForegroundStatus(currentState)
         }
 
         // при остановки проигрыша
