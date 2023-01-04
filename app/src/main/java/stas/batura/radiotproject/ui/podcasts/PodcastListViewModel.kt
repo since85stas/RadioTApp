@@ -51,12 +51,13 @@ class PodcastListViewModel (): ViewModel() {
             val timeS: Long = System.currentTimeMillis()
             var outList = mutableListOf<Podcast>()
             for (podcast in list) {
+                val podcastcopy = podcast.copy()
                 if(podcast.podcastId == actNum) {
-                    podcast.isActive = true
+                    podcastcopy.isActive = true
                 } else {
-                    podcast.isActive = false
+                    podcastcopy.isActive = false
                 }
-                outList.add(podcast)
+                outList.add(podcastcopy)
             }
             val dur = System.currentTimeMillis() - timeS
             Log.d(TAG, "time: $dur")

@@ -115,7 +115,7 @@ class Repository(
      * Берет информацию из последних N данных и добавляет в БД
      */
     suspend fun updatePodacastAllInfo() {
-        val podcastBodis = retrofit.getLastNPodcasts(5)
+        val podcastBodis = retrofit.getLastNPodcasts(100)
         for (podcst in podcastBodis) {
             val podcastId = radioDao.insertPodcast(Podcast.FromPodcastBody.build(podcst))
         }
