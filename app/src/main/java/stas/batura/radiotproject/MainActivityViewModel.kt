@@ -180,13 +180,13 @@ class MainActivityViewModel constructor(
 //    /**
 //     * вспомог функция, для принуд перерисовки одной строки в списке
 //     */
-//    fun redrawItemById() {
-//        if (activePodcastPref.value != null) {
-//            viewModelScope.launch {
-//                repository.updateRedrawField(activePodcastPref.value!!.podcastId)
-//            }
-//        }
-//    }
+    fun redrawItemById() {
+        if (activePodcastPref.value != null) {
+            viewModelScope.launch {
+                repository.updateRedrawField(activePodcastPref.value!!.podcastId)
+            }
+        }
+    }
 
     fun startDownloadPodcast(podcast: Podcast) {
 

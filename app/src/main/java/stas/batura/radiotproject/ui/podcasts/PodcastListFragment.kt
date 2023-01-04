@@ -145,10 +145,10 @@ class PodcastListFragment : Fragment() {
     @ExperimentalCoroutinesApi
     private fun addObservers() {
 
-//        podcastListViewModel.activeNumPref.observe(viewLifecycleOwner) {
-//            Log.d(TAG, "activeNumberPref: $it")
-//            mainviewModel.updateActivePodcast(it)
-//        }
+        podcastListViewModel.activeNumPref.observe(viewLifecycleOwner) {
+            Log.d(TAG, "activeNumberPref: $it")
+            mainviewModel.updateActivePodcast(it)
+        }
 
     }
 

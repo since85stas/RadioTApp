@@ -96,7 +96,6 @@ class PodcastsAdapter(
 
         }
 
-
     }
 
     class TrackDiffCalback : DiffUtil.ItemCallback<Podcast>() {
@@ -105,14 +104,18 @@ class PodcastsAdapter(
             oldItem: Podcast,
             newItem: Podcast
         ): Boolean {
-            return oldItem.podcastId == newItem.podcastId
+            val comp =  oldItem.podcastId == newItem.podcastId
+            Log.d(TAG, "areItemsTheSame: $oldItem $comp")
+            return comp
         }
 
         override fun areContentsTheSame(
             oldItem: Podcast,
             newItem: Podcast
         ): Boolean {
-            return oldItem == newItem
+            val comp = oldItem == newItem
+            Log.d(TAG, "areContentThesame: $oldItem $comp")
+            return comp
         }
     }
 

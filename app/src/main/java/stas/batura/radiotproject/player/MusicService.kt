@@ -471,7 +471,7 @@ class MusicService() : LifecycleService() {
                 val realDurationMillis = exoPlayer!!.duration
 
                 // updating duration in DB
-                repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
+//                repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
 
                 Log.d(TAG, "onPlayerStateChanged: duration $realDurationMillis")
             }

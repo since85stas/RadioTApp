@@ -18,7 +18,7 @@ class PreferenceImp(context: Context): Preference {
     serializer = UserPreferencesSerializer
     )
 
-    private val prefScope = CoroutineScope(Dispatchers.Default)
+    private val prefScope = CoroutineScope(Dispatchers.IO)
 
     /***
      * получаем число отображаемых подкастов
