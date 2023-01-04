@@ -40,12 +40,15 @@ class ControlFragment () : Fragment() {
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
+        val controlViewModel = ViewModelProvider(this).get(ControlViewModel::class.java)
+
 //        val view = inflater.inflate(R.layout.control_fragment_new, container, false)
         val bindings: ControlFragmentNewBinding = DataBindingUtil.inflate(inflater,
             R.layout.control_fragment_new,
             container,
             false)
         bindings.mainActViewModel = mainViewModel
+        bindings.contolViewModel = controlViewModel
         bindings.lifecycleOwner = viewLifecycleOwner
 
         return bindings.root

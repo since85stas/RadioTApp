@@ -7,7 +7,9 @@
             name="mainActViewModel"
             type="stas.batura.radiotproject.MainActivityViewModel" />
 
-
+        <variable
+            name="contolViewModel"
+            type="stas.batura.musicproject.ui.control.ControlViewModel" />
     </data>
 
     <LinearLayout
@@ -35,7 +37,10 @@
             >
 
             <TextView
-                controlTitleBind="@{mainActViewModel.activePodcastPref}"
+                android:layout_marginStart="36dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                controlTitleBind="@{contolViewModel.activePodcast}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
