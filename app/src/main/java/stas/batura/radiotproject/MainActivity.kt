@@ -86,12 +86,6 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
         mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-//        // слушаем когда запускать сервис
-//        mainActivityViewModel.createServiceListner.observe(this) { it ->
-//            if (it) {
-//                mainActivityViewModel.initMusicService()
-//            }
-//        }
 
         // слушаем когда сервис успешно коннектится
         mainActivityViewModel.serviceConnection.observe(this) { it ->
@@ -107,19 +101,19 @@ class MainActivity : AppCompatActivity(), RecieverResult {
                 if (it.state == PlaybackStateCompat.STATE_PLAYING) {
 //                    Log.d(TAG, "onCreate: play spinner visible")
                     mainActivityViewModel.playAnimVisible()
-                    mainActivityViewModel.redrawItemById()
+//                    mainActivityViewModel.redrawItemById()
                 } else if (it.state == PlaybackStateCompat.STATE_PAUSED) {
 //                    Log.d(TAG, "onCreate: play spinner not visible")
                     mainActivityViewModel.playAnimNotVisible()
-                    mainActivityViewModel.redrawItemById()
+//                    mainActivityViewModel.redrawItemById()
                 } else if (it.state == PlaybackStateCompat.STATE_NONE) {
 //                    Log.d(TAG, "onCreate: play spinner not visible")
                     mainActivityViewModel.playAnimNotVisible()
-                    mainActivityViewModel.redrawItemById()
+//                    mainActivityViewModel.redrawItemById()
                 } else {
 //                    Log.d(TAG, "onCreate: play spinner not visible")
                     mainActivityViewModel.playAnimNotVisible()
-                    mainActivityViewModel.redrawItemById()
+//                    mainActivityViewModel.redrawItemById()
                 }
             }
         })

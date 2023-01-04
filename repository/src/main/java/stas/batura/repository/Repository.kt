@@ -3,12 +3,12 @@ package stas.batura.radioproject.data
 import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import ru.batura.stat.batchat.repository.room.PodcastDao
-import ru.batura.stat.batchat.repository.room.RadioDao
+import stas.batura.room.RadioDao
 import stas.batura.data.ListViewType
 import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
+import stas.batura.repository.IRepository
 import stas.batura.retrofit.IRetrofit
 import stas.batura.room.download.PodcastDownload
 import stas.batura.room.podcast.Podcast
@@ -115,7 +115,7 @@ class Repository(
      * Берет информацию из последних N данных и добавляет в БД
      */
     suspend fun updatePodacastAllInfo() {
-        val podcastBodis = retrofit.getLastNPodcasts(200)
+        val podcastBodis = retrofit.getLastNPodcasts(100)
         for (podcst in podcastBodis) {
             val podcastId = radioDao.insertPodcast(Podcast.FromPodcastBody.build(podcst))
         }
@@ -376,10 +376,6 @@ class Repository(
         } else if (num == -1) {
             if (lastId - numb > 0) setPrefLastPnumb(lastId - numb) else setPrefLastPnumb(numb)
         }
-    }
-
-    override suspend fun updateRedrawField(podcastId: Int) {
-        radioDao.updateRedrawField(podcastId)
     }
 
     /**

@@ -18,7 +18,7 @@ class PreferenceImp(context: Context): Preference {
     serializer = UserPreferencesSerializer
     )
 
-    private val repScope = CoroutineScope(Dispatchers.IO)
+    private val prefScope = CoroutineScope(Dispatchers.IO)
 
     /***
      * получаем число отображаемых подкастов
@@ -34,7 +34,7 @@ class PreferenceImp(context: Context): Preference {
      * записываем число показоваемых треков в настройки
      */
     override fun setNumPodcsts(num: Int) {
-        repScope.launch {
+        prefScope.launch {
             protoData.updateData { t: UserPreferences ->
                 t.toBuilder().setNumShownPodcasts(num).build()
             }
@@ -46,7 +46,7 @@ class PreferenceImp(context: Context): Preference {
      * @param type тип выводимого списка
      */
     override fun setPrefListType(type: ListViewType) {
-        repScope.launch {
+        prefScope.launch {
             protoData.updateData { t: UserPreferences ->
                 t.toBuilder().setListViewType(type.ordinal).build()
             }
@@ -76,7 +76,7 @@ class PreferenceImp(context: Context): Preference {
      * @param num номер активного подкаста
      */
     override fun setPrefActivePodcastNum(num: Int) {
-        repScope.launch {
+        prefScope.launch {
             protoData.updateData { t: UserPreferences ->
                 t.toBuilder().setActivePodcNum(num).build()
             }
@@ -88,7 +88,7 @@ class PreferenceImp(context: Context): Preference {
      * @param num число выводимых подкастов
      */
     override fun setPrefNumOnPage(num: Int) {
-        repScope.launch {
+        prefScope.launch {
             protoData.updateData { t: UserPreferences ->
                 t.toBuilder().setNumberOnPage(num).build()
             }
@@ -100,7 +100,7 @@ class PreferenceImp(context: Context): Preference {
      * @param year год
      */
     override fun setPrefSelectedYear(year: Year) {
-        repScope.launch {
+        prefScope.launch {
             protoData.updateData { t: UserPreferences ->
                 t.toBuilder().setSelectedYear(year.ordinal).build()
             }
@@ -117,7 +117,7 @@ class PreferenceImp(context: Context): Preference {
     }
 
     override fun setPrefLastPnumb(numb: Int) {
-        repScope.launch {
+        prefScope.launch {
             protoData.updateData { t: UserPreferences ->
                 t.toBuilder().setLastPodcNumb(numb).build()
             }
@@ -129,7 +129,7 @@ class PreferenceImp(context: Context): Preference {
      * @param numb номер подкаста
      */
     override fun setPrefMaxPnumb(numb: Int) {
-        repScope.launch {
+        prefScope.launch {
             protoData.updateData { t: UserPreferences ->
                 t.toBuilder().setMaxPodcNumb(numb).build()
             }

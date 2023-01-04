@@ -6,7 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import stas.batura.di.ServiceLocator
-import stas.batura.radioproject.data.IRepository
+import stas.batura.repository.IRepository
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
@@ -48,15 +48,21 @@ class PodcastListViewModel (): ViewModel() {
     val newPodcastList: LiveData<List<Podcast>> =
         repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
 
+            val timeS: Long = System.currentTimeMillis()
+            var outList = mutableListOf<Podcast>()
             for (podcast in list) {
+                val podcastcopy = podcast.copy()
                 if(podcast.podcastId == actNum) {
-                    podcast.isActive = true
+                    podcastcopy.isActive = true
                 } else {
-                    podcast.isActive = false
+                    podcastcopy.isActive = false
                 }
+                outList.add(podcastcopy)
             }
+            val dur = System.currentTimeMillis() - timeS
+            Log.d(TAG, "time: $dur")
 
-            list
+            outList
     }.asLiveData()
 
     val podcastTypeAndNumb = repository.getTypeAndNumb().asLiveData()

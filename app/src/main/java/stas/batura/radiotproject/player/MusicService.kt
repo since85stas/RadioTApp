@@ -1,15 +1,11 @@
 package stas.batura.radiotproject.player
 
-import android.annotation.SuppressLint
 import android.app.*
 import android.content.*
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.OnAudioFocusChangeListener
-import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -41,8 +37,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
-import stas.batura.radioproject.data.IRepository
-import stas.batura.radiotproject.MainActivity
+import stas.batura.repository.IRepository
+import stas.batura.radiotproject.R
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 import timber.log.Timber
@@ -251,15 +247,7 @@ class MusicService() : LifecycleService() {
             Log.d(TAG, "onPlay: ")
 
             exoPlayer?.let {
-//                if (!exoPlayer!!.playWhenReady) {
-//                    startService(
-//                        Intent(
-//                            applicationContext,
-//                            MusicService::class.java
-//                        )
-//                    )
-//                if (!mediaSession!!.isActive) {
-//                    val track: MusicRepository.Track = musicRepository.getCurrent()
+
                 updateMetadataFromTrack(podcast!!)
                 Log.d(TAG, "onPlay: $podcast")
 
@@ -278,34 +266,31 @@ class MusicService() : LifecycleService() {
                     if (audioFocusResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) return
                 }
                 mediaSession?.isActive = true // Сразу после получения фокуса
-//                }
                 registerReceiver(
                     becomingNoisyReceiver,
                     IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
                 )
 
-//                }
                 exoPlayer!!.playWhenReady = true
 
-                playTrack()
+                // переводим в нужную точку
+                mediaSession!!.setPlaybackState(
+                    stateBuilder.setState(
+                        PlaybackStateCompat.STATE_PLAYING,
+                        PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                        1f
+                    ).build()
+                )
+                currentState = PlaybackStateCompat.STATE_PLAYING
 
+                refreshNotificationAndForegroundStatus(currentState)
+
+                playTrack()
             }
 
             Log.d(TAG, "onPlay: prepeared $podcast")
 
-            // переводим в нужную точку
 
-
-            mediaSession!!.setPlaybackState(
-                stateBuilder.setState(
-                    PlaybackStateCompat.STATE_PLAYING,
-                    PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
-                    1f
-                ).build()
-            )
-            currentState = PlaybackStateCompat.STATE_PLAYING
-
-            refreshNotificationAndForegroundStatus(currentState)
         }
 
         // при остановки проигрыша
@@ -481,7 +466,9 @@ class MusicService() : LifecycleService() {
                 val realDurationMillis = exoPlayer!!.duration
 
                 // updating duration in DB
-                repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
+                if (podcast!!.durationInMillis == 0L) {
+                    repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
+                }
 
                 Log.d(TAG, "onPlayerStateChanged: duration $realDurationMillis")
             }
@@ -506,11 +493,15 @@ class MusicService() : LifecycleService() {
                 // Не очень красиво
                 AudioManager.AUDIOFOCUS_GAIN -> {
                     if (mediaSessionCallback.currentState == PlaybackStateCompat.STATE_PLAYING) {
-                        mediaSessionCallback.onPlay()
+                        exoPlayer?.volume = 1.0f
+//                        mediaSessionCallback.onPlay()
                     }
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                    mediaSessionCallback.onPause()
+                    exoPlayer?.volume = 0.5f
+                }
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
+                    Log.d(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK: ")
                 }
                 else -> {
                     mediaSessionCallback.onPause()
@@ -607,20 +598,15 @@ class MusicService() : LifecycleService() {
 
         builder.setShowWhen(false)
 
-
         builder.priority = NotificationCompat.PRIORITY_HIGH
         builder.setOnlyAlertOnce(true)
         builder.setChannelId(NOTIFICATION_DEFAULT_CHANNEL_ID)
+        builder.setSmallIcon(R.drawable.bat_notif_icon_white)
         return builder.build()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
-        val realDurationMillis = exoPlayer!!.duration
-
-        // updating duration in DB
-        repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
 
         mediaSession!!.release()
         exoPlayer!!.release()

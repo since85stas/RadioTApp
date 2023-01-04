@@ -1,9 +1,10 @@
-package stas.batura.radioproject.data
+package stas.batura.repository
 
 import kotlinx.coroutines.flow.Flow
 import stas.batura.data.ListViewType
 import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
+import stas.batura.radioproject.data.PodcastLoadInfo
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
@@ -48,8 +49,6 @@ interface IRepository {
     fun updateLastPodcPrefsNumber()
 
     suspend fun changeLastPnumberByValue(num: Int)
-
-    suspend fun updateRedrawField(podcastId: Int)
 
     fun setFavoriteStatus(podcastId: Int, status: Boolean)
 

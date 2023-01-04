@@ -18,11 +18,21 @@ import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
+val TAG = "adapter"
+
 class PodcastsAdapter(
     val mainActivityViewModel: MainActivityViewModel,
     val listModel: PodcastListViewModel
 ) :
     ListAdapter<Podcast, PodcastsAdapter.ViewHolder>(TrackDiffCalback()) {
+
+    override fun onCurrentListChanged(
+        previousList: MutableList<Podcast>,
+        currentList: MutableList<Podcast>
+    ) {
+        Log.d(TAG, "onCurrentListChanged: $previousList $currentList")
+        super.onCurrentListChanged(previousList, currentList)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -82,9 +92,11 @@ class PodcastsAdapter(
             }
 
             if (podcast.isActive) {
+                Log.d(TAG, "bind: $podcast isactive")
                 binding.cardView.strokeColor = binding.root.context.resources.getColor(R.color.colorAccent)
                 binding.cardView.strokeWidth = 5
             } else {
+                Log.d(TAG, "bind: $podcast isNotactive")
                 binding.cardView.strokeWidth = 0
             }
 
@@ -92,23 +104,28 @@ class PodcastsAdapter(
 
         }
 
-
     }
 
     class TrackDiffCalback : DiffUtil.ItemCallback<Podcast>() {
+
+
 
         override fun areItemsTheSame(
             oldItem: Podcast,
             newItem: Podcast
         ): Boolean {
-            return oldItem.podcastId == newItem.podcastId
+            val comp =  oldItem.podcastId == newItem.podcastId
+            Log.d(TAG, "areItemsTheSame: $oldItem $comp")
+            return comp
         }
 
         override fun areContentsTheSame(
             oldItem: Podcast,
             newItem: Podcast
         ): Boolean {
-            return oldItem == newItem
+            val comp = oldItem == newItem
+            Log.d(TAG, "areContentThesame: $oldItem $comp")
+            return comp
         }
     }
 

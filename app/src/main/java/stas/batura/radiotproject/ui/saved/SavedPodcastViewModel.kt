@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import stas.batura.data.SavedPodcast
 import stas.batura.di.ServiceLocator
-import stas.batura.radioproject.data.IRepository
+import stas.batura.repository.IRepository
 
 class SavedPodcastViewModel: ViewModel() {
 

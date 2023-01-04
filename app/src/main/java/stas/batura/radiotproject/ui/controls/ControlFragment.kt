@@ -24,7 +24,7 @@ class ControlFragment () : Fragment() {
 
     private val TAG = "controlfragment"
 
-    private var isPlayButtonClicked = false
+//    private var isPlayButtonClicked = false
 
     companion object {
         fun newInstance() = ControlFragment()
@@ -40,12 +40,15 @@ class ControlFragment () : Fragment() {
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
+        val controlViewModel = ViewModelProvider(this).get(ControlViewModel::class.java)
+
 //        val view = inflater.inflate(R.layout.control_fragment_new, container, false)
         val bindings: ControlFragmentNewBinding = DataBindingUtil.inflate(inflater,
             R.layout.control_fragment_new,
             container,
             false)
         bindings.mainActViewModel = mainViewModel
+        bindings.contolViewModel = controlViewModel
         bindings.lifecycleOwner = viewLifecycleOwner
 
         return bindings.root
@@ -58,7 +61,7 @@ class ControlFragment () : Fragment() {
 
         play_pause_button.setOnClickListener( object : View.OnClickListener {
             override fun onClick(view: View) {
-                isPlayButtonClicked = true
+//                isPlayButtonClicked = true
                 mainViewModel.changePlayState()
             }
         })
@@ -83,12 +86,6 @@ class ControlFragment () : Fragment() {
             }
         })
 
-        mainViewModel.activePodcastPref.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                Log.d(TAG, "addObservers: $it")
-            }
-        })
-
     }
 
     private fun removeObservers() {
@@ -106,7 +103,7 @@ class ControlFragment () : Fragment() {
     }
 
     override fun onStop() {
-        isPlayButtonClicked = false
+//        isPlayButtonClicked = false
 
         super.onStop()
     }

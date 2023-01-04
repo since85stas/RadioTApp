@@ -83,8 +83,9 @@ class PodcastListFragment : Fragment() {
                 // добавляем футер
                 concatAdapter.addAdapter(footerAdapter)
 
-                Timber.d("adapters: ${concatAdapter.adapters}")
+                Timber.d("list changes: observe $podcasts")
 
+                // в начале скроллим до активного подкаста
                 podcastListViewModel.activeNumPref.value?.let {
                     if (shouldScroll) {
                         shouldScroll = false
@@ -110,12 +111,10 @@ class PodcastListFragment : Fragment() {
     }
 
     override fun onStart() {
-        addObservers()
         super.onStart()
     }
 
     override fun onPause() {
-        removeObservers()
         super.onPause()
     }
 
@@ -138,23 +137,4 @@ class PodcastListFragment : Fragment() {
         }
     }
 
-    /**
-     * starting observing a viewModel when fragment is active
-     */
-    @ExperimentalCoroutinesApi
-    private fun addObservers() {
-
-        podcastListViewModel.activeNumPref.observe(viewLifecycleOwner) {
-            Log.d(TAG, "activeNumberPref: $it")
-            mainviewModel.updateActivePodcast(it)
-        }
-
-    }
-
-    /**
-     * stoping observing a viewModel
-     */
-    private fun removeObservers() {
-
-    }
 }

@@ -1,11 +1,6 @@
 package stas.batura.radiotproject
 
-import android.app.Application
-import android.content.ComponentName
 import android.content.ServiceConnection
-import android.os.IBinder
-import android.os.RemoteException
-import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.*
@@ -17,8 +12,7 @@ import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
 import stas.batura.di.ServiceLocator
-import stas.batura.radiotproject.player.MusicService
-import stas.batura.radioproject.data.IRepository
+import stas.batura.repository.IRepository
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
@@ -95,7 +89,7 @@ class MainActivityViewModel constructor(
      * изменяем состояние кнопки
      */
     fun changePlayState() {
-        if (RadioApp.ServiceHelper != null && callbackChanges.value != null) {
+        if ( callbackChanges.value != null) {
             if (callbackChanges.value!!.state == PlaybackStateCompat.STATE_PLAYING) {
                 RadioApp.ServiceHelper.mediaController?.transportControls?.pause()
             } else {
@@ -165,28 +159,6 @@ class MainActivityViewModel constructor(
         repository.setPrefActivePodcastNum(number)
     }
 
-    /**
-     * получаем активный подкаст в ViewModel
-     * @param num: номер выбранного подкаста
-     */
-    fun updateActivePodcast(num: Int) {
-        viewModelScope.launch {
-            val podcast = repository.getActivePodcastSus(num)
-            activePodcastPref.value = podcast
-        }
-    }
-
-    // TODO: подумать как изменить
-    /**
-     * вспомог функция, для принуд перерисовки одной строки в списке
-     */
-    fun redrawItemById() {
-        if (activePodcastPref.value != null) {
-            viewModelScope.launch {
-                repository.updateRedrawField(activePodcastPref.value!!.podcastId)
-            }
-        }
-    }
 
     fun startDownloadPodcast(podcast: Podcast) {
 
