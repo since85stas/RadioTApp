@@ -83,12 +83,6 @@ class ControlFragment () : Fragment() {
             }
         })
 
-        mainViewModel.activePodcastPref.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                Log.d(TAG, "addObservers: $it")
-            }
-        })
-
     }
 
     private fun removeObservers() {
