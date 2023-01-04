@@ -497,7 +497,7 @@ class MusicService() : LifecycleService() {
                 AudioManager.AUDIOFOCUS_GAIN -> {
                     if (mediaSessionCallback.currentState == PlaybackStateCompat.STATE_PLAYING) {
                         exoPlayer?.volume = 1.0f
-                        mediaSessionCallback.onPlay()
+//                        mediaSessionCallback.onPlay()
                     }
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
@@ -614,7 +614,7 @@ class MusicService() : LifecycleService() {
         val realDurationMillis = exoPlayer!!.duration
 
         // updating duration in DB
-        repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
+//        repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
 
         mediaSession!!.release()
         exoPlayer!!.release()
@@ -624,7 +624,7 @@ class MusicService() : LifecycleService() {
 
     fun updateCurrePodcastPosit(position: Long) {
         if (podcast != null) {
-            repositoryS.updatePodcastLastPos(podcast!!.podcastId, position)
+//            repositoryS.updatePodcastLastPos(podcast!!.podcastId, position)
         }
     }
 

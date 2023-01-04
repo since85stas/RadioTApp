@@ -26,6 +26,14 @@ class PodcastsAdapter(
 ) :
     ListAdapter<Podcast, PodcastsAdapter.ViewHolder>(TrackDiffCalback()) {
 
+    override fun onCurrentListChanged(
+        previousList: MutableList<Podcast>,
+        currentList: MutableList<Podcast>
+    ) {
+        Log.d(TAG, "onCurrentListChanged: $previousList $currentList")
+        super.onCurrentListChanged(previousList, currentList)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = PodcastItemViewDetailedBinding.inflate(
@@ -99,6 +107,8 @@ class PodcastsAdapter(
     }
 
     class TrackDiffCalback : DiffUtil.ItemCallback<Podcast>() {
+
+
 
         override fun areItemsTheSame(
             oldItem: Podcast,
