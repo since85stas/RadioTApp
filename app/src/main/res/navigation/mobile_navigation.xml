@@ -9,13 +9,13 @@
     <fragment
         android:id="@+id/navigation_podcastlist"
         android:name="stas.batura.radioproject.ui.podcastlist.PodcastListFragment"
-        android:label="@string/title_dashboard"
+        android:label="Подкасты"
         tools:layout="@layout/fragment_podcast_list" />
 
     <fragment
         android:id="@+id/navigation_savedpodcastlist"
         android:name="stas.batura.radiotproject.ui.saved.SavedPodcastsFragment"
-        android:label="@string/title_dashboard"
+        android:label="Сохраненные"
         tools:layout="@layout/fragment_saved_podcasts" />
 
 </navigation>

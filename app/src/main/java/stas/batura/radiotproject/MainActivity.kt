@@ -225,24 +225,24 @@ class MainActivity : AppCompatActivity(), RecieverResult {
                     drawer_layout.closeDrawers()
                     true
                 }
-                R.id.nav_year_2022 -> {
-                    mainActivityViewModel.getPodcasttsInYear(Year.Y2022)
-                    mainActivityViewModel.setPrefsListType(ListViewType.YEAR)
-                    drawer_layout.closeDrawers()
-                    true
-                }
-                R.id.nav_year_2021 -> {
-                    mainActivityViewModel.getPodcasttsInYear(Year.Y2021)
-                    mainActivityViewModel.setPrefsListType(ListViewType.YEAR)
-                    drawer_layout.closeDrawers()
-                    true
-                }
-                R.id.nav_year_2020 -> {
-                    mainActivityViewModel.getPodcasttsInYear(Year.Y2020)
-                    mainActivityViewModel.setPrefsListType(ListViewType.YEAR)
-                    drawer_layout.closeDrawers()
-                    true
-                }
+//                R.id.nav_year_2022 -> {
+//                    mainActivityViewModel.getPodcasttsInYear(Year.Y2022)
+//                    mainActivityViewModel.setPrefsListType(ListViewType.YEAR)
+//                    drawer_layout.closeDrawers()
+//                    true
+//                }
+//                R.id.nav_year_2021 -> {
+//                    mainActivityViewModel.getPodcasttsInYear(Year.Y2021)
+//                    mainActivityViewModel.setPrefsListType(ListViewType.YEAR)
+//                    drawer_layout.closeDrawers()
+//                    true
+//                }
+//                R.id.nav_year_2020 -> {
+//                    mainActivityViewModel.getPodcasttsInYear(Year.Y2020)
+//                    mainActivityViewModel.setPrefsListType(ListViewType.YEAR)
+//                    drawer_layout.closeDrawers()
+//                    true
+//                }
                 else -> false
             }
         }))

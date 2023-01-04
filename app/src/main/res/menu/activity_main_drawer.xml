@@ -6,17 +6,17 @@
     <group android:id="@+id/numberGroup"  android:checkableBehavior="none">
         <item
             android:id="@+id/nav_home"
-            android:title="home" />
+            android:title="Подкасты" />
 
         <item
             android:id="@+id/nav_fav"
-            android:title="fav"
+            android:title="Избранные"
             android:icon="@drawable/ic_star_black_24dp"
             />
 
         <item
             android:id="@+id/nav_saved"
-            android:title="favsaved"
+            android:title="Сохраненные"
             android:icon="@drawable/ic_baseline_download_done_24"
             />
 
@@ -24,23 +24,6 @@
 
     <group android:id="@+id/yearGroup"  android:checkableBehavior="none">
 
-        <item
-            android:orderInCategory="4"
-            android:id="@+id/nav_year_2022"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="2022" />
-
-        <item
-            android:orderInCategory="5"
-            android:id="@+id/nav_year_2021"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="2021" />
-
-        <item
-            android:orderInCategory="6"
-            android:id="@+id/nav_year_2020"
-            android:icon="@drawable/ic_star_black_24dp"
-            android:title="2020" />
 
 
     </group>
