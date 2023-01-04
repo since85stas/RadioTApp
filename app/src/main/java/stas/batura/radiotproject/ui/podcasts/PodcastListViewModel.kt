@@ -6,7 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import stas.batura.di.ServiceLocator
-import stas.batura.radioproject.data.IRepository
+import stas.batura.repository.IRepository
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 

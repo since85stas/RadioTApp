@@ -22,8 +22,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import ru.batura.stat.batchat.repository.room.PodcastDao
-import ru.batura.stat.batchat.repository.room.RadioDao
 import stas.batura.room.download.PodcastDownload
 import stas.batura.room.podcast.CategoryDataConverter
 import stas.batura.room.podcast.Podcast

@@ -1,15 +1,11 @@
 package stas.batura.radiotproject.player
 
-import android.annotation.SuppressLint
 import android.app.*
 import android.content.*
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.OnAudioFocusChangeListener
-import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -41,8 +37,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
-import stas.batura.radioproject.data.IRepository
-import stas.batura.radiotproject.MainActivity
+import stas.batura.repository.IRepository
 import stas.batura.radiotproject.R
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
@@ -471,7 +466,9 @@ class MusicService() : LifecycleService() {
                 val realDurationMillis = exoPlayer!!.duration
 
                 // updating duration in DB
-//                repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
+                if (podcast!!.durationInMillis == 0L) {
+                    repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
+                }
 
                 Log.d(TAG, "onPlayerStateChanged: duration $realDurationMillis")
             }
@@ -611,11 +608,6 @@ class MusicService() : LifecycleService() {
     override fun onDestroy() {
         super.onDestroy()
 
-        val realDurationMillis = exoPlayer!!.duration
-
-        // updating duration in DB
-//        repositoryS.updateTrackDuration(podcast!!.podcastId, realDurationMillis)
-
         mediaSession!!.release()
         exoPlayer!!.release()
         ServiceLocator.provideExoCache().release()
@@ -624,7 +616,7 @@ class MusicService() : LifecycleService() {
 
     fun updateCurrePodcastPosit(position: Long) {
         if (podcast != null) {
-//            repositoryS.updatePodcastLastPos(podcast!!.podcastId, position)
+            repositoryS.updatePodcastLastPos(podcast!!.podcastId, position)
         }
     }
 

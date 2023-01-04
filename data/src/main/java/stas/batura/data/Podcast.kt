@@ -53,17 +53,11 @@ data class Podcast(
 
     var isActive: Boolean = false,
 
-    var isFinish: Boolean = false,
-
     var lastPosition: Long = 0,
 
     var durationInMillis: Long = 0,
 
     var isDetailed: Boolean = false,
-
-    var isPlaying: Boolean = false,
-
-    var redraw: Int = 0,
 
     var isFavorite: Boolean = false,
 

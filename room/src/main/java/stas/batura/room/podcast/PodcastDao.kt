@@ -1,4 +1,4 @@
-package ru.batura.stat.batchat.repository.room
+package stas.batura.room.podcast
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -61,9 +61,6 @@ interface PodcastDao {
     @Query ("SELECT * FROM podcast_table WHERE isActive = 1")
     fun getActivePodcast(): Flow<Podcast?>
 
-    @Query("UPDATE podcast_table SET isFinish = 1 WHERE podcastId = :podcastId")
-    suspend fun setPodcastFinish(podcastId: Int)
-
     @Query("UPDATE podcast_table SET lastPosition = :position WHERE podcastId = :podcastId")
     suspend fun updatePodcastLastPos(podcastId: Int, position: Long)
 
@@ -72,9 +69,6 @@ interface PodcastDao {
 
     @Query("UPDATE podcast_table SET isDetailed =:isDetailed WHERE podcastId =:podcastId")
     suspend fun updateTrackIdDetailed(podcastId: Int, isDetailed: Boolean)
-
-    @Query("UPDATE podcast_table SET redraw = redraw +1 WHERE podcastId =:podcastId")
-    suspend fun updateRedrawField(podcastId: Int)
 
     @Query("UPDATE podcast_table SET savedStatus= :savedStatus WHERE podcastId =:podcastId")
     suspend fun updatePodcastSavedStatus(podcastId: Int ,savedStatus: SavedStatus)

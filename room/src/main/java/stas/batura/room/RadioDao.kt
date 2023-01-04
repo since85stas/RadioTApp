@@ -1,15 +1,8 @@
-package ru.batura.stat.batchat.repository.room
+package stas.batura.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 import stas.batura.room.download.DownloadDao
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
-import java.net.URL
+import stas.batura.room.podcast.PodcastDao
 
 @Dao
 interface RadioDao: PodcastDao, DownloadDao {

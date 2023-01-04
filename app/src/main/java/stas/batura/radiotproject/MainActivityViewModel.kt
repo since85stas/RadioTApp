@@ -1,11 +1,6 @@
 package stas.batura.radiotproject
 
-import android.app.Application
-import android.content.ComponentName
 import android.content.ServiceConnection
-import android.os.IBinder
-import android.os.RemoteException
-import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.*
@@ -17,8 +12,7 @@ import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
 import stas.batura.data.Year
 import stas.batura.di.ServiceLocator
-import stas.batura.radiotproject.player.MusicService
-import stas.batura.radioproject.data.IRepository
+import stas.batura.repository.IRepository
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
