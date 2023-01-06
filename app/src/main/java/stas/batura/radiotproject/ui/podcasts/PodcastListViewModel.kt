@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.switchMap
 import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
@@ -51,9 +53,16 @@ class PodcastListViewModel (): ViewModel() {
 //    val newPodcastList: LiveData<List<Podcast>> = repository.getAllPodcastsList().asLiveData()
 
     val combinePodcastList: LiveData<List<Podcast>> =
-        repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
-            setActivePodcast(list,actNum)
-    }.asLiveData()
+        repository.podcastViewType.flatMapLatest { viewType ->
+            if (viewType != ListViewType.FAVORITE) {
+                repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
+                    setActivePodcast(list,actNum)
+                }
+            } else {
+                repository.favTypeList()
+            }
+        }
+.asLiveData()
 
     val podcastTypeAndNumb = repository.getTypeAndNumb().asLiveData()
 

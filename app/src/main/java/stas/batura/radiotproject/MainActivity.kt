@@ -212,10 +212,12 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             when (it.itemId) {
                 R.id.nav_home -> {
                     navController.navigate(R.id.navigation_podcastlist)
+                    mainActivityViewModel.setPrefsListType(ListViewType.NUMBER)
                     drawer_layout.closeDrawers()
                     true
                 }
                 R.id.nav_fav -> {
+                    navController.navigate(R.id.navigation_podcastlist)
                     mainActivityViewModel.setPrefsListType(ListViewType.FAVORITE)
                     drawer_layout.closeDrawers()
                     true
