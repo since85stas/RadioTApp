@@ -52,22 +52,7 @@ class PodcastListViewModel (): ViewModel() {
 
     val combinePodcastList: LiveData<List<Podcast>> =
         repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
-
-            val timeS: Long = System.currentTimeMillis()
-            var outList = mutableListOf<Podcast>()
-            for (podcast in list) {
-                val podcastcopy = podcast.copy()
-                if(podcast.podcastId == actNum) {
-                    podcastcopy.isActive = true
-                } else {
-                    podcastcopy.isActive = false
-                }
-                outList.add(podcastcopy)
-            }
-            val dur = System.currentTimeMillis() - timeS
-            Log.d(TAG, "time: $dur")
-
-            outList
+            setActivePodcast(list,actNum)
     }.asLiveData()
 
     val podcastTypeAndNumb = repository.getTypeAndNumb().asLiveData()
@@ -171,4 +156,22 @@ class PodcastListViewModel (): ViewModel() {
     fun changePodcastToLoadStatus(podcastId: Int) {
         repository.updatePodcastSavedStatus(podcastId, SavedStatus.LOADING)
     }
+}
+
+fun setActivePodcast(podcasts: List<Podcast>, activeNum : Int): List<Podcast> {
+    val timeS: Long = System.currentTimeMillis()
+    var outList = mutableListOf<Podcast>()
+    for (podcast in podcasts) {
+        val podcastcopy = podcast.copy()
+        if(podcast.podcastId == activeNum) {
+            podcastcopy.isActive = true
+        } else {
+            podcastcopy.isActive = false
+        }
+        outList.add(podcastcopy)
+    }
+    val dur = System.currentTimeMillis() - timeS
+    Log.d(TAG, "time: $dur")
+
+    return outList
 }
