@@ -39,6 +39,8 @@ class Repository(
      */
     private val repScope = CoroutineScope(Dispatchers.IO + repositoryJob)
 
+    override val podcastViewType = preference.getPrefListType()
+
     override val savedPodcasts = radioDao.getAllSavedData().combine(radioDao.getAllPodcastsList()) { downloads, all ->
         val savedPodcast = mutableListOf<SavedPodcast>()
 

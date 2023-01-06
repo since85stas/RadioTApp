@@ -28,6 +28,8 @@ interface IRepository {
 
     fun setPrefListType(type: ListViewType)
 
+    val podcastViewType: Flow<ListViewType>
+
     fun setPrefNumOnPage(num: Int)
 
     fun setPrefSelectedYear(year: Year)

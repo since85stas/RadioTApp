@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
 import stas.batura.repository.IRepository
 import stas.batura.room.podcast.Podcast
@@ -31,6 +32,10 @@ class PodcastListViewModel (): ViewModel() {
 
     val activeNumPref = repository.getPrefActivePodcastNum().asLiveData()
 
+    val podcastListViewTypeLive: LiveData<ListViewType> = repository.podcastViewType.asLiveData()
+
+//    private val listViewType = repository.
+
     // получаем список в зависимости от типа отображения
 //    val newPodcastList: LiveData<List<Podcast>> = repository.getTypeAndNumb().
 //        flatMapLatest { loadInfo ->
@@ -45,7 +50,7 @@ class PodcastListViewModel (): ViewModel() {
 
 //    val newPodcastList: LiveData<List<Podcast>> = repository.getAllPodcastsList().asLiveData()
 
-    val newPodcastList: LiveData<List<Podcast>> =
+    val combinePodcastList: LiveData<List<Podcast>> =
         repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
 
             val timeS: Long = System.currentTimeMillis()

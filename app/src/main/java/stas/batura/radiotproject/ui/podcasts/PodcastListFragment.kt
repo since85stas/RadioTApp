@@ -11,10 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ConcatAdapter
-import kotlinx.android.synthetic.main.fragment_podcast_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import stas.batura.radiotproject.MainActivity
 import stas.batura.radiotproject.MainActivityViewModel
@@ -76,7 +74,7 @@ class PodcastListFragment : Fragment() {
 
         bindings.podcastRecycler.adapter = concatAdapter
 
-        podcastListViewModel.newPodcastList.observe(viewLifecycleOwner) {podcasts ->
+        podcastListViewModel.combinePodcastList.observe(viewLifecycleOwner) { podcasts ->
             if (podcasts != null) {
                 adapter.submitList(podcasts)
 
