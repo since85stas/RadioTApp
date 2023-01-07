@@ -26,11 +26,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
-import stas.batura.data.Year
 import stas.batura.download.DownloadResult
 import stas.batura.download.DownloadService
 import stas.batura.download.DownloadServiceResult
@@ -212,7 +210,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             when (it.itemId) {
                 R.id.nav_home -> {
                     navController.navigate(R.id.navigation_podcastlist)
-                    mainActivityViewModel.setPrefsListType(ListViewType.NUMBER)
+                    mainActivityViewModel.setPrefsListType(ListViewType.NORMAL)
                     drawer_layout.closeDrawers()
                     true
                 }

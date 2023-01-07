@@ -77,12 +77,12 @@ class PodcastListFragment : Fragment() {
 
         bindings.podcastRecycler.adapter = concatAdapter
 
-        podcastListViewModel.combinePodcastList.observe(viewLifecycleOwner) { podcasts ->
-            if (podcasts != null) {
-                podcstAdapter.submitList(podcasts)
+        podcastListViewModel.combinePodcastState.observe(viewLifecycleOwner) { state ->
+            if (state != null) {
+                podcstAdapter.submitList(state.podcasts)
 
                 // добавляем футер
-                if (podcastListViewModel.podcastListViewTypeLive.value == ListViewType.NUMBER) {
+                if (state.viewType == ListViewType.NORMAL) {
                     concatAdapter.addAdapter(footerAdapter)
                 } else {
                     if (concatAdapter.adapters.contains(footerAdapter)) {
@@ -90,13 +90,13 @@ class PodcastListFragment : Fragment() {
                     }
                 }
 
-                Timber.d("list changes: observe $podcasts")
+                Timber.d("list changes: observe $state")
 
                 // в начале скроллим до активного подкаста
                 podcastListViewModel.activeNumPref.value?.let {
                     if (shouldScroll) {
                         shouldScroll = false
-                        scrollToPosition(podcasts, it)
+                        scrollToPosition(state.podcasts, it)
                     }
                 }
             } else {
@@ -104,10 +104,10 @@ class PodcastListFragment : Fragment() {
             }
         }
 
-        podcastListViewModel.spinner.observe(viewLifecycleOwner) {
+        podcastListViewModel.spinner.observe(viewLifecycleOwner) { visibility ->
             val toolbar = (requireActivity() as MainActivity).toolbar
             val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)
-            if (it) {
+            if (visibility) {
                 toolspinner.visibility = View.VISIBLE
             } else {
                 toolspinner.visibility = View.GONE

@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.switchMap
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
@@ -36,14 +36,16 @@ class PodcastListViewModel (): ViewModel() {
 
     val podcastListViewTypeLive: LiveData<ListViewType> = repository.podcastViewType.asLiveData()
 
-    val combinePodcastList: LiveData<List<Podcast>> =
+    val combinePodcastState: LiveData<PodcastsListState> =
         repository.podcastViewType.flatMapLatest { viewType ->
             if (viewType != ListViewType.FAVORITE) {
                 repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
-                    setActivePodcast(list,actNum)
+                    setActivePodcastState(list, actNum, viewType)
                 }
             } else {
-                repository.favTypeList()
+                repository.favTypeList().map {
+                    PodcastsListState(it, viewType)
+                }
             }
         }
 .asLiveData()
@@ -151,7 +153,7 @@ class PodcastListViewModel (): ViewModel() {
     }
 }
 
-fun setActivePodcast(podcasts: List<Podcast>, activeNum : Int): List<Podcast> {
+fun setActivePodcastState(podcasts: List<Podcast>, activeNum : Int, viewType: ListViewType): PodcastsListState {
     val timeS: Long = System.currentTimeMillis()
     var outList = mutableListOf<Podcast>()
     for (podcast in podcasts) {
@@ -166,5 +168,5 @@ fun setActivePodcast(podcasts: List<Podcast>, activeNum : Int): List<Podcast> {
     val dur = System.currentTimeMillis() - timeS
     Log.d(TAG, "time: $dur")
 
-    return outList
+    return PodcastsListState(outList, viewType)
 }

@@ -1,6 +1,5 @@
 package stas.batura.radiotproject
 
-import android.animation.ObjectAnimator
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -16,12 +15,10 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlayerControlView
 import kotlinx.android.synthetic.main.control_fragment_new.view.*
 import stas.batura.data.ListViewType
-import stas.batura.data.SavedPodcast
 import stas.batura.radioproject.data.PodcastLoadInfo
 import stas.batura.retrofit.TimeLabel
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
-import java.text.SimpleDateFormat
 
 @BindingAdapter("titleBind")
 fun TextView.podcastTitleBind(title: String) {
@@ -146,7 +143,7 @@ fun ProgressBar.bindProgress(podcast: Podcast) {
 @BindingAdapter("bindPodcastHeaderTitle")
 fun TextView.bindPodcastHeaderTitle(podcastInfo: PodcastLoadInfo) {
     when(podcastInfo.listType) {
-        ListViewType.NUMBER -> text = "Выпуски:"
+        ListViewType.NORMAL -> text = "Выпуски:"
         ListViewType.YEAR -> text = "Год:"
         ListViewType.MONTH -> text = "Месяц:"
         else -> {}
