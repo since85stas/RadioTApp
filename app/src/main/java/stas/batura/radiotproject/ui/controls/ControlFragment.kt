@@ -52,19 +52,14 @@ class ControlFragment () : Fragment() {
         return bindings.root
     }
 
-    /**
-     * после зоздания фрагмента смотрим за действиями
-     */
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         bindings.playPauseButton.setOnClickListener( object : View.OnClickListener {
             override fun onClick(view: View) {
 //                isPlayButtonClicked = true
                 mainViewModel.changePlayState()
             }
         })
-
-        super.onActivityCreated(savedInstanceState)
     }
 
     private fun addObservers() {
