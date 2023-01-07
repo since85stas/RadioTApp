@@ -17,6 +17,8 @@ class OnlineFragment: Fragment() {
 
     private lateinit var mainViewModel: MainActivityViewModel
 
+    private lateinit var onlineViewModel: OnlineViewModel
+
     private lateinit var bindings: FragmentOnlineBinding
 
     override fun onCreateView(
@@ -26,7 +28,7 @@ class OnlineFragment: Fragment() {
     ): View? {
         mainViewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
-        val controlViewModel = ViewModelProvider(this).get(OnlineViewModel::class.java)
+        onlineViewModel = ViewModelProvider(this).get(OnlineViewModel::class.java)
 
 //        val view = inflater.inflate(R.layout.control_fragment_new, container, false)
         bindings = DataBindingUtil.inflate(inflater,
@@ -35,6 +37,8 @@ class OnlineFragment: Fragment() {
             false)
 
 //        bindings.
+//        bindings.ma
+        bindings.mainActViewModel = mainViewModel
         bindings.lifecycleOwner = viewLifecycleOwner
 
         return bindings.root
