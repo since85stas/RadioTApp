@@ -36,22 +36,6 @@ class PodcastListViewModel (): ViewModel() {
 
     val podcastListViewTypeLive: LiveData<ListViewType> = repository.podcastViewType.asLiveData()
 
-//    private val listViewType = repository.
-
-    // получаем список в зависимости от типа отображения
-//    val newPodcastList: LiveData<List<Podcast>> = repository.getTypeAndNumb().
-//        flatMapLatest { loadInfo ->
-//            if (loadInfo.listType == ListViewType.YEAR) {
-//                repository.yearTypeList()
-//            } else if(loadInfo.listType == ListViewType.NUMBER){
-//                repository.numberTypeList(loadInfo.lastNumb)
-//            } else {
-//                repository.favTypeList()
-//            }
-//        }.asLiveData()
-
-//    val newPodcastList: LiveData<List<Podcast>> = repository.getAllPodcastsList().asLiveData()
-
     val combinePodcastList: LiveData<List<Podcast>> =
         repository.podcastViewType.flatMapLatest { viewType ->
             if (viewType != ListViewType.FAVORITE) {

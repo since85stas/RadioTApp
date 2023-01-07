@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import stas.batura.data.ListViewType
 import stas.batura.radiotproject.MainActivity
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.R
@@ -32,7 +33,9 @@ class PodcastListFragment : Fragment() {
 
     private lateinit var mainviewModel: MainActivityViewModel
 
-    private lateinit var adapter: PodcastsAdapter
+    private lateinit var podcstAdapter: PodcastsAdapter
+
+    private lateinit var footerAdapter: FooterAdapter
 
     private lateinit var concatAdapter: ConcatAdapter
 
@@ -66,20 +69,26 @@ class PodcastListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // адаптер для списка
-        adapter = PodcastsAdapter(mainActivityViewModel = mainviewModel, listModel = podcastListViewModel)
+        podcstAdapter = PodcastsAdapter(mainActivityViewModel = mainviewModel, listModel = podcastListViewModel)
 
-        val footerAdapter = FooterAdapter(podcastListViewModel ::addMorePodcasts)
+        footerAdapter = FooterAdapter(podcastListViewModel ::addMorePodcasts)
 
-        concatAdapter = ConcatAdapter(adapter)
+        concatAdapter = ConcatAdapter(podcstAdapter)
 
         bindings.podcastRecycler.adapter = concatAdapter
 
         podcastListViewModel.combinePodcastList.observe(viewLifecycleOwner) { podcasts ->
             if (podcasts != null) {
-                adapter.submitList(podcasts)
+                podcstAdapter.submitList(podcasts)
 
                 // добавляем футер
-                concatAdapter.addAdapter(footerAdapter)
+                if (podcastListViewModel.podcastListViewTypeLive.value == ListViewType.NUMBER) {
+                    concatAdapter.addAdapter(footerAdapter)
+                } else {
+                    if (concatAdapter.adapters.contains(footerAdapter)) {
+                        concatAdapter.removeAdapter(footerAdapter)
+                    }
+                }
 
                 Timber.d("list changes: observe $podcasts")
 
