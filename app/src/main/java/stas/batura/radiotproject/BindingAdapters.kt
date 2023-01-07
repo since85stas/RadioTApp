@@ -13,7 +13,6 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlayerControlView
-import kotlinx.android.synthetic.main.control_fragment_new.view.*
 import stas.batura.data.ListViewType
 import stas.batura.radioproject.data.PodcastLoadInfo
 import stas.batura.retrofit.TimeLabel
