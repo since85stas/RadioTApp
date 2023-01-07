@@ -1,15 +1,11 @@
 package stas.batura.musicproject.ui.control
 
-import android.graphics.ColorFilter
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
-import androidx.core.view.MotionEventCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -44,7 +40,7 @@ class ControlFragment () : Fragment() {
 
 //        val view = inflater.inflate(R.layout.control_fragment_new, container, false)
         val bindings: ControlFragmentNewBinding = DataBindingUtil.inflate(inflater,
-            R.layout.control_fragment_new,
+            R.layout.fragment_control,
             container,
             false)
         bindings.mainActViewModel = mainViewModel
