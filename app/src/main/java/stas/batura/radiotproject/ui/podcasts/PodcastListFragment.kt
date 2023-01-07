@@ -11,11 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ConcatAdapter
-import kotlinx.android.synthetic.main.fragment_podcast_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import stas.batura.data.ListViewType
 import stas.batura.radiotproject.MainActivity
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.R
@@ -34,7 +33,9 @@ class PodcastListFragment : Fragment() {
 
     private lateinit var mainviewModel: MainActivityViewModel
 
-    private lateinit var adapter: PodcastsAdapter
+    private lateinit var podcstAdapter: PodcastsAdapter
+
+    private lateinit var footerAdapter: FooterAdapter
 
     private lateinit var concatAdapter: ConcatAdapter
 
@@ -68,28 +69,34 @@ class PodcastListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // адаптер для списка
-        adapter = PodcastsAdapter(mainActivityViewModel = mainviewModel, listModel = podcastListViewModel)
+        podcstAdapter = PodcastsAdapter(mainActivityViewModel = mainviewModel, listModel = podcastListViewModel)
 
-        val footerAdapter = FooterAdapter(podcastListViewModel ::addMorePodcasts)
+        footerAdapter = FooterAdapter(podcastListViewModel ::addMorePodcasts)
 
-        concatAdapter = ConcatAdapter(adapter)
+        concatAdapter = ConcatAdapter(podcstAdapter)
 
         bindings.podcastRecycler.adapter = concatAdapter
 
-        podcastListViewModel.newPodcastList.observe(viewLifecycleOwner) {podcasts ->
-            if (podcasts != null) {
-                adapter.submitList(podcasts)
+        podcastListViewModel.combinePodcastState.observe(viewLifecycleOwner) { state ->
+            if (state != null) {
+                podcstAdapter.submitList(state.podcasts)
 
                 // добавляем футер
-                concatAdapter.addAdapter(footerAdapter)
+                if (state.viewType == ListViewType.NORMAL) {
+                    concatAdapter.addAdapter(footerAdapter)
+                } else {
+                    if (concatAdapter.adapters.contains(footerAdapter)) {
+                        concatAdapter.removeAdapter(footerAdapter)
+                    }
+                }
 
-                Timber.d("list changes: observe $podcasts")
+                Timber.d("list changes: observe $state")
 
                 // в начале скроллим до активного подкаста
                 podcastListViewModel.activeNumPref.value?.let {
                     if (shouldScroll) {
                         shouldScroll = false
-                        scrollToPosition(podcasts, it)
+                        scrollToPosition(state.podcasts, it)
                     }
                 }
             } else {
@@ -97,10 +104,10 @@ class PodcastListFragment : Fragment() {
             }
         }
 
-        podcastListViewModel.spinner.observe(viewLifecycleOwner) {
+        podcastListViewModel.spinner.observe(viewLifecycleOwner) { visibility ->
             val toolbar = (requireActivity() as MainActivity).toolbar
             val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)
-            if (it) {
+            if (visibility) {
                 toolspinner.visibility = View.VISIBLE
             } else {
                 toolspinner.visibility = View.GONE

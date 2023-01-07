@@ -4,7 +4,10 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
 import stas.batura.repository.IRepository
 import stas.batura.room.podcast.Podcast
@@ -31,39 +34,21 @@ class PodcastListViewModel (): ViewModel() {
 
     val activeNumPref = repository.getPrefActivePodcastNum().asLiveData()
 
-    // получаем список в зависимости от типа отображения
-//    val newPodcastList: LiveData<List<Podcast>> = repository.getTypeAndNumb().
-//        flatMapLatest { loadInfo ->
-//            if (loadInfo.listType == ListViewType.YEAR) {
-//                repository.yearTypeList()
-//            } else if(loadInfo.listType == ListViewType.NUMBER){
-//                repository.numberTypeList(loadInfo.lastNumb)
-//            } else {
-//                repository.favTypeList()
-//            }
-//        }.asLiveData()
+    val podcastListViewTypeLive: LiveData<ListViewType> = repository.podcastViewType.asLiveData()
 
-//    val newPodcastList: LiveData<List<Podcast>> = repository.getAllPodcastsList().asLiveData()
-
-    val newPodcastList: LiveData<List<Podcast>> =
-        repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
-
-            val timeS: Long = System.currentTimeMillis()
-            var outList = mutableListOf<Podcast>()
-            for (podcast in list) {
-                val podcastcopy = podcast.copy()
-                if(podcast.podcastId == actNum) {
-                    podcastcopy.isActive = true
-                } else {
-                    podcastcopy.isActive = false
+    val combinePodcastState: LiveData<PodcastsListState> =
+        repository.podcastViewType.flatMapLatest { viewType ->
+            if (viewType != ListViewType.FAVORITE) {
+                repository.getAllPodcastsList().combine(repository.getPrefActivePodcastNum()) { list, actNum ->
+                    setActivePodcastState(list, actNum, viewType)
                 }
-                outList.add(podcastcopy)
+            } else {
+                repository.favTypeList().map {
+                    PodcastsListState(it, viewType)
+                }
             }
-            val dur = System.currentTimeMillis() - timeS
-            Log.d(TAG, "time: $dur")
-
-            outList
-    }.asLiveData()
+        }
+.asLiveData()
 
     val podcastTypeAndNumb = repository.getTypeAndNumb().asLiveData()
 
@@ -166,4 +151,22 @@ class PodcastListViewModel (): ViewModel() {
     fun changePodcastToLoadStatus(podcastId: Int) {
         repository.updatePodcastSavedStatus(podcastId, SavedStatus.LOADING)
     }
+}
+
+fun setActivePodcastState(podcasts: List<Podcast>, activeNum : Int, viewType: ListViewType): PodcastsListState {
+    val timeS: Long = System.currentTimeMillis()
+    var outList = mutableListOf<Podcast>()
+    for (podcast in podcasts) {
+        val podcastcopy = podcast.copy()
+        if(podcast.podcastId == activeNum) {
+            podcastcopy.isActive = true
+        } else {
+            podcastcopy.isActive = false
+        }
+        outList.add(podcastcopy)
+    }
+    val dur = System.currentTimeMillis() - timeS
+    Log.d(TAG, "time: $dur")
+
+    return PodcastsListState(outList, viewType)
 }

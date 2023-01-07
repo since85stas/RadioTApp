@@ -2,7 +2,7 @@ package stas.batura.data
 
 enum class ListViewType(type: Int) {
 
-    NUMBER(0),
+    NORMAL(0),
     YEAR(1),
     MONTH(2),
     FAVORITE(3)
