@@ -45,10 +45,10 @@ class OnlineFragment: Fragment() {
         return bindings.root
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        onlineViewModel.timerValues.observe(viewLifecycleOwner, { time ->
-//            Log.d("test", "onViewCreated: $time")
-//        })
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        onlineViewModel.timerValues.observe(viewLifecycleOwner, { time ->
+            Log.d("test", "onViewCreated: $time")
+        })
+    }
 
 }

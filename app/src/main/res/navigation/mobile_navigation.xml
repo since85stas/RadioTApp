@@ -18,11 +18,11 @@
         android:label="Сохраненные"
         tools:layout="@layout/fragment_saved_podcasts" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_online"-->
-<!--        android:name="stas.batura.radiotproject.ui.online.OnlineFragment"-->
-<!--        android:label="Эфир"-->
-<!--        tools:layout="@layout/fragment_online" />-->
+    <fragment
+        android:id="@+id/navigation_online"
+        android:name="stas.batura.radiotproject.ui.online.OnlineFragment"
+        android:label="Эфир"
+        tools:layout="@layout/fragment_online" />
 
 
 </navigation>

@@ -19,7 +19,7 @@ class TimerImpl(private val goalTime: Calendar, val durType: DurationType = Dura
     override fun getValues(): Flow<Long> {
         val flow = flow {
             val diff = getTimeDifference(goalTime)
-            for (i in diff..0) {
+            for (i in diff downTo 0) {
                 emit(i)
                 kotlinx.coroutines.delay(durType.mult.toLong())
             }

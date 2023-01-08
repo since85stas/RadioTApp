@@ -6,6 +6,6 @@ import stas.batura.di.ServiceLocator
 
 class OnlineViewModel: ViewModel() {
 
-//    val timerValues = ServiceLocator.provideTimerValues().asLiveData()
+    val timerValues = ServiceLocator.provideTimerValues().asLiveData()
 
 }
