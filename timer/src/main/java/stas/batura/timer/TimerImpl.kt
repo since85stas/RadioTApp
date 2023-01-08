@@ -2,6 +2,7 @@ package stas.batura.timer
 
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.time.DayOfWeek
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -13,17 +14,18 @@ const val TAG = "TimerImpl"
 class TimerImpl(private val goalTime: Calendar, val durType: DurationType = DurationType.SECONDS): Timer {
 
     init {
-//        goalTime = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"))
-//        goalTime.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY )
-//        goalTime.set(Calendar.HOUR_OF_DAY, 23)
-//        goalTime.set(Calendar.MINUTE, 0)
-//        goalTime.set(Calendar.SECOND, 0)
-
-
     }
 
-    override fun getValues(): Flow<Int> {
-        TODO("Not yet implemented")
+    override fun getValues(): Flow<Long> {
+        val flow = flow {
+            val diff = getTimeDifference(goalTime)
+            for (i in diff..0) {
+                emit(i)
+                kotlinx.coroutines.delay(durType.mult.toLong())
+            }
+
+        }
+        return flow
     }
 
     override fun startTimer() {

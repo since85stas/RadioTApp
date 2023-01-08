@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface Timer {
 
-    fun getValues(): Flow<Int>
+    fun getValues(): Flow<Long>
 
     fun startTimer()
 
