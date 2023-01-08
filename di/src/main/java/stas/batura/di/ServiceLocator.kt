@@ -3,6 +3,7 @@ package stas.batura.di
 import android.content.Context
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import kotlinx.coroutines.flow.Flow
 import stas.batura.room.RadioDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
@@ -10,7 +11,9 @@ import stas.batura.radioproject.data.Repository
 import stas.batura.retrofit.IRetrofit
 import stas.batura.retrofit.RetrofitClient
 import stas.batura.room.RadioDatabase
+import stas.batura.timer.TimerImpl
 import java.io.File
+import java.util.*
 
 object ServiceLocator {
 
@@ -95,6 +98,17 @@ object ServiceLocator {
         }
     }
 
+    fun provideTimerValues(): Flow<Long> {
+        val goalTime = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"))
+        goalTime.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY )
+        goalTime.set(Calendar.HOUR_OF_DAY, 23)
+        goalTime.set(Calendar.MINUTE, 0)
+        goalTime.set(Calendar.SECOND, 0)
+        goalTime.set(Calendar.MILLISECOND, 0)
 
+        val timer: stas.batura.timer.Timer = TimerImpl(goalTime)
+
+        return timer.getValues()
+    }
 
 }

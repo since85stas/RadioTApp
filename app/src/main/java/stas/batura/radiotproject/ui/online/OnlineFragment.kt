@@ -1,6 +1,7 @@
 package stas.batura.radiotproject.ui.online
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,4 +44,11 @@ class OnlineFragment: Fragment() {
 
         return bindings.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        onlineViewModel.timerValues.observe(viewLifecycleOwner, { time ->
+            Log.d("test", "onViewCreated: $time")
+        })
+    }
+
 }
