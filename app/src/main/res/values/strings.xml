@@ -3,4 +3,5 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="online_podcast_hint">"Запись подкаста производится по субботам, в 20:00 по UTC. В это время вы можете слушать нас в прямом эфире."</string>
 </resources>

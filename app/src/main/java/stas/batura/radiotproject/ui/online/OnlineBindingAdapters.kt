@@ -30,7 +30,7 @@ fun TextView.timerTextBind(time: Long) {
         "$sec"
     }
     val timeString: String = if (days >0) {
-            "d$days:$hoursStr:$minutesStr:$secStr"
+            "${days} дня:$hoursStr:$minutesStr:$secStr"
         } else if (hours > 0) {
         "$hoursStr:$minutesStr:$secStr"
     } else if (minutes > 0) {
