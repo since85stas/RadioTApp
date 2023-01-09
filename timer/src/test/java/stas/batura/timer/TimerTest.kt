@@ -85,4 +85,35 @@ class TimerTest {
         val d = timer.getTimeDifference(calt, goalTime)
         Assert.assertEquals(1*60*24*6, d)
     }
+
+    @Test
+    fun check_day_sec() {
+        val timer = TimerImpl(goalTime)
+
+        val calt = Calendar.getInstance()
+        calt.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY )
+        calt.set(Calendar.HOUR_OF_DAY, 23)
+        calt.set(Calendar.MINUTE, 0)
+        calt.set(Calendar.SECOND, 0)
+        calt.set(Calendar.MILLISECOND, 0)
+
+        val d = timer.getTimeDifference(calt, goalTime)
+        Assert.assertEquals(1*60*60*24, d)
+    }
+
+
+    @Test
+    fun check_6day_sec() {
+        val timer = TimerImpl(goalTime)
+
+        val calt = Calendar.getInstance()
+        calt.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY )
+        calt.set(Calendar.HOUR_OF_DAY, 23)
+        calt.set(Calendar.MINUTE, 0)
+        calt.set(Calendar.SECOND, 0)
+        calt.set(Calendar.MILLISECOND, 0)
+
+        val d = timer.getTimeDifference(calt, goalTime)
+        Assert.assertEquals(6*60*60*24, d)
+    }
 }

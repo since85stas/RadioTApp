@@ -1,12 +1,7 @@
 package stas.batura.timer
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.time.DayOfWeek
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.temporal.TemporalAdjusters
 import java.util.*
 
 const val TAG = "TimerImpl"
@@ -18,12 +13,11 @@ class TimerImpl(private val goalTime: Calendar, val durType: DurationType = Dura
 
     override fun getValues(): Flow<Long> {
         val flow = flow {
-            val diff = getTimeDifference(goalTime)
+            val diff = getTimeDifference(Calendar.getInstance())
             for (i in diff downTo 0) {
                 emit(i)
                 kotlinx.coroutines.delay(durType.mult.toLong())
             }
-
         }
         return flow
     }

@@ -40,6 +40,7 @@ class OnlineFragment: Fragment() {
 //        bindings.
 //        bindings.ma
         bindings.mainActViewModel = mainViewModel
+        bindings.onlineViewModel = onlineViewModel
         bindings.lifecycleOwner = viewLifecycleOwner
 
         return bindings.root
