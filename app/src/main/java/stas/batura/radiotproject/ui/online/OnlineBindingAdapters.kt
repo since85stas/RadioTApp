@@ -1,7 +1,10 @@
 package stas.batura.radiotproject.ui.online
 
+import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+
+const val WEEK_WITHOUT_2HOURS_SEC = (3600*24*7-3600*2)
 
 @BindingAdapter("timerTextBind")
 fun TextView.timerTextBind(time: Long) {
@@ -39,4 +42,26 @@ fun TextView.timerTextBind(time: Long) {
         "00:00:$secStr"
     }
     setText(timeString)
+}
+
+@BindingAdapter("timerTextVisibility")
+fun TextView.timerTextVisibility(time: Long) {
+
+    if (time > 0 || time > WEEK_WITHOUT_2HOURS_SEC) {
+        visibility = View.INVISIBLE
+    } else {
+        visibility = View.VISIBLE
+    }
+
+}
+
+@BindingAdapter("onlineButtonVisibility")
+fun TextView.onlineButtonVisibility(time: Long) {
+
+    if (time > 0 && time > WEEK_WITHOUT_2HOURS_SEC) {
+        visibility = View.VISIBLE
+    } else {
+        visibility = View.INVISIBLE
+    }
+
 }

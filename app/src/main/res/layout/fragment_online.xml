@@ -33,6 +33,20 @@
             timerTextBind="@{onlineViewModel.timerValues}"
             android:textStyle="bold"
             app:layout_constraintVertical_chainStyle="packed"
+            timerTextVisibility="@{onlineViewModel.timerValues}"
+            />
+
+        <Button
+            android:id="@+id/onlineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/timerTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/timerHint"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:text="слушать"
+            onlineButtonVisibility="@{onlineViewModel.timerValues}"
             />
 
         <TextView
@@ -42,6 +56,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:textSize="20sp"
             android:text="@string/online_podcast_hint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timerTextView"
