@@ -7,20 +7,36 @@ import androidx.databinding.BindingAdapter
 fun TextView.timerTextBind(time: Long) {
     var timeDel = time
     val days = (time /(3600*24))
+
     timeDel = timeDel - days*(3600*24)
     val hours = (timeDel / 3600).toInt()
+    val hoursStr = if (hours < 10) {
+        "0$hours"
+    } else {
+        "$hours"
+    }
     timeDel = timeDel - hours*3600
     val minutes = ((timeDel) / 60).toInt()
+    val minutesStr = if (minutes < 10) {
+        "0$minutes"
+    } else {
+        "$minutes"
+    }
     timeDel = timeDel - minutes*60
     val sec: Int = (timeDel).toInt()
-    val timeString: String = if (days >0) {
-            "$days:$hours:$minutes:$sec"
-        } else if (hours > 0) {
-        "$hours:$minutes:$sec"
-    } else if (minutes > 0) {
-        "00:$minutes:$sec"
+    val secStr = if (sec < 10) {
+        "0$sec"
     } else {
-        "00:00:$sec"
+        "$sec"
     }
-    setText("testtttttttttttttttt")
+    val timeString: String = if (days >0) {
+            "d$days:$hoursStr:$minutesStr:$secStr"
+        } else if (hours > 0) {
+        "$hoursStr:$minutesStr:$secStr"
+    } else if (minutes > 0) {
+        "00:$minutesStr:$secStr"
+    } else {
+        "00:00:$secStr"
+    }
+    setText(timeString)
 }
