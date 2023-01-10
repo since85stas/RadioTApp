@@ -169,11 +169,7 @@ class CategoryDataConverter {
 
 }
 
-val ONLINE_PODCAST = Podcast(
-    podcastId = -1,
-    title = "Эфир",
-    audioUrl = "https://stream.radio-t.com/"
-)
+
 
 enum class SavedStatus(status: Byte) {
     NOT_SAVED(0),

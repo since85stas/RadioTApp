@@ -47,6 +47,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             android:text="слушать"
             onlineButtonVisibility="@{onlineViewModel.timerValues}"
+            android:onClick="@{() -> mainActViewModel.movingPlayToPosition(0,onlineViewModel.ONLINE_PODCAST)}"
             />
 
         <TextView

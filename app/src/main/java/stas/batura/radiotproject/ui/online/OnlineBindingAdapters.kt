@@ -58,6 +58,6 @@ fun TextView.onlineButtonVisibility(time: Long) {
     if (time == 0L || time > WEEK_WITHOUT_2HOURS_SEC) {
         visibility = View.VISIBLE
     } else {
-        visibility = View.INVISIBLE
+        visibility = View.VISIBLE
     }
 }
