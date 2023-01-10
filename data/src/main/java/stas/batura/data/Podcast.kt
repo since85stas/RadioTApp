@@ -26,9 +26,6 @@ data class Podcast(
     @PrimaryKey()
     val podcastId: Int,
 
-    // url поста
-    val url: String = "url",
-
     // заголовок поста
     val title: String = "title",
 
@@ -85,7 +82,6 @@ data class Podcast(
 
             return Podcast(
                 podcastNum,
-                podcastBody.url,
                 podcastBody.title,
                 podcastBody.date.toString(),
                 getMillisTime(podcastBody.date),
@@ -172,6 +168,12 @@ class CategoryDataConverter {
     }
 
 }
+
+val ONLINE_PODCAST = Podcast(
+    podcastId = -1,
+    title = "Эфир",
+    audioUrl = "https://stream.radio-t.com/"
+)
 
 enum class SavedStatus(status: Byte) {
     NOT_SAVED(0),

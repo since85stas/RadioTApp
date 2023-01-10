@@ -29,11 +29,6 @@ fun TextView.podactTime(time: Long) {
     text = "${createPodcastDateTitle(time)} "
 }
 
-@BindingAdapter("urlBind")
-fun TextView.podcastUrlBind(podcast: Podcast) {
-    text = podcast.url
-}
-
 @BindingAdapter("progressBarVisibility")
 fun ProgressBar.bindVisibility(visible: Boolean) {
     if (visible) {
