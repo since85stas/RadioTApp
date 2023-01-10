@@ -10,7 +10,7 @@ class OnlineViewModel: ViewModel() {
     val ONLINE_PODCAST = Podcast(
         podcastId = -1,
         title = "Эфир",
-        audioUrl = "http://cdn.radio-t.com/rt_podcast.mp3"
+        audioUrl = "http://cdn.radio-t.com/rt_podcast742.mp3"
 //    audioUrl = "https://stream.radio-t.com/"
     )
 
