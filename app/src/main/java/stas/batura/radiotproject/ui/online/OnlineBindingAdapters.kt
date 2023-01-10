@@ -33,7 +33,7 @@ fun TextView.timerTextBind(time: Long) {
         "$sec"
     }
     val timeString: String = if (days >0) {
-            "${days} дня:$hoursStr:$minutesStr:$secStr"
+            "${days} д:$hoursStr:$minutesStr:$secStr"
         } else if (hours > 0) {
         "$hoursStr:$minutesStr:$secStr"
     } else if (minutes > 0) {
@@ -46,22 +46,18 @@ fun TextView.timerTextBind(time: Long) {
 
 @BindingAdapter("timerTextVisibility")
 fun TextView.timerTextVisibility(time: Long) {
-
-    if (time > 0 || time > WEEK_WITHOUT_2HOURS_SEC) {
+    if (time > 0 && time > WEEK_WITHOUT_2HOURS_SEC) {
         visibility = View.INVISIBLE
     } else {
         visibility = View.VISIBLE
     }
-
 }
 
 @BindingAdapter("onlineButtonVisibility")
 fun TextView.onlineButtonVisibility(time: Long) {
-
-    if (time > 0 && time > WEEK_WITHOUT_2HOURS_SEC) {
+    if (time == 0L || time > WEEK_WITHOUT_2HOURS_SEC) {
         visibility = View.VISIBLE
     } else {
         visibility = View.INVISIBLE
     }
-
 }
