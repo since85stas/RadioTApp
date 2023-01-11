@@ -4,6 +4,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 
+// считаем что подкаст идет примерно 2 часа, в это время показываем кнопку с возможностью прослушивания
+// поэтому время неделя минус 2 часа в секундах
 const val WEEK_WITHOUT_2HOURS_SEC = (3600*24*7-3600*2)
 
 @BindingAdapter("timerTextBind")
