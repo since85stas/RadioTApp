@@ -476,6 +476,7 @@ class MusicService() : LifecycleService() {
 
         override fun onPlayerError(error: ExoPlaybackException) {
             Timber.d(error.toString())
+            mediaSessionCallback.onPause()
         }
 
         override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
@@ -616,6 +617,8 @@ class MusicService() : LifecycleService() {
         }
     }
 
-//    private fun playbackStateListner()
+//    private fun playbackStateListner() = object : Listener {
+//
+//    }
 
 }

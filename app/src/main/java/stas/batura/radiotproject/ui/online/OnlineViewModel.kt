@@ -10,9 +10,7 @@ class OnlineViewModel: ViewModel() {
     val ONLINE_PODCAST = Podcast(
         podcastId = -1,
         title = "Эфир",
-//        audioUrl = "http://cdn.radio-t.com/rt_podcast742.mp3"
-        audioUrl = "https://icecast-mirtv.cdnvideo.ru/radio_mir128"
-//    audioUrl = "https://stream.radio-t.com/"
+        audioUrl = "https://stream.radio-t.com/"
     )
 
     val timerValues = ServiceLocator.provideTimerValues().asLiveData()
