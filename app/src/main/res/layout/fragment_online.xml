@@ -57,11 +57,27 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:text="@string/online_podcast_hint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timerTextView"
             tools:layout_editor_absoluteX="36dp" />
+
+        <TextView
+            android:id="@+id/chat_text_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/timerHint"
+            android:text="@string/chat_text"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:drawablePadding="5dp"
+            app:drawableLeftCompat="@drawable/ic_baseline_chat_24"
+            telegramChatBind=""
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
