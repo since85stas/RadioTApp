@@ -1,4 +1,4 @@
-package stas.batura.radioproject.data
+package stas.batura.repository
 
 import android.util.Log
 import kotlinx.coroutines.*
@@ -8,7 +8,6 @@ import stas.batura.data.ListViewType
 import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
-import stas.batura.repository.IRepository
 import stas.batura.retrofit.IRetrofit
 import stas.batura.room.download.PodcastDownload
 import stas.batura.room.podcast.Podcast
@@ -19,7 +18,8 @@ import stas.batura.utils.deleteLocalFile
 class Repository(
     private val radioDao: RadioDao,
     private val retrofit: IRetrofit,
-    private val preference: Preference
+    private val preference: Preference,
+    private val onlinePodcast: Podcast,
 ) : IRepository {
 
     private val TAG = Repository::class.java.simpleName
@@ -223,7 +223,10 @@ class Repository(
      * @param num номер активного подкаста
      */
     override fun setPrefActivePodcastNum(num: Int) {
-        preference.setPrefActivePodcastNum(num)
+        // случай с онлайн трансляцией у ней номера пока нет поэтому сохранять его не надо
+        if (num != onlinePodcast.podcastId) {
+            preference.setPrefActivePodcastNum(num)
+        }
     }
 
     /**

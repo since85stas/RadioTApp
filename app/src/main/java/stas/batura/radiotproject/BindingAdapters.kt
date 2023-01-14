@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlayerControlView
 import stas.batura.data.ListViewType
-import stas.batura.radioproject.data.PodcastLoadInfo
+import stas.batura.repository.PodcastLoadInfo
 import stas.batura.retrofit.TimeLabel
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus

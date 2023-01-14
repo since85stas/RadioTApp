@@ -34,8 +34,6 @@ class PodcastListViewModel (): ViewModel() {
 
     val activeNumPref = repository.getPrefActivePodcastNum().asLiveData()
 
-    val podcastListViewTypeLive: LiveData<ListViewType> = repository.podcastViewType.asLiveData()
-
     val combinePodcastState: LiveData<PodcastsListState> =
         repository.podcastViewType.flatMapLatest { viewType ->
             if (viewType != ListViewType.FAVORITE) {
@@ -47,8 +45,7 @@ class PodcastListViewModel (): ViewModel() {
                     PodcastsListState(it, viewType)
                 }
             }
-        }
-.asLiveData()
+        }.asLiveData()
 
     val podcastTypeAndNumb = repository.getTypeAndNumb().asLiveData()
 

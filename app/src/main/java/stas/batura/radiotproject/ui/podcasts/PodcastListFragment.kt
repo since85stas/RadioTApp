@@ -104,6 +104,10 @@ class PodcastListFragment : Fragment() {
             }
         }
 
+        podcastListViewModel.activeNumPref.observe(viewLifecycleOwner, {
+            Log.d(TAG, "onViewCreated: activNumbPref $it")
+        })
+
         podcastListViewModel.spinner.observe(viewLifecycleOwner) { visibility ->
             val toolbar = (requireActivity() as MainActivity).toolbar
             val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)

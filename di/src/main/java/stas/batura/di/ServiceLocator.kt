@@ -7,15 +7,23 @@ import kotlinx.coroutines.flow.Flow
 import stas.batura.room.RadioDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
-import stas.batura.radioproject.data.Repository
+import stas.batura.repository.Repository
 import stas.batura.retrofit.IRetrofit
 import stas.batura.retrofit.RetrofitClient
 import stas.batura.room.RadioDatabase
+import stas.batura.room.podcast.Podcast
 import stas.batura.timer.TimerImpl
 import java.io.File
 import java.util.*
 
 object ServiceLocator {
+
+
+    private val ONLINE_PODCAST = Podcast(
+        podcastId = -1,
+        title = "Эфир",
+        audioUrl = "https://stream.radio-t.com/"
+    )
 
     private var dao: RadioDao? = null
 
@@ -71,7 +79,8 @@ object ServiceLocator {
             return Repository(
                 provideDao(),
                 provideRetrofit(),
-                providePref()
+                providePref(),
+                provideOnlinePodcastLink()
             )
         }
     }
@@ -96,6 +105,10 @@ object ServiceLocator {
 
             return cache!!
         }
+    }
+
+    fun provideOnlinePodcastLink(): Podcast {
+        return ONLINE_PODCAST
     }
 
     fun provideTimerValues(): Flow<Long> {
