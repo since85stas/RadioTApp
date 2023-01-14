@@ -161,7 +161,6 @@ class CategoryDataConverter {
         try {
             return jsonAdapter.fromJson(value) ?: emptyList()
         } catch (e: IOException) {
-            println(e.toString())
             return emptyList()
         }
 

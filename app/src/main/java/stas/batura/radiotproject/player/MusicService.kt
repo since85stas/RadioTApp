@@ -14,6 +14,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
@@ -476,6 +477,7 @@ class MusicService() : LifecycleService() {
 
         override fun onPlayerError(error: ExoPlaybackException) {
             Timber.d(error.toString())
+            Toast.makeText(this@MusicService, "Ошибка воспроизведения", Toast.LENGTH_LONG).show()
             mediaSessionCallback.onPause()
         }
 
