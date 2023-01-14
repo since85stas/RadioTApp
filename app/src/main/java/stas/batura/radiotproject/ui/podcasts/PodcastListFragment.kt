@@ -2,9 +2,7 @@ package stas.batura.radioproject.ui.podcastlist
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -63,7 +61,13 @@ class PodcastListFragment : Fragment() {
 
         bindings.lifecycleOwner = requireActivity()
 
+        setHasOptionsMenu(true)
+
         return bindings.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_list_menu, menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,6 +131,22 @@ class PodcastListFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.nav_list_up -> {
+                bindings.podcastRecycler.smoothScrollToPosition(0)
+                true
+            }
+            R.id.nav_list_down -> {
+                bindings.podcastRecycler.smoothScrollToPosition(podcstAdapter.itemCount)
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 
     private fun scrollToPosition(podcastList: List<Podcast>, podcastId: Int) {
