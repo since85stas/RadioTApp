@@ -133,6 +133,18 @@ class PodcastListFragment : Fragment() {
         super.onPause()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.nav_list_up -> {
+                bindings.podcastRecycler.scrollToPosition(0)
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
     private fun scrollToPosition(podcastList: List<Podcast>, podcastId: Int) {
 
         CoroutineScope(Dispatchers.Default).launch {
