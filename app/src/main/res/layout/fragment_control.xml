@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 app:show_timeout="0"
                 android:layout_margin="12dp"
-                app:controller_layout_id="@layout/new_exo"
+                app:controller_layout_id="@layout/exoplayer_control_layout"
                 bindExoPla="@{mainActViewModel.exoPlayer}"
                 />
     </LinearLayout>
