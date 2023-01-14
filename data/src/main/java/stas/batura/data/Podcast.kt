@@ -26,9 +26,6 @@ data class Podcast(
     @PrimaryKey()
     val podcastId: Int,
 
-    // url поста
-    val url: String = "url",
-
     // заголовок поста
     val title: String = "title",
 
@@ -85,7 +82,6 @@ data class Podcast(
 
             return Podcast(
                 podcastNum,
-                podcastBody.url,
                 podcastBody.title,
                 podcastBody.date.toString(),
                 getMillisTime(podcastBody.date),
@@ -165,13 +161,14 @@ class CategoryDataConverter {
         try {
             return jsonAdapter.fromJson(value) ?: emptyList()
         } catch (e: IOException) {
-            println(e.toString())
             return emptyList()
         }
 
     }
 
 }
+
+
 
 enum class SavedStatus(status: Byte) {
     NOT_SAVED(0),

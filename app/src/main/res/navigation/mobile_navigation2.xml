@@ -9,6 +9,6 @@
         android:id="@+id/navigation_control"
         android:name="stas.batura.musicproject.ui.control.ControlFragment"
         android:label="Control"
-        tools:layout="@layout/control_fragment_new" />
+        tools:layout="@layout/fragment_control" />
 
 </navigation>

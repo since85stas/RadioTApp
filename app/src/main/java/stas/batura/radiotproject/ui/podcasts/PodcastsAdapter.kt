@@ -30,7 +30,6 @@ class PodcastsAdapter(
         previousList: MutableList<Podcast>,
         currentList: MutableList<Podcast>
     ) {
-        Log.d(TAG, "onCurrentListChanged: $previousList $currentList")
         super.onCurrentListChanged(previousList, currentList)
     }
 
@@ -115,7 +114,6 @@ class PodcastsAdapter(
             newItem: Podcast
         ): Boolean {
             val comp =  oldItem.podcastId == newItem.podcastId
-            Log.d(TAG, "areItemsTheSame: $oldItem $comp")
             return comp
         }
 
@@ -124,7 +122,6 @@ class PodcastsAdapter(
             newItem: Podcast
         ): Boolean {
             val comp = oldItem == newItem
-            Log.d(TAG, "areContentThesame: $oldItem $comp")
             return comp
         }
     }

@@ -1,4 +1,4 @@
-package stas.batura.utils
+package stas.batura.timer
 
 import org.junit.Test
 

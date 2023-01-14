@@ -14,12 +14,14 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
 import androidx.media.session.MediaButtonReceiver
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.analytics.PlaybackSessionManager.Listener
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.extractor.ExtractorsFactory
@@ -234,6 +236,8 @@ class MusicService() : LifecycleService() {
             super.onPrepare()
         }
 
+
+
         override fun onSeekTo(pos: Long) {
             super.onSeekTo(pos)
             Log.d(TAG, "onSeekTo: ")
@@ -405,30 +409,25 @@ class MusicService() : LifecycleService() {
         // обновляем данные о треке
         private fun updateMetadataFromTrack(podcast: Podcast) {
 
-            if (podcast.imageUrl == null) {
-//                metadataBuilder.putBitmap(
-//                    MediaMetadataCompat.METADATA_KEY_ART,
-//                    BitmapFactory.decodeResource(BitmapFactory.decodeFile(podcast.imageUrl))
-//                )
-            } else {
-
                 CoroutineScope(Dispatchers.IO).launch {
 
-                    val image = Glide.with(ServiceLocator.provideContext())
-                        .asBitmap()
-                        .load(podcast.imageUrl)
-                        .into(100, 100)
-                        .get();
+                    if (podcast.imageUrl != null) {
+                        val image = Glide.with(ServiceLocator.provideContext())
+                            .asBitmap()
+                            .load(podcast.imageUrl)
+                            .into(100, 100)
+                            .get();
 
-                    metadataBuilder.putBitmap(
-                        MediaMetadataCompat.METADATA_KEY_ART,
-                        image
-                    )
+                        metadataBuilder.putBitmap(
+                            MediaMetadataCompat.METADATA_KEY_ART,
+                            image
+                        )
+                    } else {
+                        // добавить дефолтную картинку
+                    }
                     metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, podcast.title)
                     mediaSession!!.setMetadata(metadataBuilder.build())
                 }
-            }
-
 
         }
     }
@@ -450,9 +449,7 @@ class MusicService() : LifecycleService() {
             trackGroups: TrackGroupArray,
             trackSelections: TrackSelectionArray
         ) {
-        }
 
-        override fun onLoadingChanged(isLoading: Boolean) {
         }
 
         override fun onPlayerStateChanged(
@@ -480,6 +477,8 @@ class MusicService() : LifecycleService() {
 
         override fun onPlayerError(error: ExoPlaybackException) {
             Timber.d(error.toString())
+            Toast.makeText(this@MusicService, "Ошибка воспроизведения", Toast.LENGTH_LONG).show()
+            mediaSessionCallback.onPause()
         }
 
         override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
@@ -619,5 +618,9 @@ class MusicService() : LifecycleService() {
             repositoryS.updatePodcastLastPos(podcast!!.podcastId, position)
         }
     }
+
+//    private fun playbackStateListner() = object : Listener {
+//
+//    }
 
 }

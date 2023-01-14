@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="mainActViewModel"
+            type="stas.batura.radiotproject.MainActivityViewModel" />
+
+        <variable
+            name="onlineViewModel"
+            type="stas.batura.radiotproject.ui.online.OnlineViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        >
+
+        <TextView
+            android:id="@+id/timerTextView"
+            android:text="4444444"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/timerHint"
+            android:textSize="38sp"
+            timerTextBind="@{onlineViewModel.timerValues}"
+            android:textStyle="bold"
+            app:layout_constraintVertical_chainStyle="packed"
+            timerTextVisibility="@{onlineViewModel.timerValues}"
+            />
+
+        <Button
+            android:id="@+id/onlineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/timerTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/timerHint"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:text="слушать"
+            onlineButtonVisibility="@{onlineViewModel.timerValues}"
+            android:onClick="@{() -> mainActViewModel.movingPlayToPosition(0,onlineViewModel.ONLINE_PODCAST)}"
+            />
+
+        <TextView
+            android:id="@+id/timerHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textSize="22sp"
+            android:text="@string/online_podcast_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timerTextView"
+            tools:layout_editor_absoluteX="36dp" />
+
+        <TextView
+            android:id="@+id/chat_text_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/timerHint"
+            android:text="@string/chat_text"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:drawablePadding="5dp"
+            app:drawableLeftCompat="@drawable/ic_baseline_chat_24"
+            telegramChatBind=""
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

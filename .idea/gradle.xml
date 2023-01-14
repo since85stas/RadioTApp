@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/repository" />
             <option value="$PROJECT_DIR$/retrofit" />
             <option value="$PROJECT_DIR$/room" />
+            <option value="$PROJECT_DIR$/timer" />
             <option value="$PROJECT_DIR$/utils" />
           </set>
         </option>
