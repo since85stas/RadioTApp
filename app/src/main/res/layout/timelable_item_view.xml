@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="14dp"
+        android:gravity="center"
         >
 
         <TextView
@@ -40,6 +41,16 @@
             android:layout_marginStart="12dp"
             />
 
+        <ImageView
+            android:onClick="@{() -> mainviewModel.movingPlayToPosition(startTime, podcast)}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_play_arrow_24"
+            app:iconSize="24dp"
+            android:clickable="true"
+            android:focusable="true"
+        />
+
         <TextView
             android:text="10.00"
             timelableTimeBind="@{timeLable}"
@@ -47,18 +58,10 @@
             android:layout_height="wrap_content"
             android:visibility="visible"
             android:layout_marginEnd="12dp"
+            android:onClick="@{() -> mainviewModel.movingPlayToPosition(startTime, podcast)}"
             />
 
-        <ImageButton
-            android:onClick="@{() -> mainviewModel.movingPlayToPosition(startTime, podcast)}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_play_arrow_24"
-            app:iconSize="24dp"
-            android:background="@color/colorAccent"
-            android:clickable="true"
-            android:focusable="true"
-            />
+
 
     </LinearLayout>
 </layout>
