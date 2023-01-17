@@ -58,6 +58,8 @@ dependencies {
 
     implementation project(':timer')
 
+    implementation project(':analitics')
+
     api "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
 
     implementation "com.google.android.exoplayer:exoplayer-common:$exoplayer_version"
