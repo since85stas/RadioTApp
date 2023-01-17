@@ -35,13 +35,13 @@ class MainActivityViewModel constructor(
     val downloadPodcastEvent: LiveData<Podcast?>
         get() = _downloadPodcastEvent
 
-    val activePodcastPref: MutableLiveData<Podcast?> = MutableLiveData(null)
+//    val activePodcastPref: MutableLiveData<Podcast?> = MutableLiveData(null)
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
-    private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+//    // Create a Coroutine scope using a job to be able to cancel when needed
+//    private var viewModelJob = Job()
+//
+//    // the Coroutine runs using the Main (UI) dispatcher
+//    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     val smallCheck = MutableLiveData<Boolean?> (null)
 
@@ -118,6 +118,8 @@ class MainActivityViewModel constructor(
         // посылаем в сервис и проигрываем
         RadioApp.ServiceHelper.serviceBinder?.setPodcastWithPosition(podcast, position)
         playClicked()
+
+        ServiceLocator.provideAnalitic().testEvent()
     }
 
     /**
@@ -128,28 +130,28 @@ class MainActivityViewModel constructor(
         repository.setPrefListType(type)
     }
 
-    /**
-     * устанавливаем кол-во на странице
-     * @param num: число подкастов выводимых на экран
-     */
-    fun updatePrefPodcastNum(num: Int) {
-//        repository.setPrefListType(ListViewType.NUMBER)
-        repository.setNumPodcsts(num)
-    }
-
-    /**
-     * устанавливаем и Год
-     * @param year: год за который выводим список
-     */
-    fun getPodcasttsInYear(year: Year) {
-//        repository.setPrefListType(ListViewType.YEAR)
-        repository.setPrefSelectedYear(year)
-    }
-
-    // пока не используется
-    fun setCheckBoxInitState(boolean: Boolean) {
-        smallCheck.value = boolean
-    }
+//    /**
+//     * устанавливаем кол-во на странице
+//     * @param num: число подкастов выводимых на экран
+//     */
+//    fun updatePrefPodcastNum(num: Int) {
+////        repository.setPrefListType(ListViewType.NUMBER)
+//        repository.setNumPodcsts(num)
+//    }
+//
+//    /**
+//     * устанавливаем и Год
+//     * @param year: год за который выводим список
+//     */
+//    fun getPodcasttsInYear(year: Year) {
+////        repository.setPrefListType(ListViewType.YEAR)
+//        repository.setPrefSelectedYear(year)
+//    }
+//
+//    // пока не используется
+//    fun setCheckBoxInitState(boolean: Boolean) {
+//        smallCheck.value = boolean
+//    }
 
     /**
      * сохраняем номер активного подкаста
