@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:656680111372:android:a46219a33f1b11ca334d29",
+        "mobilesdk_app_id": "1:656680111372:android:eeed733f96fa26da334d29",
         "android_client_info": {
-          "package_name": "stas.batura.radiotproject"
+          "package_name": "stas.batura.analitics"
         }
       },
       "oauth_client": [
         {
-          "client_id": "656680111372-c594p4lilcdlhae8p9s69kqk8657lg5v.apps.googleusercontent.com",
+          "client_id": "656680111372-qel1femp7datn5rj8264sehceg17lkt1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "stas.batura.radiotproject",
+            "package_name": "stas.batura.analitics",
             "certificate_hash": "30379c0f3d2229442920098e71575fbc973ed525"
           }
         },
