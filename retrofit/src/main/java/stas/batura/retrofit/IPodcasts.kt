@@ -5,7 +5,7 @@ import retrofit2.http.Path
 import stas.batura.data.PodcastBody
 
 
-interface IRetrofit {
+interface IPodcasts {
     @GET("podcast/{num}")
     suspend fun getPodcastByNum(@Path("num") num: String):
             PodcastBody

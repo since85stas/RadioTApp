@@ -8,7 +8,7 @@ import stas.batura.data.ListViewType
 import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
-import stas.batura.retrofit.IRetrofit
+import stas.batura.retrofit.IPodcasts
 import stas.batura.room.download.PodcastDownload
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
@@ -17,7 +17,7 @@ import stas.batura.utils.deleteLocalFile
 
 class Repository(
     private val radioDao: RadioDao,
-    private val retrofit: IRetrofit,
+    private val retrofit: IPodcasts,
     private val preference: Preference,
     private val onlinePodcast: Podcast,
 ) : IRepository {

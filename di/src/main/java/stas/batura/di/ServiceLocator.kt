@@ -10,7 +10,7 @@ import stas.batura.room.RadioDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
 import stas.batura.repository.Repository
-import stas.batura.retrofit.IRetrofit
+import stas.batura.retrofit.IPodcasts
 import stas.batura.retrofit.RetrofitClient
 import stas.batura.room.RadioDatabase
 import stas.batura.room.podcast.Podcast
@@ -29,7 +29,7 @@ object ServiceLocator {
 
     private var dao: RadioDao? = null
 
-    private var retrofit: IRetrofit? = null
+    private var retrofit: IPodcasts? = null
 
     private var preferecen: Preference? = null
 
@@ -61,10 +61,10 @@ object ServiceLocator {
         }
     }
 
-    private fun provideRetrofit(): IRetrofit {
+    private fun provideRetrofit(): IPodcasts {
         if (retrofit != null) return retrofit!!
         else {
-            retrofit = RetrofitClient.netApi.servise!!
+            retrofit = RetrofitClient.netApi.podcasts!!
             return retrofit!!
         }
     }
