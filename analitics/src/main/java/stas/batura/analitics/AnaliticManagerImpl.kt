@@ -3,32 +3,35 @@ package stas.batura.analitics
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 
-class AnaliticManagerImpl(context: Context) {
+interface AnaliticManager {
+    fun playEvent()
+    fun onlineEvent()
+    fun downloadEvent()
+    fun errorPlayEvent()
+    fun appOpenEvent()
+}
+
+class AnaliticManagerImpl(context: Context) : AnaliticManager {
 
     private val firebase = FirebaseAnalytics.getInstance(context)
 
-    fun testEvent() {
-        firebase.logEvent(FirebaseAnalytics.Event.LOGIN, null)
-        firebase.logEvent(FirebaseAnalytics.Event.POST_SCORE, null)
-    }
-
-    fun playEvent() {
+    override fun playEvent() {
         firebase.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, null)
     }
 
-    fun onlineEvent() {
-
+    override fun onlineEvent() {
+        firebase.logEvent("SELECT_ONLINE", null)
     }
 
-    fun downloadEvent() {
-
+    override fun downloadEvent() {
+        firebase.logEvent("DOWNLOAD", null)
     }
 
-    fun errorPlayEvent() {
-        firebase.logEvent(FirebaseAnalytics.Event.LOGIN, null)
+    override fun errorPlayEvent() {
+        firebase.logEvent("PLAY_ERROR", null)
     }
 
-    fun appOpenEvent() {
+    override fun appOpenEvent() {
         firebase.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
     }
 

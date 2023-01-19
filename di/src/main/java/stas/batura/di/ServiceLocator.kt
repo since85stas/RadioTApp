@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import kotlinx.coroutines.flow.Flow
+import stas.batura.analitics.AnaliticManager
 import stas.batura.analitics.AnaliticManagerImpl
 import stas.batura.room.RadioDao
 import stas.batura.protostore.Preference
@@ -88,7 +89,7 @@ object ServiceLocator {
         }
     }
 
-    fun provideAnalitic(): AnaliticManagerImpl {
+    fun provideAnalitic(): AnaliticManager {
         if (analictic != null) return analictic!!
         else {
             return AnaliticManagerImpl(provideContext())

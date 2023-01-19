@@ -119,7 +119,11 @@ class MainActivityViewModel constructor(
         RadioApp.ServiceHelper.serviceBinder?.setPodcastWithPosition(podcast, position)
         playClicked()
 
-        ServiceLocator.provideAnalitic().testEvent()
+        if (podcast != ServiceLocator.provideOnlinePodcastLink()) {
+            ServiceLocator.provideAnalitic().playEvent()
+        } else {
+            ServiceLocator.provideAnalitic().onlineEvent()
+        }
     }
 
     /**
@@ -166,6 +170,8 @@ class MainActivityViewModel constructor(
 
         // обновляем статус о загрузке
         repository.updatePodcastSavedStatus(podcastId = podcast.podcastId, savedStatus = SavedStatus.LOADING)
+
+        ServiceLocator.provideAnalitic().downloadEvent()
 
         _downloadPodcastEvent.value = podcast
     }
