@@ -55,15 +55,12 @@ object RetrofitClient   {
         val podcasts : IPodcasts by lazy {
             retrofit.create(IPodcasts::class.java)
         }
-
-
-
     }
 
-//    object newsApi {
-//        val servise : IRetrofit by lazy {
-//            retrofit.create(IRetrofit::class.java)
-//        }
-//    }
+    object newsApi {
+        val news : INews by lazy {
+            retrofitNews.create(INews::class.java)
+        }
+    }
 
 }

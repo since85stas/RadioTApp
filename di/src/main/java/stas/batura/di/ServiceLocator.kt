@@ -9,7 +9,7 @@ import stas.batura.analitics.AnaliticManagerImpl
 import stas.batura.room.RadioDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
-import stas.batura.repository.Repository
+import stas.batura.repository.PodcastRepository
 import stas.batura.retrofit.IPodcasts
 import stas.batura.retrofit.RetrofitClient
 import stas.batura.room.RadioDatabase
@@ -33,7 +33,7 @@ object ServiceLocator {
 
     private var preferecen: Preference? = null
 
-    private var repository: Repository? = null
+    private var repository: PodcastRepository? = null
 
     private var application: Context? = null
 
@@ -77,10 +77,10 @@ object ServiceLocator {
         }
     }
 
-    fun provideRepository(): Repository {
+    fun provideRepository(): PodcastRepository {
         if (repository != null) return repository!!
         else {
-            return Repository(
+            return PodcastRepository(
                 provideDao(),
                 provideRetrofit(),
                 providePref(),

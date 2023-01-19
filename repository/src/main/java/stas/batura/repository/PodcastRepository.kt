@@ -15,14 +15,14 @@ import stas.batura.room.podcast.SavedStatus
 import stas.batura.utils.deleteLocalFile
 
 
-class Repository(
+class PodcastRepository(
     private val radioDao: RadioDao,
     private val retrofit: IPodcasts,
     private val preference: Preference,
     private val onlinePodcast: Podcast,
-) : IRepository {
+) : IPodcastRepository {
 
-    private val TAG = Repository::class.java.simpleName
+    private val TAG = PodcastRepository::class.java.simpleName
 
     /**
      * viewModelJob allows us to cancel all coroutines started by this ViewModel.

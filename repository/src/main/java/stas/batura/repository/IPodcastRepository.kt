@@ -7,7 +7,7 @@ import stas.batura.data.Year
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
-interface IRepository {
+interface IPodcastRepository {
 
     suspend fun tryUpdateRecentRadioCache()
 

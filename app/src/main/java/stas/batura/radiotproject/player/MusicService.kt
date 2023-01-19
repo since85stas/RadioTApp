@@ -21,7 +21,6 @@ import androidx.lifecycle.LifecycleService
 import androidx.media.session.MediaButtonReceiver
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.analytics.PlaybackSessionManager.Listener
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.extractor.ExtractorsFactory
@@ -39,7 +38,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
-import stas.batura.repository.IRepository
+import stas.batura.repository.IPodcastRepository
 import stas.batura.radiotproject.R
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
@@ -47,7 +46,7 @@ import timber.log.Timber
 
 class MusicService() : LifecycleService() {
 
-    var repositoryS: IRepository = ServiceLocator.provideRepository()
+    var repositoryS: IPodcastRepository = ServiceLocator.provideRepository()
 
     var mediaSession: MediaSessionCompat? = null
 //        MediaSessionCompat(ServiceLocator.provideContext(), "Music Service")

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
-import stas.batura.repository.IRepository
+import stas.batura.repository.IPodcastRepository
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
@@ -17,7 +17,7 @@ class PodcastListViewModel (): ViewModel() {
 
     private val TAG = PodcastListViewModel::class.java.simpleName
 
-    private val repository: IRepository = ServiceLocator.provideRepository()
+    private val repository: IPodcastRepository = ServiceLocator.provideRepository()
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

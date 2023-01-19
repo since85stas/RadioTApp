@@ -1,9 +1,11 @@
 package stas.batura.data
 
 data class NewsBody(
-    var title: String,  // заголовок поста
-    var content:  String,  // дата-время поста в RFC3339
-    var snippet: List<String>, // список категорий, массив строк
+    var title: String,
+
+    var content:  String,
+
+    var snippet: List<String>,
 
     var pic: String? = null,
 
