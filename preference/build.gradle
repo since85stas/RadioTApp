@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id "com.google.protobuf" version "0.8.12"
     id 'kotlin-kapt'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {

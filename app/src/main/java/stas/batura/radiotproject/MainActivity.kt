@@ -30,6 +30,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
+import stas.batura.di.ServiceLocator
 import stas.batura.download.DownloadResult
 import stas.batura.download.DownloadService
 import stas.batura.download.DownloadServiceResult
@@ -129,16 +130,17 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         // описываем nav drawer
         createSectionsInMenu()
 
+        configureStatusBar()
+
+        ServiceLocator.provideAnalitic().appOpenEvent()
+    }
+
+
+    private fun configureStatusBar() {
         val window = this.window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.statusBarColor = this.resources.getColor(R.color.contrBackColor)
-
-    }
-
-
-    private fun testDownload() {
-//        )
     }
 
     private fun downloadPodcast(podcast: Podcast) {

@@ -478,6 +478,7 @@ class MusicService() : LifecycleService() {
         override fun onPlayerError(error: ExoPlaybackException) {
             Timber.d(error.toString())
             Toast.makeText(this@MusicService, "Ошибка воспроизведения", Toast.LENGTH_LONG).show()
+            ServiceLocator.provideAnalitic().errorPlayEvent()
             mediaSessionCallback.onPause()
         }
 

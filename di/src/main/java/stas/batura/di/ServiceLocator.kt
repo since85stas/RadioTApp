@@ -4,6 +4,8 @@ import android.content.Context
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import kotlinx.coroutines.flow.Flow
+import stas.batura.analitics.AnaliticManager
+import stas.batura.analitics.AnaliticManagerImpl
 import stas.batura.room.RadioDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
@@ -36,6 +38,8 @@ object ServiceLocator {
     private var application: Context? = null
 
     private var  cache :SimpleCache? = null
+
+    private var analictic: AnaliticManagerImpl? = null
 
     fun setContext(context: Context) {
         application = context
@@ -82,6 +86,13 @@ object ServiceLocator {
                 providePref(),
                 provideOnlinePodcastLink()
             )
+        }
+    }
+
+    fun provideAnalitic(): AnaliticManager {
+        if (analictic != null) return analictic!!
+        else {
+            return AnaliticManagerImpl(provideContext())
         }
     }
 
