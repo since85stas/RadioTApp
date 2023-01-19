@@ -68,7 +68,7 @@ class DownloadService(): Service(), DownloadCommands {
 
     override fun progress(preogressPercent: Int) {
         Timber.d(preogressPercent.toString())
-        val notification = notificationBulder.setContentText("Downloading Podcast $PODCAST_ID... progress: ${preogressPercent}")
+        val notification = notificationBulder.setContentText("Downloading Podcast $downloadId... progress: ${preogressPercent}")
         notificationManager.notify(NOTIF_ID, notification.build())
 
     }
