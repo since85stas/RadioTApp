@@ -5,7 +5,7 @@ data class NewsBody(
 
     var content:  String,
 
-    var snippet: List<String>,
+    var snippet: String,
 
     var pic: String? = null,
 

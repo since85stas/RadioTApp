@@ -1,6 +1,5 @@
 package stas.batura.radiotproject.ui.news
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +19,7 @@ class NewsViewModel: ViewModel() {
 
     init {
         launchDataLoad {
-            newsRepository.updateNews()
+            newsRepository.getLastNews()
         }
     }
 
