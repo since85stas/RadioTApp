@@ -47,7 +47,7 @@ class PodcastListFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         podcastListViewModel =
-                ViewModelProvider(requireActivity()).get(PodcastListViewModel::class.java)
+                ViewModelProvider(this).get(PodcastListViewModel::class.java)
 
         // TODO: проверить состояние модели после перезапуска активити
         mainviewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
@@ -113,16 +113,20 @@ class PodcastListFragment : Fragment() {
         })
 
         podcastListViewModel.spinner.observe(viewLifecycleOwner) { visibility ->
-            val toolbar = (requireActivity() as MainActivity).toolbar
-            val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)
-            if (visibility) {
-                toolspinner.visibility = View.VISIBLE
-            } else {
-                toolspinner.visibility = View.GONE
-            }
+            showSpinnerInActivity(visibility)
         }
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun showSpinnerInActivity(visibility: Boolean) {
+        val toolbar = (requireActivity() as MainActivity).toolbar
+        val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)
+        if (visibility) {
+            toolspinner.visibility = View.VISIBLE
+        } else {
+            toolspinner.visibility = View.GONE
+        }
     }
 
     override fun onStart() {
