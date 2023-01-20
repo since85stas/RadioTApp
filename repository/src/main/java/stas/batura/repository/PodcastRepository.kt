@@ -17,7 +17,7 @@ import stas.batura.utils.deleteLocalFile
 
 class PodcastRepository(
     private val radioDao: RadioDao,
-    private val retrofit: IPodcasts,
+    private val podcastApi: IPodcasts,
     private val preference: Preference,
     private val onlinePodcast: Podcast,
 ) : IPodcastRepository {
@@ -67,7 +67,7 @@ class PodcastRepository(
      * Returns true if we should make a network request.
      */
     private suspend fun shouldUpdateRadioCacheNetw(): Boolean {
-        val lastPodcast = Podcast.FromPodcastBody.build(retrofit.getLastPodcast()[0])
+        val lastPodcast = Podcast.FromPodcastBody.build(podcastApi.getLastPodcast()[0])
 //        val lastPodcast = Podcast.FromPodcastBody.build(retrofit.getPodcastByNum("225"))
         val isNoInBb = radioDao.getPodcastByNum(lastPodcast.podcastId) == null
         return isNoInBb
@@ -117,7 +117,7 @@ class PodcastRepository(
      * Берет информацию из последних N данных и добавляет в БД
      */
     suspend fun updatePodacastAllInfo() {
-        val podcastBodis = retrofit.getLastNPodcasts(100)
+        val podcastBodis = podcastApi.getLastNPodcasts(100)
         for (podcst in podcastBodis) {
             val podcastId = radioDao.insertPodcast(Podcast.FromPodcastBody.build(podcst))
         }
@@ -130,7 +130,7 @@ class PodcastRepository(
     suspend fun updatePodacastLastNumInfo(num: Int) {
 
         // делаем запрос на {num} последних записей с сервера
-        val podcastBodis = retrofit.getLastNPodcasts(num)
+        val podcastBodis = podcastApi.getLastNPodcasts(num)
 
         // сохраняем полученной в БД
         for (podcst in podcastBodis) {
@@ -446,7 +446,7 @@ class PodcastRepository(
     override suspend fun addMorePodcasts() {
         val num = radioDao.getNumberPodcastsInTable()
 
-        val biggerList = retrofit.getLastNPodcasts(num + 50)
+        val biggerList = podcastApi.getLastNPodcasts(num + 50)
 
         for (i in (num-1) until biggerList.size) {
             radioDao.insertPodcast(Podcast.FromPodcastBody.build(biggerList[i]))
