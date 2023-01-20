@@ -2,6 +2,7 @@ package stas.batura.radiotproject.ui.podcasts
 
 import android.util.Log
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -64,14 +65,14 @@ class PodcastListViewModel (): ViewModel() {
      *              loading spinner will stop.
      */
     private fun launchDataLoad(block: suspend () -> Unit): Job {
-        return viewModelScope.launch {
+        return viewModelScope.launch(Dispatchers.IO) {
             try {
-                _spinner.value = true
+                _spinner.postValue(true)
                 block()
             } catch (error: Throwable) {
                 Log.d(TAG, "launchDataLoad: " + error)
             } finally {
-                _spinner.value = false
+                _spinner.postValue(false)
                 repository.updateLastPodcPrefsNumber()
             }
         }
