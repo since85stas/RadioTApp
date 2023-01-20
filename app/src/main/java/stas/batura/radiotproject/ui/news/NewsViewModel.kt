@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import stas.batura.di.ServiceLocator
@@ -25,14 +26,14 @@ class NewsViewModel: ViewModel() {
 
 
     private fun launchDataLoad(block: suspend () -> Unit): Job {
-        return viewModelScope.launch {
+        return viewModelScope.launch(Dispatchers.IO) {
             try {
-                _spinner.value = true
+                _spinner.postValue(true)
                 block()
             } catch (error: Throwable) {
                 Timber.d( "launchDataLoad: " + error)
             } finally {
-                _spinner.value = false
+                _spinner.postValue(false)
             }
         }
     }

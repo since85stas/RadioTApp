@@ -1,5 +1,7 @@
 package stas.batura.data
 
+import com.squareup.moshi.Json
+
 data class NewsBody(
     var title: String,
 
@@ -17,5 +19,10 @@ data class NewsBody(
 
     var votes: Int = 0,
 
-    var del: Boolean = false
+    var del: Boolean = false,
+
+    var comments: Int = 0,
+
+    @Json(name = "show_num")
+    var podcastId: Int = 0,
 )

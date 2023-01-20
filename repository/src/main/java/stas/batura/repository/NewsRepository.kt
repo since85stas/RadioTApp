@@ -8,7 +8,7 @@ class NewsRepository(
 ) {
 
     suspend fun getLastNews() {
-        val news = newsApi.getLastNNews(2)
+        val news = newsApi.getLastNNews(20)
         Timber.d("news: $news")
     }
 
