@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.FragmentNewsBinding
+import timber.log.Timber
 
 class NewsFragment: Fragment() {
 
@@ -33,5 +34,13 @@ class NewsFragment: Fragment() {
         )
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        newsViewModel.news.observe(viewLifecycleOwner, { news ->
+            Timber.d("$news")
+        })
+
     }
 }

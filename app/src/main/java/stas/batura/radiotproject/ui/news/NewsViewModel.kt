@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import stas.batura.data.NewsBody
 import stas.batura.di.ServiceLocator
 import timber.log.Timber
 
@@ -18,9 +19,14 @@ class NewsViewModel: ViewModel() {
     val spinner: LiveData<Boolean>
         get() = _spinner
 
+    private val _news = MutableLiveData<List<NewsBody>>()
+    val news: LiveData<List<NewsBody>>
+        get() = _news
+
     init {
         launchDataLoad {
-            newsRepository.getLastNews()
+            val newsData = newsRepository.getLastNews()
+            _news.postValue(newsData)
         }
     }
 
