@@ -6,8 +6,7 @@ import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 class NewsRepository(
-    val newsApi: INews,
-    val dispatcher: CoroutineDispatcher
+    val newsApi: INews
 ) {
 
     suspend fun updateNews() {

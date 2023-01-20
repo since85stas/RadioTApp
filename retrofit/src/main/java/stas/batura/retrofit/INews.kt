@@ -7,7 +7,7 @@ import stas.batura.data.PodcastBody
 
 interface INews {
 
-    @GET("GET /news/last/{N} ")
+    @GET("news/last/{N}")
     suspend fun getLastNNews(@Path("N") number: Int): List<NewsBody>
 
 }

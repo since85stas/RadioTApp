@@ -9,7 +9,6 @@
     <fragment
         android:id="@+id/navigation_podcastlist"
         android:name="stas.batura.radioproject.ui.podcastlist.PodcastListFragment"
-        android:label="Подкасты"
         tools:layout="@layout/fragment_podcast_list" />
 
     <fragment
@@ -23,6 +22,13 @@
         android:name="stas.batura.radiotproject.ui.online.OnlineFragment"
         android:label="Эфир"
         tools:layout="@layout/fragment_online" />
+
+    <fragment
+        android:id="@+id/navigation_news"
+        android:name="stas.batura.radiotproject.ui.news.NewsFragment"
+        android:label="Новости"
+        tools:layout="@layout/fragment_news"/>
+
 
 
 </navigation>

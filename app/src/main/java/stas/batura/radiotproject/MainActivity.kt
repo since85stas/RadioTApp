@@ -237,6 +237,11 @@ class MainActivity : AppCompatActivity(), RecieverResult {
                     drawer_layout.closeDrawers()
                     true
                 }
+                R.id.nav_news -> {
+                    navController.navigate(R.id.navigation_news)
+                    drawer_layout.closeDrawers()
+                    true
+                }
 //                R.id.nav_year_2022 -> {
 //                    mainActivityViewModel.getPodcasttsInYear(Year.Y2022)
 //                    mainActivityViewModel.setPrefsListType(ListViewType.YEAR)

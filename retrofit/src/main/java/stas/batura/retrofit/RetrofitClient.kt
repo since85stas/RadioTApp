@@ -20,6 +20,8 @@ object RetrofitClient   {
 
     private val httpClient = OkHttpClient.Builder()
 
+    private val httpClient2 = OkHttpClient.Builder()
+
     /**
      * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
      * full Kotlin compatibility.
@@ -45,7 +47,7 @@ object RetrofitClient   {
      */
     private val retrofitNews = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .client(httpClient.addInterceptor(loggingInterceptor).build())
+        .client(httpClient2.addInterceptor(loggingInterceptor).build())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .baseUrl(NEWS_URL)
         .build()
