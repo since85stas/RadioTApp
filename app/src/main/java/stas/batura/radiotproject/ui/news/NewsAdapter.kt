@@ -1,14 +1,56 @@
 package stas.batura.radiotproject.ui.news
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import stas.batura.data.NewsBody
 import stas.batura.radiotproject.databinding.NewsItemViewBinding
+import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
+import stas.batura.radiotproject.ui.podcasts.PodcastsAdapter
+import stas.batura.room.podcast.Podcast
 
-class NewsAdapter {
+class NewsAdapter(): ListAdapter<NewsBody, NewsAdapter.ViewHolder>(NewsDiffCalback()) {
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = NewsItemViewBinding.inflate(
+            layoutInflater,
+            parent,
+            false
+        )
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        TODO("Not yet implemented")
+    }
 
     class ViewHolder(
         binding: NewsItemViewBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
+    }
+
+    class NewsDiffCalback : DiffUtil.ItemCallback<NewsBody>() {
+
+        override fun areItemsTheSame(
+            oldItem: NewsBody,
+            newItem: NewsBody
+        ): Boolean {
+            val comp =  oldItem.title == newItem.title
+            return comp
+        }
+
+        override fun areContentsTheSame(
+            oldItem: NewsBody,
+            newItem: NewsBody
+        ): Boolean {
+            val comp = oldItem == newItem
+            return comp
+        }
     }
 
 }
