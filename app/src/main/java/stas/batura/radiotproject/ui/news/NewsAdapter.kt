@@ -13,7 +13,6 @@ import stas.batura.room.podcast.Podcast
 
 class NewsAdapter(): ListAdapter<NewsBody, NewsAdapter.ViewHolder>(NewsDiffCalback()) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = NewsItemViewBinding.inflate(
@@ -25,13 +24,15 @@ class NewsAdapter(): ListAdapter<NewsBody, NewsAdapter.ViewHolder>(NewsDiffCalba
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(getItem(position))
     }
 
     class ViewHolder(
-        binding: NewsItemViewBinding
+        val binding: NewsItemViewBinding
     ): RecyclerView.ViewHolder(binding.root) {
-
+        fun bind(newsBody: NewsBody) {
+            binding.newsBody = newsBody
+        }
     }
 
     class NewsDiffCalback : DiffUtil.ItemCallback<NewsBody>() {

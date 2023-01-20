@@ -18,6 +18,8 @@ class NewsFragment: Fragment() {
 
     private lateinit var binding: FragmentNewsBinding
 
+    private lateinit var adapter: NewsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +27,8 @@ class NewsFragment: Fragment() {
     ): View? {
 
         newsViewModel = ViewModelProvider(this).get()
+
+        adapter = NewsAdapter()
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -40,6 +44,7 @@ class NewsFragment: Fragment() {
 
         newsViewModel.news.observe(viewLifecycleOwner, { news ->
             Timber.d("$news")
+            adapter.submitList(news)
         })
 
     }
