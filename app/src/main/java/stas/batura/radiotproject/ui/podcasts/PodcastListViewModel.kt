@@ -17,7 +17,7 @@ class PodcastListViewModel (): ViewModel() {
 
     private val TAG = PodcastListViewModel::class.java.simpleName
 
-    private val repository: IPodcastRepository = ServiceLocator.provideRepository()
+    private val repository: IPodcastRepository = ServiceLocator.providePodcastRepository()
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

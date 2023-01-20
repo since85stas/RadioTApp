@@ -8,7 +8,7 @@ import stas.batura.repository.IPodcastRepository
 
 class SavedPodcastViewModel: ViewModel() {
 
-    private val repository: IPodcastRepository = ServiceLocator.provideRepository()
+    private val repository: IPodcastRepository = ServiceLocator.providePodcastRepository()
 
     val savedList = repository.savedPodcasts.asLiveData()
 

@@ -46,7 +46,7 @@ import timber.log.Timber
 
 class MusicService() : LifecycleService() {
 
-    var repositoryS: IPodcastRepository = ServiceLocator.provideRepository()
+    var repositoryS: IPodcastRepository = ServiceLocator.providePodcastRepository()
 
     var mediaSession: MediaSessionCompat? = null
 //        MediaSessionCompat(ServiceLocator.provideContext(), "Music Service")

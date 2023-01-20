@@ -17,7 +17,7 @@ class MainActivityViewModel constructor(
 
     private val TAG = MainActivityViewModel::class.java.simpleName
 
-    private val repository: IPodcastRepository = ServiceLocator.provideRepository()
+    private val repository: IPodcastRepository = ServiceLocator.providePodcastRepository()
 
     // checking connection
     val serviceConnection: MutableLiveData<ServiceConnection?> = MutableLiveData(null)

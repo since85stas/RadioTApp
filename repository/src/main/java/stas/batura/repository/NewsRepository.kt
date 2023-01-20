@@ -1,6 +1,11 @@
 package stas.batura.repository
 
-class NewsRepository(
+import stas.batura.retrofit.INews
 
+class NewsRepository(
+    val newsApi: INews
 ) {
+
+
+
 }

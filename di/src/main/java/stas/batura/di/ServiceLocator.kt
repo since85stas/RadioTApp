@@ -9,7 +9,9 @@ import stas.batura.analitics.AnaliticManagerImpl
 import stas.batura.room.RadioDao
 import stas.batura.protostore.Preference
 import stas.batura.protostore.PreferenceImp
+import stas.batura.repository.NewsRepository
 import stas.batura.repository.PodcastRepository
+import stas.batura.retrofit.INews
 import stas.batura.retrofit.IPodcasts
 import stas.batura.retrofit.RetrofitClient
 import stas.batura.room.RadioDatabase
@@ -29,11 +31,13 @@ object ServiceLocator {
 
     private var dao: RadioDao? = null
 
-    private var retrofit: IPodcasts? = null
+//    private var retrofit: RetrofitClient? = null
 
     private var preferecen: Preference? = null
 
-    private var repository: PodcastRepository? = null
+    private var podcastRepository: PodcastRepository? = null
+
+    private var newsRepository: NewsRepository? = null
 
     private var application: Context? = null
 
@@ -61,12 +65,12 @@ object ServiceLocator {
         }
     }
 
-    private fun provideRetrofit(): IPodcasts {
-        if (retrofit != null) return retrofit!!
-        else {
-            retrofit = RetrofitClient.netApi.podcasts!!
-            return retrofit!!
-        }
+    private fun providePodcastApi(): IPodcasts {
+            return RetrofitClient.netApi.podcasts
+    }
+
+    private fun provideNewsApi(): INews {
+        return RetrofitClient.newsApi.news
     }
 
     private fun providePref(): Preference {
@@ -77,22 +81,34 @@ object ServiceLocator {
         }
     }
 
-    fun provideRepository(): PodcastRepository {
-        if (repository != null) return repository!!
+    fun providePodcastRepository(): PodcastRepository {
+        if (podcastRepository != null) return podcastRepository!!
         else {
-            return PodcastRepository(
+            podcastRepository = PodcastRepository(
                 provideDao(),
-                provideRetrofit(),
+                providePodcastApi(),
                 providePref(),
                 provideOnlinePodcastLink()
             )
+            return podcastRepository!!
+        }
+    }
+
+    fun provideNewsRepository(): NewsRepository {
+        if (newsRepository != null) return newsRepository!!
+        else {
+            newsRepository = NewsRepository(
+                provideNewsApi()
+            )
+            return newsRepository!!
         }
     }
 
     fun provideAnalitic(): AnaliticManager {
         if (analictic != null) return analictic!!
         else {
-            return AnaliticManagerImpl(provideContext())
+            analictic = AnaliticManagerImpl(provideContext())
+            return analictic!!
         }
     }
 
