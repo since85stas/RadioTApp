@@ -9,6 +9,7 @@ interface AnaliticManager {
     fun downloadEvent()
     fun errorPlayEvent()
     fun appOpenEvent()
+    fun newsEvent()
 }
 
 class AnaliticManagerImpl(context: Context) : AnaliticManager {
@@ -35,4 +36,7 @@ class AnaliticManagerImpl(context: Context) : AnaliticManager {
         firebase.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
     }
 
+    override fun newsEvent() {
+        firebase.logEvent("SELECT_NEWS", null)
+    }
 }
