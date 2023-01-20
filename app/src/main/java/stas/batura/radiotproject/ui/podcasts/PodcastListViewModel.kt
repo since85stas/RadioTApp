@@ -24,9 +24,6 @@ class PodcastListViewModel (): ViewModel() {
     }
 
     private val _spinner = MutableLiveData<Boolean>(false)
-    /**
-     * Show a loading spinner if true
-     */
     val spinner: LiveData<Boolean>
         get() = _spinner
 
@@ -73,17 +70,11 @@ class PodcastListViewModel (): ViewModel() {
                 block()
             } catch (error: Throwable) {
                 Log.d(TAG, "launchDataLoad: " + error)
-//                _snackbar.value = error.message
             } finally {
                 _spinner.value = false
                 repository.updateLastPodcPrefsNumber()
-//                repository.getAllPodcastListFlow()
             }
         }
-    }
-    
-    fun onDetailCheckClick(boolean: Boolean) {
-        Log.d(TAG, "onDetailCheckClick: $boolean")
     }
 
     /**
