@@ -11,7 +11,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         style="@style/CardViewStyle"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
@@ -19,17 +19,18 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="12dp"
             >
 
             <ImageView
                 android:id="@+id/news_image_view"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                newsImageVisibility="@{newsBody}"
                 />
 
             <TextView
@@ -40,7 +41,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/news_image_view"
                 newsTitleBind="@{newsBody}"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:layout_marginBottom="6dp"
                 />
+
+            <TextView
+                android:id="@+id/news_body_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/news_title_text"
+                newsBodyBind="@{newsBody}"
+                android:textSize="18sp"
+                android:layout_marginBottom="6dp"
+                />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

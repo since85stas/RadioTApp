@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import stas.batura.data.NewsBody
 import stas.batura.radiotproject.databinding.NewsItemViewBinding
 import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
@@ -32,6 +33,9 @@ class NewsAdapter(): ListAdapter<NewsBody, NewsAdapter.ViewHolder>(NewsDiffCalba
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(newsBody: NewsBody) {
             binding.newsBody = newsBody
+            if (newsBody.pic != null) {
+                Glide.with(binding.root.context).load(newsBody.pic).into(binding.newsImageView)
+            }
         }
     }
 
