@@ -36,6 +36,7 @@ class NewsFragment: Fragment() {
             container,
             false
         )
+        binding.newsRecycler.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
