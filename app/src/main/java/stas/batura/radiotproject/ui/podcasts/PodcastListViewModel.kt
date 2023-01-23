@@ -91,6 +91,7 @@ class PodcastListViewModel (): ViewModel() {
     fun addMorePodcasts() {
         launchDataLoad {
             repository.addMorePodcasts()
+            ServiceLocator.provideAnalitic().addOldPodcast()
         }
     }
 

@@ -240,6 +240,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
                 R.id.nav_news -> {
                     navController.navigate(R.id.navigation_news)
                     drawer_layout.closeDrawers()
+                    ServiceLocator.provideAnalitic().newsEvent()
                     true
                 }
 //                R.id.nav_year_2022 -> {

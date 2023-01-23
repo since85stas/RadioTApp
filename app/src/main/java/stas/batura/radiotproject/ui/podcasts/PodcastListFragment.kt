@@ -140,11 +140,11 @@ class PodcastListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.nav_list_up -> {
-                bindings.podcastRecycler.smoothScrollToPosition(0)
+                bindings.podcastRecycler.scrollToPosition(0)
                 true
             }
             R.id.nav_list_down -> {
-                bindings.podcastRecycler.smoothScrollToPosition(podcstAdapter.itemCount)
+                bindings.podcastRecycler.scrollToPosition(podcstAdapter.itemCount)
                 true
             }
             else -> {
