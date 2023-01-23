@@ -18,8 +18,6 @@ import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
 
-val TAG = "adapter"
-
 class PodcastsAdapter(
     val mainActivityViewModel: MainActivityViewModel,
     val listModel: PodcastListViewModel
@@ -91,11 +89,9 @@ class PodcastsAdapter(
             }
 
             if (podcast.isActive) {
-                Log.d(TAG, "bind: $podcast isactive")
                 binding.cardView.strokeColor = binding.root.context.resources.getColor(R.color.colorAccent)
                 binding.cardView.strokeWidth = 5
             } else {
-                Log.d(TAG, "bind: $podcast isNotactive")
                 binding.cardView.strokeWidth = 0
             }
 

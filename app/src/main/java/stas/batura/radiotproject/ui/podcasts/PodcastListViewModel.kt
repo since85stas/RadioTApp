@@ -13,6 +13,7 @@ import stas.batura.di.ServiceLocator
 import stas.batura.repository.IPodcastRepository
 import stas.batura.room.podcast.Podcast
 import stas.batura.room.podcast.SavedStatus
+import timber.log.Timber
 
 class PodcastListViewModel (): ViewModel() {
 
@@ -53,24 +54,13 @@ class PodcastListViewModel (): ViewModel() {
         }
     }
 
-    /**
-     * Helper function to call a data load function with a loading spinner; errors will trigger a
-     * snackbar.
-     *
-     * By marking [block] as [suspend] this creates a suspend lambda which can call suspend
-     * functions.
-     *
-     * @param block lambda to actually load data. It is called in the viewModelScope. Before calling
-     *              the lambda, the loading spinner will display. After completion or error, the
-     *              loading spinner will stop.
-     */
     private fun launchDataLoad(block: suspend () -> Unit): Job {
         return viewModelScope.launch(Dispatchers.IO) {
             try {
                 _spinner.postValue(true)
                 block()
             } catch (error: Throwable) {
-                Log.d(TAG, "launchDataLoad: " + error)
+                Timber.e("launchDataLoad: " + error)
             } finally {
                 _spinner.postValue(false)
                 repository.updateLastPodcPrefsNumber()
@@ -84,7 +74,6 @@ class PodcastListViewModel (): ViewModel() {
      * @param enabled статус изменения
      */
     fun onEnabled(podcast: Podcast, enabled: Boolean) {
-        Log.d(TAG, "onEnabled: ")
         repository.updateTrackIdDetailed(podcast.podcastId, enabled)
     }
 
@@ -99,15 +88,15 @@ class PodcastListViewModel (): ViewModel() {
 //        repository.setPrefLastPtime(pod)
     }
 
-    /**
-     * сохраняем сколько выводить на экран
-     * @param num число выводимых на экран подкастов
-     */
-    fun changeNextListByNum(num: Int) {
-        viewModelScope.launch {
-            repository.changeLastPnumberByValue(num)
-        }
-    }
+//    /**
+//     * сохраняем сколько выводить на экран
+//     * @param num число выводимых на экран подкастов
+//     */
+//    fun changeNextListByNum(num: Int) {
+//        viewModelScope.launch {
+//            repository.changeLastPnumberByValue(num)
+//        }
+//    }
 
     /**
      * отмечаем помещать ли подкаст в избранное
@@ -118,34 +107,34 @@ class PodcastListViewModel (): ViewModel() {
         repository.setFavoriteStatus(podcastId, status)
     }
 
-    /**
-     * отмечаем что подкаст сохранен
-     * @param podcastId номер подкаста
-     */
-    fun changePodcastToSavedStatus(podcastId: Int) {
-        repository.updatePodcastSavedStatus(podcastId, SavedStatus.SAVED)
-    }
-
-    /**
-     * отмечаем что подкаст сохранен
-     * @param podcastId номер подкаста
-     */
-    fun changePodcastToNotSavedStatus(podcastId: Int) {
-        repository.updatePodcastSavedStatus(podcastId, SavedStatus.NOT_SAVED)
-    }
-
-    /**
-     * отмечаем что подкаст сохранен
-     * @param podcastId номер подкаста
-     */
-    fun changePodcastToLoadStatus(podcastId: Int) {
-        repository.updatePodcastSavedStatus(podcastId, SavedStatus.LOADING)
-    }
+//    /**
+//     * отмечаем что подкаст сохранен
+//     * @param podcastId номер подкаста
+//     */
+//    fun changePodcastToSavedStatus(podcastId: Int) {
+//        repository.updatePodcastSavedStatus(podcastId, SavedStatus.SAVED)
+//    }
+//
+//    /**
+//     * отмечаем что подкаст сохранен
+//     * @param podcastId номер подкаста
+//     */
+//    fun changePodcastToNotSavedStatus(podcastId: Int) {
+//        repository.updatePodcastSavedStatus(podcastId, SavedStatus.NOT_SAVED)
+//    }
+//
+//    /**
+//     * отмечаем что подкаст сохранен
+//     * @param podcastId номер подкаста
+//     */
+//    fun changePodcastToLoadStatus(podcastId: Int) {
+//        repository.updatePodcastSavedStatus(podcastId, SavedStatus.LOADING)
+//    }
 }
 
 fun setActivePodcastState(podcasts: List<Podcast>, activeNum : Int, viewType: ListViewType): PodcastsListState {
     val timeS: Long = System.currentTimeMillis()
-    var outList = mutableListOf<Podcast>()
+    val outList = mutableListOf<Podcast>()
     for (podcast in podcasts) {
         val podcastcopy = podcast.copy()
         if(podcast.podcastId == activeNum) {
@@ -156,7 +145,6 @@ fun setActivePodcastState(podcasts: List<Podcast>, activeNum : Int, viewType: Li
         outList.add(podcastcopy)
     }
     val dur = System.currentTimeMillis() - timeS
-    Log.d(TAG, "time: $dur")
 
     return PodcastsListState(outList, viewType)
 }
