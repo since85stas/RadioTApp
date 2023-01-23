@@ -66,16 +66,6 @@ class PodcastRepository(
     /**
      * Returns true if we should make a network request.
      */
-    private suspend fun shouldUpdateRadioCacheNetw(): Boolean {
-        val lastPodcast = Podcast.FromPodcastBody.build(podcastApi.getLastPodcast()[0])
-//        val lastPodcast = Podcast.FromPodcastBody.build(retrofit.getPodcastByNum("225"))
-        val isNoInBb = radioDao.getPodcastByNum(lastPodcast.podcastId) == null
-        return isNoInBb
-    }
-
-    /**
-     * Returns true if we should make a network request.
-     */
     @Throws(NullPointerException::class)
     private suspend fun shouldUpdateRadioCacheDB(): Boolean {
 //        val lastPodcast = Podcast.FromPodcastBody.build(retrofit.getPodcastByNum("225"))
@@ -117,7 +107,7 @@ class PodcastRepository(
      * Берет информацию из последних N данных и добавляет в БД
      */
     suspend fun updatePodacastAllInfo() {
-        val podcastBodis = podcastApi.getLastNPodcasts(100)
+        val podcastBodis = podcastApi.getLastNPodcasts(200)
         for (podcst in podcastBodis) {
             val podcastId = radioDao.insertPodcast(Podcast.FromPodcastBody.build(podcst))
         }
@@ -170,7 +160,6 @@ class PodcastRepository(
      * В итоге выводится список с номерами podcId до (podcId-num)
      */
     fun getNPodcastsListBeforeId(num: Int, podcId: Int): Flow<List<Podcast>> {
-        Log.d(TAG, "getNPodcastsListBeforeId: $podcId $num")
         val flowList = radioDao.getNPodcastsListBeforeId(num, podcId)
         return flowList
     }
@@ -446,7 +435,7 @@ class PodcastRepository(
     override suspend fun addMorePodcasts() {
         val num = radioDao.getNumberPodcastsInTable()
 
-        val biggerList = podcastApi.getLastNPodcasts(num + 50)
+        val biggerList = podcastApi.getLastNPodcasts(num + 100)
 
         for (i in (num-1) until biggerList.size) {
             radioDao.insertPodcast(Podcast.FromPodcastBody.build(biggerList[i]))
