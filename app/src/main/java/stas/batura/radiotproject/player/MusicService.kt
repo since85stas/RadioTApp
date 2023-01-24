@@ -38,6 +38,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
+import stas.batura.radiotproject.MainActivity
 import stas.batura.repository.IPodcastRepository
 import stas.batura.radiotproject.R
 import stas.batura.room.podcast.Podcast
@@ -173,6 +174,8 @@ class MusicService() : LifecycleService() {
         // создаем и настраиваем медиа сессию
         mediaSession = MediaSessionCompat(this,"Music Service")
 
+        val activityIntent = Intent(this, MainActivity::class.java)
+
         mediaSession?.apply {
             setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
             setCallback(mediaSessionCallback)
@@ -188,6 +191,15 @@ class MusicService() : LifecycleService() {
                     applicationContext,
                     0,
                     mediaButtonIntent,
+                    0
+                )
+            )
+
+            setSessionActivity(
+                PendingIntent.getActivity(
+                    applicationContext,
+                    0,
+                    activityIntent,
                     0
                 )
             )
