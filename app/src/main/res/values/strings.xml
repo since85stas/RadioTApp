@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">RadioProject</string>
+    <string name="app_name">Радио-Т</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="online_podcast_hint">Запись подкаста производится по субботам, в 20:00 по UTC. В это время вы можете слушать нас в прямом эфире.</string>
+    <string name="online_podcast_hint">Запись подкаста производится по субботам, в 20:00 по UTC. В это время вы можете слушать нас здесь в прямом эфире. Или на сайте:</string>
     <string name="chat_text">Чат подкаста в телеграме</string>
 </resources>
