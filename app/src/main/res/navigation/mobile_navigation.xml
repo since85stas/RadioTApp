@@ -9,7 +9,9 @@
     <fragment
         android:id="@+id/navigation_podcastlist"
         android:name="stas.batura.radioproject.ui.podcastlist.PodcastListFragment"
-        tools:layout="@layout/fragment_podcast_list" />
+        tools:layout="@layout/fragment_podcast_list"
+        android:label="Подкасты"
+        />
 
     <fragment
         android:id="@+id/navigation_savedpodcastlist"
