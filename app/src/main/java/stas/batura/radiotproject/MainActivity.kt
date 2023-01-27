@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
      * name, website, notifications action view (dot)
      */
     private fun loadNavHeader() { // name, website
-        val navView = nav_view.getHeaderView(0)
+        val navView = binding.navView.getHeaderView(0)
         navView.name.text = ("Stanislav Batura")
         navView.website.text = ("stanislav.batura85@gmail.com")
         navView.img_header_bg.setImageResource(R.drawable.drawer_back)
