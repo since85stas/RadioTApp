@@ -41,8 +41,8 @@ import stas.batura.di.ServiceLocator
 import stas.batura.radiotproject.MainActivity
 import stas.batura.repository.IPodcastRepository
 import stas.batura.radiotproject.R
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 import timber.log.Timber
 
 class MusicService() : LifecycleService() {

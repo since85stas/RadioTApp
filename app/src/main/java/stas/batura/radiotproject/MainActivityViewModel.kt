@@ -8,8 +8,8 @@ import com.google.android.exoplayer2.ExoPlayer
 import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
 import stas.batura.repository.IPodcastRepository
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 
 class MainActivityViewModel constructor(
 

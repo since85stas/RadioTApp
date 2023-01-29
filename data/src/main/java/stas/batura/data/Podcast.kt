@@ -1,4 +1,4 @@
-package stas.batura.room.podcast
+package stas.batura.data
 
 import android.util.Log
 import androidx.room.Entity
@@ -8,8 +8,6 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import stas.batura.data.PodcastBody
-import stas.batura.data.fillTimelable
 
 import stas.batura.retrofit.TimeLabel
 import stas.batura.utils.TIME_WEEK
@@ -17,8 +15,6 @@ import stas.batura.utils.getLinksFromHtml
 import stas.batura.utils.getMillisTime
 import java.io.IOException
 import java.lang.NumberFormatException
-import java.lang.StringBuilder
-import java.util.regex.Pattern
 
 
 @Entity(tableName = "podcast_table")

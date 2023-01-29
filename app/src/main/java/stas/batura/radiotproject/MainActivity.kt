@@ -36,7 +36,7 @@ import stas.batura.download.DownloadService
 import stas.batura.download.DownloadServiceResult
 import stas.batura.radiotproject.databinding.ActivityMainBinding
 import stas.batura.radiotproject.player.MusicService
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.Podcast
 
 private lateinit var appBarConfiguration: AppBarConfiguration
 

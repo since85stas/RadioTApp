@@ -16,8 +16,8 @@ import com.google.android.exoplayer2.ui.PlayerControlView
 import stas.batura.data.ListViewType
 import stas.batura.repository.PodcastLoadInfo
 import stas.batura.retrofit.TimeLabel
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 
 @BindingAdapter("titleBind")
 fun TextView.podcastTitleBind(title: String) {

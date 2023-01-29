@@ -6,7 +6,7 @@
     <data>
         <variable
             name="podcast"
-            type="stas.batura.room.podcast.Podcast" />
+            type="stas.batura.data.Podcast" />
 
         <variable
             name="mainModel"

@@ -1,7 +1,6 @@
 package stas.batura.radiotproject.ui.podcasts
 
 import android.animation.ObjectAnimator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.podcast_item_view_detailed.view.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.R
 import stas.batura.radiotproject.databinding.PodcastItemViewDetailedBinding
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 
 class PodcastsAdapter(
     val mainActivityViewModel: MainActivityViewModel,

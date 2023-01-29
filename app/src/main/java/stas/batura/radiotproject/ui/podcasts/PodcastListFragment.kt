@@ -20,7 +20,7 @@ import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
 import stas.batura.radiotproject.ui.podcasts.FooterAdapter
 import stas.batura.radiotproject.ui.podcasts.PodcastListViewModel
 import stas.batura.radiotproject.ui.podcasts.PodcastsAdapter
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.Podcast
 import timber.log.Timber
 
 class PodcastListFragment : Fragment() {

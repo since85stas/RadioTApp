@@ -1,6 +1,5 @@
 package stas.batura.radiotproject.ui.podcasts
 
-import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -11,8 +10,7 @@ import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
 import stas.batura.repository.IPodcastRepository
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
 import timber.log.Timber
 
 class PodcastListViewModel (): ViewModel() {

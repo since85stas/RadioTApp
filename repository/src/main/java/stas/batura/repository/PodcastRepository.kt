@@ -10,8 +10,8 @@ import stas.batura.data.Year
 import stas.batura.protostore.Preference
 import stas.batura.retrofit.IPodcasts
 import stas.batura.room.download.PodcastDownload
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 import stas.batura.utils.deleteLocalFile
 
 

@@ -15,7 +15,7 @@ import stas.batura.retrofit.INews
 import stas.batura.retrofit.IPodcasts
 import stas.batura.retrofit.RetrofitClient
 import stas.batura.room.RadioDatabase
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.Podcast
 import stas.batura.timer.TimerImpl
 import java.io.File
 import java.util.*
