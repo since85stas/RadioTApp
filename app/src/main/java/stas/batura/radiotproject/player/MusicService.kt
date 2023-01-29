@@ -105,8 +105,7 @@ class MusicService() : LifecycleService() {
                 OkHttpClient(),
                 Util.getUserAgent(
                     ServiceLocator.provideContext(),
-                    ServiceLocator.provideContext()
-                        .getString(stas.batura.radiotproject.R.string.app_name)
+                    "radiotapp"
                 )
             )
 
