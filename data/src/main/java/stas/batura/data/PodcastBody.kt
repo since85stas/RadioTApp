@@ -1,7 +1,6 @@
 package stas.batura.data
 
 import com.squareup.moshi.Json
-import stas.batura.retrofit.TimeLabel
 
 
 data class PodcastBody (

@@ -9,7 +9,6 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-import stas.batura.retrofit.TimeLabel
 import stas.batura.utils.TIME_WEEK
 import stas.batura.utils.getLinksFromHtml
 import stas.batura.utils.getMillisTime

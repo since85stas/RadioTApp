@@ -15,7 +15,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlayerControlView
 import stas.batura.data.ListViewType
 import stas.batura.repository.PodcastLoadInfo
-import stas.batura.retrofit.TimeLabel
+import stas.batura.data.TimeLabel
 import stas.batura.data.Podcast
 import stas.batura.data.SavedStatus
 

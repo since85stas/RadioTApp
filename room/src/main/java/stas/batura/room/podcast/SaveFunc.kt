@@ -1,19 +1,14 @@
 package stas.batura.room.podcast
 
-import android.widget.TextView
 import androidx.room.TypeConverter
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import stas.batura.retrofit.TimeLabel
+import stas.batura.data.TimeLabel
 import java.io.IOException
-import java.lang.StringBuilder
-import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
-
 
 
 class TimeLabelsDataConverter {
