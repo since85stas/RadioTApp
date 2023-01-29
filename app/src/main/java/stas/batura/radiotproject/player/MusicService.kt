@@ -21,7 +21,6 @@ import androidx.lifecycle.LifecycleService
 import androidx.media.session.MediaButtonReceiver
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.analytics.PlaybackSessionManager.Listener
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.extractor.ExtractorsFactory
@@ -39,15 +38,16 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import stas.batura.di.ServiceLocator
-import stas.batura.repository.IRepository
+import stas.batura.radiotproject.MainActivity
+import stas.batura.repository.IPodcastRepository
 import stas.batura.radiotproject.R
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 import timber.log.Timber
 
 class MusicService() : LifecycleService() {
 
-    var repositoryS: IRepository = ServiceLocator.provideRepository()
+    var repositoryS: IPodcastRepository = ServiceLocator.providePodcastRepository()
 
     var mediaSession: MediaSessionCompat? = null
 //        MediaSessionCompat(ServiceLocator.provideContext(), "Music Service")
@@ -105,8 +105,7 @@ class MusicService() : LifecycleService() {
                 OkHttpClient(),
                 Util.getUserAgent(
                     ServiceLocator.provideContext(),
-                    ServiceLocator.provideContext()
-                        .getString(stas.batura.radiotproject.R.string.app_name)
+                    "radiotapp"
                 )
             )
 
@@ -174,6 +173,8 @@ class MusicService() : LifecycleService() {
         // создаем и настраиваем медиа сессию
         mediaSession = MediaSessionCompat(this,"Music Service")
 
+        val activityIntent = Intent(this, MainActivity::class.java)
+
         mediaSession?.apply {
             setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
             setCallback(mediaSessionCallback)
@@ -189,6 +190,15 @@ class MusicService() : LifecycleService() {
                     applicationContext,
                     0,
                     mediaButtonIntent,
+                    0
+                )
+            )
+
+            setSessionActivity(
+                PendingIntent.getActivity(
+                    applicationContext,
+                    0,
+                    activityIntent,
                     0
                 )
             )

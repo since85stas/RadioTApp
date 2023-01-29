@@ -23,8 +23,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import stas.batura.room.download.PodcastDownload
-import stas.batura.room.podcast.CategoryDataConverter
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.CategoryDataConverter
+import stas.batura.data.Podcast
 import stas.batura.room.podcast.SavedStatusConverter
 import stas.batura.room.podcast.TimeLabelsDataConverter
 

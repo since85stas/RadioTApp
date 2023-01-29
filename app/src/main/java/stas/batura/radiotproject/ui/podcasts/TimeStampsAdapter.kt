@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.timelable_item_view.view.*
 import stas.batura.radiotproject.MainActivityViewModel
 import stas.batura.radiotproject.databinding.TimelableItemViewBinding
-import stas.batura.retrofit.TimeLabel
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.TimeLabel
+import stas.batura.data.Podcast
 
 
 class TimeStampsAdapter (
@@ -32,7 +32,8 @@ class TimeStampsAdapter (
     class ViewHolder (
         val binding: TimelableItemViewBinding,
         val mainActivityViewModel: MainActivityViewModel,
-        val podcast: Podcast) :
+        val podcast: Podcast
+    ) :
         RecyclerView.ViewHolder (binding.root) {
 
         fun bind (timeLabel: TimeLabel) {
@@ -62,7 +63,8 @@ class TimeStampsAdapter (
             fun from(
                 parent: ViewGroup,
                 mainActivityViewModel: MainActivityViewModel,
-                podcast: Podcast):
+                podcast: Podcast
+            ):
                     ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = TimelableItemViewBinding.inflate(layoutInflater,

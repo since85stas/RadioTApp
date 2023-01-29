@@ -3,9 +3,7 @@ package stas.batura.retrofit
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -54,8 +52,14 @@ object RetrofitClient   {
 
 
     object netApi {
-        val servise : IRetrofit by lazy {
-            retrofit.create(IRetrofit::class.java)
+        val podcasts : IPodcasts by lazy {
+            retrofit.create(IPodcasts::class.java)
+        }
+    }
+
+    object newsApi {
+        val news : INews by lazy {
+            retrofitNews.create(INews::class.java)
         }
     }
 

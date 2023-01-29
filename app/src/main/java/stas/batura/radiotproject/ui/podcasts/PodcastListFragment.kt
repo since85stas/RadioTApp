@@ -20,7 +20,7 @@ import stas.batura.radiotproject.databinding.FragmentPodcastListBinding
 import stas.batura.radiotproject.ui.podcasts.FooterAdapter
 import stas.batura.radiotproject.ui.podcasts.PodcastListViewModel
 import stas.batura.radiotproject.ui.podcasts.PodcastsAdapter
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.Podcast
 import timber.log.Timber
 
 class PodcastListFragment : Fragment() {
@@ -47,7 +47,7 @@ class PodcastListFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         podcastListViewModel =
-                ViewModelProvider(requireActivity()).get(PodcastListViewModel::class.java)
+                ViewModelProvider(this).get(PodcastListViewModel::class.java)
 
         // TODO: проверить состояние модели после перезапуска активити
         mainviewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
@@ -113,16 +113,20 @@ class PodcastListFragment : Fragment() {
         })
 
         podcastListViewModel.spinner.observe(viewLifecycleOwner) { visibility ->
-            val toolbar = (requireActivity() as MainActivity).toolbar
-            val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)
-            if (visibility) {
-                toolspinner.visibility = View.VISIBLE
-            } else {
-                toolspinner.visibility = View.GONE
-            }
+            showSpinnerInActivity(visibility)
         }
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun showSpinnerInActivity(visibility: Boolean) {
+        val toolbar = (requireActivity() as MainActivity).toolbar
+        val toolspinner = toolbar.findViewById<ProgressBar>(R.id.toolbarProgress)
+        if (visibility) {
+            toolspinner.visibility = View.VISIBLE
+        } else {
+            toolspinner.visibility = View.GONE
+        }
     }
 
     override fun onStart() {
@@ -136,11 +140,11 @@ class PodcastListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.nav_list_up -> {
-                bindings.podcastRecycler.smoothScrollToPosition(0)
+                bindings.podcastRecycler.scrollToPosition(0)
                 true
             }
             R.id.nav_list_down -> {
-                bindings.podcastRecycler.smoothScrollToPosition(podcstAdapter.itemCount)
+                bindings.podcastRecycler.scrollToPosition(podcstAdapter.itemCount)
                 true
             }
             else -> {

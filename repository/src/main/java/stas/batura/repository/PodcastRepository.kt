@@ -8,21 +8,21 @@ import stas.batura.data.ListViewType
 import stas.batura.data.SavedPodcast
 import stas.batura.data.Year
 import stas.batura.protostore.Preference
-import stas.batura.retrofit.IRetrofit
+import stas.batura.retrofit.IPodcasts
 import stas.batura.room.download.PodcastDownload
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 import stas.batura.utils.deleteLocalFile
 
 
-class Repository(
+class PodcastRepository(
     private val radioDao: RadioDao,
-    private val retrofit: IRetrofit,
+    private val podcastApi: IPodcasts,
     private val preference: Preference,
     private val onlinePodcast: Podcast,
-) : IRepository {
+) : IPodcastRepository {
 
-    private val TAG = Repository::class.java.simpleName
+    private val TAG = PodcastRepository::class.java.simpleName
 
     /**
      * viewModelJob allows us to cancel all coroutines started by this ViewModel.
@@ -61,16 +61,6 @@ class Repository(
 
     init {
         Log.d(TAG, "repository started: ")
-    }
-
-    /**
-     * Returns true if we should make a network request.
-     */
-    private suspend fun shouldUpdateRadioCacheNetw(): Boolean {
-        val lastPodcast = Podcast.FromPodcastBody.build(retrofit.getLastPodcast()[0])
-//        val lastPodcast = Podcast.FromPodcastBody.build(retrofit.getPodcastByNum("225"))
-        val isNoInBb = radioDao.getPodcastByNum(lastPodcast.podcastId) == null
-        return isNoInBb
     }
 
     /**
@@ -117,7 +107,7 @@ class Repository(
      * Берет информацию из последних N данных и добавляет в БД
      */
     suspend fun updatePodacastAllInfo() {
-        val podcastBodis = retrofit.getLastNPodcasts(100)
+        val podcastBodis = podcastApi.getLastNPodcasts(200)
         for (podcst in podcastBodis) {
             val podcastId = radioDao.insertPodcast(Podcast.FromPodcastBody.build(podcst))
         }
@@ -130,7 +120,7 @@ class Repository(
     suspend fun updatePodacastLastNumInfo(num: Int) {
 
         // делаем запрос на {num} последних записей с сервера
-        val podcastBodis = retrofit.getLastNPodcasts(num)
+        val podcastBodis = podcastApi.getLastNPodcasts(num)
 
         // сохраняем полученной в БД
         for (podcst in podcastBodis) {
@@ -170,7 +160,6 @@ class Repository(
      * В итоге выводится список с номерами podcId до (podcId-num)
      */
     fun getNPodcastsListBeforeId(num: Int, podcId: Int): Flow<List<Podcast>> {
-        Log.d(TAG, "getNPodcastsListBeforeId: $podcId $num")
         val flowList = radioDao.getNPodcastsListBeforeId(num, podcId)
         return flowList
     }
@@ -446,7 +435,7 @@ class Repository(
     override suspend fun addMorePodcasts() {
         val num = radioDao.getNumberPodcastsInTable()
 
-        val biggerList = retrofit.getLastNPodcasts(num + 50)
+        val biggerList = podcastApi.getLastNPodcasts(num + 100)
 
         for (i in (num-1) until biggerList.size) {
             radioDao.insertPodcast(Podcast.FromPodcastBody.build(biggerList[i]))

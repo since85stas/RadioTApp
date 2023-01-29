@@ -6,7 +6,7 @@
     <data>
         <variable
             name="podcast"
-            type="stas.batura.room.podcast.Podcast" />
+            type="stas.batura.data.Podcast" />
 
         <variable
             name="mainModel"
@@ -22,15 +22,10 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="8dp"
             android:onClick="@{() -> mainModel.movingPlayToPosition(podcast.lastPosition, podcast)}"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            >
+            style="@style/CardViewStyle">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

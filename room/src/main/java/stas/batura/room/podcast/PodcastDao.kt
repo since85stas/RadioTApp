@@ -1,11 +1,9 @@
 package stas.batura.room.podcast
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
-import java.net.URL
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 
 @Dao
 interface PodcastDao {

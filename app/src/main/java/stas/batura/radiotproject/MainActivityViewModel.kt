@@ -5,16 +5,11 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.android.exoplayer2.ExoPlayer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import stas.batura.data.ListViewType
-import stas.batura.data.Year
 import stas.batura.di.ServiceLocator
-import stas.batura.repository.IRepository
-import stas.batura.room.podcast.Podcast
-import stas.batura.room.podcast.SavedStatus
+import stas.batura.repository.IPodcastRepository
+import stas.batura.data.Podcast
+import stas.batura.data.SavedStatus
 
 class MainActivityViewModel constructor(
 
@@ -22,7 +17,7 @@ class MainActivityViewModel constructor(
 
     private val TAG = MainActivityViewModel::class.java.simpleName
 
-    private val repository: IRepository = ServiceLocator.provideRepository()
+    private val repository: IPodcastRepository = ServiceLocator.providePodcastRepository()
 
     // checking connection
     val serviceConnection: MutableLiveData<ServiceConnection?> = MutableLiveData(null)

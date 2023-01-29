@@ -1,12 +1,8 @@
 package stas.batura.radiotproject.ui.online
 
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import stas.batura.retrofit.TimeLabel
 
 // считаем что подкаст идет примерно 2 часа, в это время показываем кнопку с возможностью прослушивания
 // поэтому время неделя минус 2 часа в секундах

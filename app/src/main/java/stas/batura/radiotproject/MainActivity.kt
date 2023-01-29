@@ -36,7 +36,7 @@ import stas.batura.download.DownloadService
 import stas.batura.download.DownloadServiceResult
 import stas.batura.radiotproject.databinding.ActivityMainBinding
 import stas.batura.radiotproject.player.MusicService
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.Podcast
 
 private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
      * name, website, notifications action view (dot)
      */
     private fun loadNavHeader() { // name, website
-        val navView = nav_view.getHeaderView(0)
+        val navView = binding.navView.getHeaderView(0)
         navView.name.text = ("Stanislav Batura")
         navView.website.text = ("stanislav.batura85@gmail.com")
         navView.img_header_bg.setImageResource(R.drawable.drawer_back)
@@ -235,6 +235,12 @@ class MainActivity : AppCompatActivity(), RecieverResult {
                 R.id.nav_online -> {
                     navController.navigate(R.id.navigation_online)
                     drawer_layout.closeDrawers()
+                    true
+                }
+                R.id.nav_news -> {
+                    navController.navigate(R.id.navigation_news)
+                    drawer_layout.closeDrawers()
+                    ServiceLocator.provideAnalitic().newsEvent()
                     true
                 }
 //                R.id.nav_year_2022 -> {

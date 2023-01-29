@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import stas.batura.data.SavedPodcast
 import stas.batura.di.ServiceLocator
-import stas.batura.repository.IRepository
+import stas.batura.repository.IPodcastRepository
 
 class SavedPodcastViewModel: ViewModel() {
 
-    private val repository: IRepository = ServiceLocator.provideRepository()
+    private val repository: IPodcastRepository = ServiceLocator.providePodcastRepository()
 
     val savedList = repository.savedPodcasts.asLiveData()
 

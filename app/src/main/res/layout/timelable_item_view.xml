@@ -5,7 +5,7 @@
     <data>
         <variable
             name="timeLable"
-            type="stas.batura.retrofit.TimeLabel" />
+            type="stas.batura.data.TimeLabel" />
 
         <variable
             name="startTime"
@@ -13,7 +13,7 @@
 
         <variable
             name="podcast"
-            type="stas.batura.room.podcast.Podcast" />
+            type="stas.batura.data.Podcast" />
 
         <variable
             name="mainviewModel"

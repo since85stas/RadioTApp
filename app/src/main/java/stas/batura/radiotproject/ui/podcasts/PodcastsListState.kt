@@ -1,7 +1,7 @@
 package stas.batura.radiotproject.ui.podcasts
 
 import stas.batura.data.ListViewType
-import stas.batura.room.podcast.Podcast
+import stas.batura.data.Podcast
 
 data class PodcastsListState(
     val podcasts: List<Podcast>,

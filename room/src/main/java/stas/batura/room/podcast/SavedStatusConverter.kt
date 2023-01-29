@@ -1,6 +1,7 @@
 package stas.batura.room.podcast
 
 import androidx.room.TypeConverter
+import stas.batura.data.SavedStatus
 
 class SavedStatusConverter {
 

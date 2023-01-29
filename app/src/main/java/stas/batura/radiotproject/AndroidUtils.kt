@@ -1,6 +1,5 @@
 package stas.batura.radiotproject
 
-import stas.batura.room.podcast.Podcast
 import java.text.SimpleDateFormat
 import java.util.*
 
