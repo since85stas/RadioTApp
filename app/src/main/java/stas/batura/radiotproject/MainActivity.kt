@@ -55,10 +55,6 @@ class MainActivity : AppCompatActivity(), RecieverResult {
     lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
-//        val music = MusicService()
-
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)

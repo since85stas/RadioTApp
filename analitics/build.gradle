@@ -34,11 +34,12 @@ android {
 
 dependencies {
 
-    implementation "androidx.core:core-ktx:$kotlin_version"
     testImplementation 'junit:junit:4.13.2'
+
+    implementation "com.jakewharton.timber:timber:$timber_version"
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-analytics'
-
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 //    implementation project(':di')
 }

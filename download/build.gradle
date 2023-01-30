@@ -48,5 +48,9 @@ dependencies {
     implementation project(':di')
 
     // logging
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

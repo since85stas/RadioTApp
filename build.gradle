@@ -17,6 +17,7 @@ buildscript {
         recyclerview_version = '1.2.1'
         navigation_version = '2.3.0'
         glide_version = '4.10.0'
+        timber_version = '4.7.1'
     }
     repositories {
         google()
