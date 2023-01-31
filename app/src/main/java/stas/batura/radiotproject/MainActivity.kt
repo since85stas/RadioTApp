@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
     private fun loadNavHeader() { // name, website
         val navView = binding.navView.getHeaderView(0)
         navView.name.text = ("Stanislav Batura")
-        navView.website.text = ("stanislav.batura85@gmail.com")
+        navView.website.text = ("Open Source: github.com/since85stas/RadioTApp")
         navView.img_header_bg.setImageResource(R.drawable.drawer_back)
         Glide.with(this).load(R.drawable.cat_my).transform(CircleTransform(this))
             .into(navView.img_profile)
