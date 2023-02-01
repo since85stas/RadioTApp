@@ -37,13 +37,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
-import stas.batura.di.ServiceLocator
-import stas.batura.radiotproject.MainActivity
-import stas.batura.repository.IPodcastRepository
-import stas.batura.radiotproject.R
 import stas.batura.data.Podcast
 import stas.batura.data.SavedStatus
+import stas.batura.di.ServiceLocator
+import stas.batura.radiotproject.MainActivity
+import stas.batura.radiotproject.R
+import stas.batura.repository.IPodcastRepository
 import timber.log.Timber
+
 
 class MusicService() : LifecycleService() {
 
@@ -190,7 +191,7 @@ class MusicService() : LifecycleService() {
                     applicationContext,
                     0,
                     mediaButtonIntent,
-                    0
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
 
@@ -199,7 +200,7 @@ class MusicService() : LifecycleService() {
                     applicationContext,
                     0,
                     activityIntent,
-                    0
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
         }
