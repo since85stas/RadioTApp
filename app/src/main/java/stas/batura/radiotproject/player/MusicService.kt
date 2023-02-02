@@ -171,10 +171,19 @@ class MusicService() : LifecycleService() {
                     .build()
         }
 
-        // создаем и настраиваем медиа сессию
-        mediaSession = MediaSessionCompat(this,"Music Service")
-
         val activityIntent = Intent(this, MainActivity::class.java)
+
+        // создаем и настраиваем медиа сессию
+        mediaSession = MediaSessionCompat(this,"Music Service", null, PendingIntent.getActivity(
+            applicationContext,
+            0,
+            activityIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        ))
+
+//        mediaSession = MediaSessionCompat()
+
+
 
         mediaSession?.apply {
             setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
@@ -580,7 +589,8 @@ class MusicService() : LifecycleService() {
                 "pause",
                 MediaButtonReceiver.buildMediaButtonPendingIntent(
                     this,
-                    PlaybackStateCompat.ACTION_PLAY_PAUSE
+                    PlaybackStateCompat.ACTION_PLAY_PAUSE,
+
                 )
             )
         ) else builder.addAction(
