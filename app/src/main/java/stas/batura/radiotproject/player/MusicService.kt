@@ -558,6 +558,24 @@ class MusicService() : LifecycleService() {
             this@MusicService.podcast = podcast
         }
 
+        /**
+         * Перематываем воспроизведение вперед на N секунд
+         */
+        fun moveForward() {
+            exoPlayer?.apply {
+                seekTo(this.currentPosition + 10000)
+            }
+        }
+
+        /**
+         * Перематываем воспроизведение на N секунд назад
+         */
+        fun moveBack() {
+            exoPlayer?.apply {
+                seekTo(this.currentPosition - 10000)
+            }
+        }
+
     }
 
     private fun refreshNotificationAndForegroundStatus(playbackState: Int) {
