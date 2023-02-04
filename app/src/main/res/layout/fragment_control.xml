@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="mainActViewModel"
             type="stas.batura.radiotproject.MainActivityViewModel" />
@@ -12,48 +13,51 @@
             type="stas.batura.musicproject.ui.control.ControlViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@color/contrBackColor">
 
         <!-- Player Footer -->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/play_pause_button"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:backgroundTint="@color/colorAccent"
-            android:layout_margin="12dp"
             android:clickable="false"
-            android:src="@drawable/ic_play_arrow_black_24dp" />
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:fabSize="normal"
+            android:layout_margin="12dp"
+            />
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/podcast_control_text"
+            controlTitleBind="@{contolViewModel.activePodcast}"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_marginStart="36dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/play_pause_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
-            <TextView
-                android:layout_marginStart="36dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                controlTitleBind="@{contolViewModel.activePodcast}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        <com.google.android.exoplayer2.ui.PlayerControlView
+            android:id="@+id/exoplayer_control"
+            bindExoPla="@{mainActViewModel.exoPlayer}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:controller_layout_id="@layout/exoplayer_control_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/play_pause_button"
+            app:layout_constraintTop_toBottomOf="@id/podcast_control_text"
+            app:show_timeout="0" />
 
-            <com.google.android.exoplayer2.ui.PlayerControlView
-                android:id="@+id/exoplayer_control"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:show_timeout="0"
-                android:layout_margin="12dp"
-                app:controller_layout_id="@layout/exoplayer_control_layout"
-                bindExoPla="@{mainActViewModel.exoPlayer}"
-                />
-    </LinearLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
