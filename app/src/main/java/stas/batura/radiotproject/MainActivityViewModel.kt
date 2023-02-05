@@ -129,6 +129,14 @@ class MainActivityViewModel constructor(
         repository.setPrefListType(type)
     }
 
+    fun fastForward() {
+        RadioApp.serviceBinder?.moveForward()
+    }
+
+    fun fastRewind() {
+        RadioApp.serviceBinder?.moveBack()
+    }
+
 //    /**
 //     * устанавливаем кол-во на странице
 //     * @param num: число подкастов выводимых на экран

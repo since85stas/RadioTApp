@@ -228,17 +228,17 @@ class MusicService() : LifecycleService() {
     }
 
     override fun unbindService(conn: ServiceConnection) {
-        println("unbind service")
+        Timber.d("unbind service")
         super.unbindService(conn)
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
-        println("on unbind")
+        Timber.d("on unbind")
         return super.onUnbind(intent)
     }
 
     override fun onRebind(intent: Intent?) {
-        println("on reunbind")
+        Timber.d("on reunbind")
         super.onRebind(intent)
     }
 
@@ -319,8 +319,6 @@ class MusicService() : LifecycleService() {
 
         // при остановки проигрыша
         override fun onPause() {
-            Log.d(TAG, "onPause: ${mediaSession?.isActive}")
-
             playbackPosition = exoPlayer!!.currentPosition
 
             updateCurrePodcastPosit(playbackPosition)
@@ -412,12 +410,10 @@ class MusicService() : LifecycleService() {
         fun playTrack() {
             if (podcast?.savedStatus == SavedStatus.SAVED) {
                 CoroutineScope(Dispatchers.Default).launch {
-                    println("main runBlocking: I'm working in thread ${Thread.currentThread().name}")
                     val localUri =
                         repositoryS.getPodcastLocalPath(podcastId = podcast!!.podcastId)
 
                     CoroutineScope(Dispatchers.Main).launch {
-                        println("main runBlocking: I'm working in thread ${Thread.currentThread().name}")
                         setTrackPathToPlay(Uri.parse(localUri), true)
                     }
                 }
@@ -556,6 +552,24 @@ class MusicService() : LifecycleService() {
             playbackPosition = position
 
             this@MusicService.podcast = podcast
+        }
+
+        /**
+         * Перематываем воспроизведение вперед на N секунд
+         */
+        fun moveForward() {
+            exoPlayer?.apply {
+                seekTo(this.currentPosition + 10000)
+            }
+        }
+
+        /**
+         * Перематываем воспроизведение на N секунд назад
+         */
+        fun moveBack() {
+            exoPlayer?.apply {
+                seekTo(this.currentPosition - 10000)
+            }
         }
 
     }

@@ -42,8 +42,6 @@ private lateinit var appBarConfiguration: AppBarConfiguration
 
 class MainActivity : AppCompatActivity(), RecieverResult {
 
-    private val TAG = MainActivity::class.java.simpleName
-
     private val messageReceiver = MessageReceiver(this)
 
     lateinit var mainActivityViewModel: MainActivityViewModel
@@ -83,13 +81,13 @@ class MainActivity : AppCompatActivity(), RecieverResult {
         mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
 
-        // слушаем когда сервис успешно коннектится
-        mainActivityViewModel.serviceConnection.observe(this) { it ->
-            if (it != null) {
-                Log.d(TAG, "onCreate: " + it.toString())
-                bindCurrentService(it)
-            }
-        }
+//        // слушаем когда сервис успешно коннектится
+//        mainActivityViewModel.serviceConnection.observe(this) { it ->
+//            if (it != null) {
+//                Log.d(TAG, "onCreate: " + it.toString())
+//                bindCurrentService(it)
+//            }
+//        }
 
         // слушаем текущее состояние плеера и меняем UI
         mainActivityViewModel.callbackChanges.observe(this, Observer {
@@ -120,7 +118,14 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             }
         })
 
-        // нициализируем сервис
+        // запускаем сервис для проигрывания
+        val musicServiceIntent  = Intent(this, MusicService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(musicServiceIntent)
+        } else {
+            startService(musicServiceIntent)
+        }
+        // привязываем сервис к активити
         bindCurrentService(RadioApp.ServiceHelper.getServiceConnection())
 
         // описываем nav drawer
@@ -195,7 +200,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
     private fun bindCurrentService(serviceConnection: ServiceConnection) {
         // привязываем сервис к активити
         bindService(
-            Intent(applicationContext!!, MusicService::class.java),
+            Intent(this, MusicService::class.java),
             serviceConnection,
             Context.BIND_AUTO_CREATE
         )
@@ -273,5 +278,13 @@ class MainActivity : AppCompatActivity(), RecieverResult {
                 Toast.makeText(this, "Ошибка загрузки. Попробуйте еще раз", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 }
