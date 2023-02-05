@@ -319,8 +319,6 @@ class MusicService() : LifecycleService() {
 
         // при остановки проигрыша
         override fun onPause() {
-            Log.d(TAG, "onPause: ${mediaSession?.isActive}")
-
             playbackPosition = exoPlayer!!.currentPosition
 
             updateCurrePodcastPosit(playbackPosition)

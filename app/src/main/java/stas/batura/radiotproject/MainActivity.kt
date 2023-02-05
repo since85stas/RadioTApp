@@ -42,8 +42,6 @@ private lateinit var appBarConfiguration: AppBarConfiguration
 
 class MainActivity : AppCompatActivity(), RecieverResult {
 
-    private val TAG = MainActivity::class.java.simpleName
-
     private val messageReceiver = MessageReceiver(this)
 
     lateinit var mainActivityViewModel: MainActivityViewModel
@@ -120,6 +118,7 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             }
         })
 
+        // запускаем сервис для проигрывания
         val musicServiceIntent  = Intent(this, MusicService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(musicServiceIntent)
