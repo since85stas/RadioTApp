@@ -7,7 +7,6 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import android.view.Menu
 import android.view.WindowManager
 import android.widget.Toast
@@ -17,7 +16,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -118,15 +116,17 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             }
         })
 
-        // запускаем сервис для проигрывания
-        val musicServiceIntent  = Intent(this, MusicService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(musicServiceIntent)
-        } else {
-            startService(musicServiceIntent)
-        }
-        // привязываем сервис к активити
-        bindCurrentService(RadioApp.ServiceHelper.getServiceConnection())
+        mainActivityViewModel.playClicked.observe(this, { clicked ->
+            clicked?.let {
+                if (clicked) {
+                    startAndBindMusicService()
+                }
+            }
+        })
+
+
+//        // привязываем сервис к активити
+//        startAndBindMusicService(RadioApp.ServiceHelper.getServiceConnection())
 
         // описываем nav drawer
         createSectionsInMenu()
@@ -197,16 +197,22 @@ class MainActivity : AppCompatActivity(), RecieverResult {
     /**
      * привязываем сервис к активити
      */
-    private fun bindCurrentService(serviceConnection: ServiceConnection) {
+    private fun startAndBindMusicService() {
+        val serviceConnection = RadioApp.ServiceHelper.getServiceConnection()
+        // запускаем сервис для проигрывания
+        val musicServiceIntent  = Intent(this, MusicService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(musicServiceIntent)
+        } else {
+            startService(musicServiceIntent)
+        }
+
         // привязываем сервис к активити
         bindService(
             Intent(this, MusicService::class.java),
             serviceConnection,
             Context.BIND_AUTO_CREATE
         )
-    }
-
-    private fun startDownloadService() {
     }
 
     /**

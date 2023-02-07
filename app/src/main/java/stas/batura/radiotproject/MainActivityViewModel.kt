@@ -38,7 +38,7 @@ class MainActivityViewModel constructor(
 //    // the Coroutine runs using the Main (UI) dispatcher
 //    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    val smallCheck = MutableLiveData<Boolean?> (null)
+    val playClicked = MutableLiveData<Boolean?> (null)
 
     var _spinnerPlay: MutableLiveData<Boolean> = MutableLiveData(false)
     val spinnerPlay: LiveData<Boolean>
@@ -67,6 +67,7 @@ class MainActivityViewModel constructor(
      */
     fun playClicked() {
         if (RadioApp.ServiceHelper.mediaController != null) {
+
             RadioApp.ServiceHelper.mediaController?.transportControls?.play()
         }
     }
@@ -99,6 +100,9 @@ class MainActivityViewModel constructor(
      * @param podcast: подкаст который проигрываем
      */
     fun movingPlayToPosition(position: Long, podcast: Podcast) {
+
+        playClicked.postValue(true)
+
         // если уже играет то остонавливаем
         if (callbackChanges.value != null && callbackChanges.value!!.state.equals(
                 PlaybackStateCompat.STATE_PLAYING

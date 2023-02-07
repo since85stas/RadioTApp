@@ -260,7 +260,6 @@ class MusicService() : LifecycleService() {
 
         override fun onSeekTo(pos: Long) {
             super.onSeekTo(pos)
-            Log.d(TAG, "onSeekTo: ")
         }
 
 
@@ -268,13 +267,9 @@ class MusicService() : LifecycleService() {
         // при начале проигрыша
         override fun onPlay() {
 
-            Log.d(TAG, "onPlay: ")
-
             exoPlayer?.let {
 
                 updateMetadataFromTrack(podcast!!)
-                Log.d(TAG, "onPlay: $podcast")
-
                 if (!isAudioFocusRequested) {
                     isAudioFocusRequested = true
                     var audioFocusResult: Int
