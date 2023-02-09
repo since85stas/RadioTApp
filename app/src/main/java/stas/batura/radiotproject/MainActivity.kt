@@ -78,34 +78,17 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
         mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-
-//        // слушаем когда сервис успешно коннектится
-//        mainActivityViewModel.serviceConnection.observe(this) { it ->
-//            if (it != null) {
-//                Log.d(TAG, "onCreate: " + it.toString())
-//                bindCurrentService(it)
-//            }
-//        }
-
         // слушаем текущее состояние плеера и меняем UI
         mainActivityViewModel.callbackChanges.observe(this, Observer {
             if (it != null) {
                 if (it.state == PlaybackStateCompat.STATE_PLAYING) {
-//                    Log.d(TAG, "onCreate: play spinner visible")
                     mainActivityViewModel.playAnimVisible()
-//                    mainActivityViewModel.redrawItemById()
                 } else if (it.state == PlaybackStateCompat.STATE_PAUSED) {
-//                    Log.d(TAG, "onCreate: play spinner not visible")
                     mainActivityViewModel.playAnimNotVisible()
-//                    mainActivityViewModel.redrawItemById()
                 } else if (it.state == PlaybackStateCompat.STATE_NONE) {
-//                    Log.d(TAG, "onCreate: play spinner not visible")
                     mainActivityViewModel.playAnimNotVisible()
-//                    mainActivityViewModel.redrawItemById()
                 } else {
-//                    Log.d(TAG, "onCreate: play spinner not visible")
                     mainActivityViewModel.playAnimNotVisible()
-//                    mainActivityViewModel.redrawItemById()
                 }
             }
         })
@@ -116,14 +99,6 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             }
         })
 
-//        mainActivityViewModel.playClicked.observe(this, { clicked ->
-//            clicked?.let {
-//                if (clicked) {
-//                    startAndBindMusicService()
-//                }
-//            }
-//        })
-//        // привязываем сервис к активити
         startAndBindMusicService()
 
         // описываем nav drawer

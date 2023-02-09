@@ -30,16 +30,6 @@ class MainActivityViewModel constructor(
     val downloadPodcastEvent: LiveData<Podcast?>
         get() = _downloadPodcastEvent
 
-//    val activePodcastPref: MutableLiveData<Podcast?> = MutableLiveData(null)
-
-//    // Create a Coroutine scope using a job to be able to cancel when needed
-//    private var viewModelJob = Job()
-//
-//    // the Coroutine runs using the Main (UI) dispatcher
-//    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    val playClicked = MutableLiveData<Boolean?> (null)
-
     var _spinnerPlay: MutableLiveData<Boolean> = MutableLiveData(false)
     val spinnerPlay: LiveData<Boolean>
         get() = _spinnerPlay
@@ -67,18 +57,8 @@ class MainActivityViewModel constructor(
      */
     fun playClicked() {
         if (RadioApp.ServiceHelper.mediaController != null) {
-
             RadioApp.ServiceHelper.mediaController?.transportControls?.play()
         }
-    }
-
-    /**
-     * нажали паузу
-     */
-    fun pauseClicked() {
-//        if (mediaController.value != null) {
-        RadioApp.ServiceHelper.mediaController?.transportControls?.pause()
-//        }
     }
 
     /**
@@ -100,8 +80,6 @@ class MainActivityViewModel constructor(
      * @param podcast: подкаст который проигрываем
      */
     fun movingPlayToPosition(position: Long, podcast: Podcast) {
-
-        playClicked.postValue(true)
 
         // если уже играет то остонавливаем
         if (callbackChanges.value != null && callbackChanges.value!!.state.equals(
