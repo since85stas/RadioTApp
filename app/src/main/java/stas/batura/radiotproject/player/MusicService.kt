@@ -138,8 +138,6 @@ class MusicService() : LifecycleService() {
     override fun onCreate() {
         super.onCreate()
 
-
-
         // создаем аудио менеджер
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -181,10 +179,6 @@ class MusicService() : LifecycleService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         ))
 
-//        mediaSession = MediaSessionCompat()
-
-
-
         mediaSession?.apply {
             setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
             setCallback(mediaSessionCallback)
@@ -213,7 +207,7 @@ class MusicService() : LifecycleService() {
                 )
             )
 
-            createInitNotification()
+
         }
 
         // создаем плеер
@@ -226,6 +220,8 @@ class MusicService() : LifecycleService() {
 
         // добавляем слушатель
         exoPlayer!!.addListener(exoPlayerListener)
+
+        createInitNotification()
 
     }
 
