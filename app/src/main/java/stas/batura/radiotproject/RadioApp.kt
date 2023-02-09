@@ -15,10 +15,7 @@ import stas.batura.radiotproject.player.MusicService
 
 class RadioApp(): Application() {
 
-    val res = 1
-
     init {
-        Log.d(this::class.java.simpleName, "app: init ")
         ServiceLocator.setContext(this)
     }
 

@@ -138,8 +138,6 @@ class MusicService() : LifecycleService() {
     override fun onCreate() {
         super.onCreate()
 
-        println("Music service created")
-
         // создаем аудио менеджер
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -181,10 +179,6 @@ class MusicService() : LifecycleService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         ))
 
-//        mediaSession = MediaSessionCompat()
-
-
-
         mediaSession?.apply {
             setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
             setCallback(mediaSessionCallback)
@@ -212,6 +206,8 @@ class MusicService() : LifecycleService() {
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
+
+
         }
 
         // создаем плеер
@@ -224,6 +220,8 @@ class MusicService() : LifecycleService() {
 
         // добавляем слушатель
         exoPlayer!!.addListener(exoPlayerListener)
+
+        createInitNotification()
 
     }
 
@@ -260,7 +258,6 @@ class MusicService() : LifecycleService() {
 
         override fun onSeekTo(pos: Long) {
             super.onSeekTo(pos)
-            Log.d(TAG, "onSeekTo: ")
         }
 
 
@@ -268,13 +265,9 @@ class MusicService() : LifecycleService() {
         // при начале проигрыша
         override fun onPlay() {
 
-            Log.d(TAG, "onPlay: ")
-
             exoPlayer?.let {
 
                 updateMetadataFromTrack(podcast!!)
-                Log.d(TAG, "onPlay: $podcast")
-
                 if (!isAudioFocusRequested) {
                     isAudioFocusRequested = true
                     var audioFocusResult: Int
@@ -588,6 +581,24 @@ class MusicService() : LifecycleService() {
                 stopForeground(true)
             }
         }
+    }
+
+    /**
+     * при старте сервиса стразу выводим нотификашку, чтобы норм работало на новых андройдах
+     */
+    private fun createInitNotification() {
+        val builder =
+            MediaStyleHelper.from(
+                this,
+                mediaSession
+            )
+
+        builder.priority = NotificationCompat.PRIORITY_HIGH
+        builder.setOnlyAlertOnce(true)
+        builder.setChannelId(NOTIFICATION_DEFAULT_CHANNEL_ID)
+        builder.setSmallIcon(R.drawable.bat_notif_icon_white)
+
+        startForeground(NOTIFICATION_ID, builder.build())
     }
 
     private fun getNotification(playbackState: Int): Notification? {
