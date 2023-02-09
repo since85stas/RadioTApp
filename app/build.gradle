@@ -13,8 +13,8 @@ android {
         applicationId "stas.batura.radiotproject"
         minSdk 23
         targetSdk 31
-        versionCode 4
-        versionName "1.2.1"
+        versionCode 5
+        versionName "1.2.2"
         setProperty("archivesBaseName", "radio-T-$versionName")
         targetSdkVersion 31
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
