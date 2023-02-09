@@ -138,7 +138,7 @@ class MusicService() : LifecycleService() {
     override fun onCreate() {
         super.onCreate()
 
-        println("Music service created")
+
 
         // создаем аудио менеджер
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -212,6 +212,8 @@ class MusicService() : LifecycleService() {
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
+
+            createInitNotification()
         }
 
         // создаем плеер
@@ -583,6 +585,24 @@ class MusicService() : LifecycleService() {
                 stopForeground(true)
             }
         }
+    }
+
+    /**
+     * при старте сервиса стразу выводим нотификашку, чтобы норм работало на новых андройдах
+     */
+    private fun createInitNotification() {
+        val builder =
+            MediaStyleHelper.from(
+                this,
+                mediaSession
+            )
+
+        builder.priority = NotificationCompat.PRIORITY_HIGH
+        builder.setOnlyAlertOnce(true)
+        builder.setChannelId(NOTIFICATION_DEFAULT_CHANNEL_ID)
+        builder.setSmallIcon(R.drawable.bat_notif_icon_white)
+
+        startForeground(NOTIFICATION_ID, builder.build())
     }
 
     private fun getNotification(playbackState: Int): Notification? {

@@ -116,17 +116,15 @@ class MainActivity : AppCompatActivity(), RecieverResult {
             }
         })
 
-        mainActivityViewModel.playClicked.observe(this, { clicked ->
-            clicked?.let {
-                if (clicked) {
-                    startAndBindMusicService()
-                }
-            }
-        })
-
-
+//        mainActivityViewModel.playClicked.observe(this, { clicked ->
+//            clicked?.let {
+//                if (clicked) {
+//                    startAndBindMusicService()
+//                }
+//            }
+//        })
 //        // привязываем сервис к активити
-//        startAndBindMusicService(RadioApp.ServiceHelper.getServiceConnection())
+        startAndBindMusicService()
 
         // описываем nav drawer
         createSectionsInMenu()
