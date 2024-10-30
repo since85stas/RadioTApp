@@ -29,9 +29,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import stas.batura.data.ListViewType
 import stas.batura.di.ServiceLocator
-import stas.batura.download.DownloadResult
-import stas.batura.download.DownloadService
-import stas.batura.download.DownloadServiceResult
 import stas.batura.radiotproject.databinding.ActivityMainBinding
 import stas.batura.radiotproject.player.MusicService
 import stas.batura.data.Podcast
@@ -119,21 +116,21 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
     private fun downloadPodcast(podcast: Podcast) {
 
-        val intent = Intent(this, DownloadService::class.java)
-
-        val link = podcast.audioUrl
-        intent.putExtra(DownloadService.LINK_KEY, link)
-        intent.putExtra(DownloadService.PODCAST_ID, podcast.podcastId)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent)
-        } else {
-            startService(intent)
-        }
-
-        // начинаем слушать ответ от сервиса по загрузке
-        LocalBroadcastManager.getInstance(this)
-            .registerReceiver(messageReceiver, IntentFilter(DownloadService.DOWNLOAD_RESULT))
+//        val intent = Intent(this, DownloadService::class.java)
+//
+//        val link = podcast.audioUrl
+//        intent.putExtra(DownloadService.LINK_KEY, link)
+//        intent.putExtra(DownloadService.PODCAST_ID, podcast.podcastId)
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            startForegroundService(intent)
+//        } else {
+//            startService(intent)
+//        }
+//
+//        // начинаем слушать ответ от сервиса по загрузке
+//        LocalBroadcastManager.getInstance(this)
+//            .registerReceiver(messageReceiver, IntentFilter(DownloadService.DOWNLOAD_RESULT))
     }
 
 
@@ -247,17 +244,17 @@ class MainActivity : AppCompatActivity(), RecieverResult {
 
     }
 
-    override fun donloadPodcastRsult(downloadServiceResult: DownloadServiceResult) {
-        when (downloadServiceResult.status) {
-            is DownloadResult.OK -> {
-                Toast.makeText(this, "Загрузка прошла успешно", Toast.LENGTH_LONG).show()
-                mainActivityViewModel.endDownloadPodcast(downloadServiceResult.entityId, downloadServiceResult.cachedPath)
-            }
-            is DownloadResult.Error -> {
-                Toast.makeText(this, "Ошибка загрузки. Попробуйте еще раз", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
+//    override fun donloadPodcastRsult(downloadServiceResult: DownloadServiceResult) {
+//        when (downloadServiceResult.status) {
+//            is DownloadResult.OK -> {
+//                Toast.makeText(this, "Загрузка прошла успешно", Toast.LENGTH_LONG).show()
+//                mainActivityViewModel.endDownloadPodcast(downloadServiceResult.entityId, downloadServiceResult.cachedPath)
+//            }
+//            is DownloadResult.Error -> {
+//                Toast.makeText(this, "Ошибка загрузки. Попробуйте еще раз", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

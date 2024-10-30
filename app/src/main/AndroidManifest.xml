@@ -36,10 +36,10 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name="stas.batura.download.DownloadService"
-            android:exported="false">
-        </service>
+<!--        <service-->
+<!--            android:name="stas.batura.download.DownloadService"-->
+<!--            android:exported="false">-->
+<!--        </service>-->
 
         <receiver
             android:exported="false"
@@ -49,14 +49,14 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".MessageReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="stas.batura.download.result" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".MessageReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="stas.batura.download.result" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
     </application>
 
