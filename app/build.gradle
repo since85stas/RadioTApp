@@ -7,16 +7,16 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "stas.batura.radiotproject"
         minSdk 23
-        targetSdk 31
+        targetSdk 34
         versionCode 5
         versionName "1.2.2"
         setProperty("archivesBaseName", "radio-T-$versionName")
-        targetSdkVersion 31
+        targetSdkVersion 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -66,7 +66,7 @@ dependencies {
     api "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
     api "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
     api "com.google.android.exoplayer:extension-mediasession:$exoplayer_version"
-    implementation 'com.google.android.exoplayer:extension-okhttp:2.9.4'
+    implementation 'com.google.android.exoplayer:extension-okhttp:2.13.3'
 
     implementation "androidx.media:media:1.6.0"
 
