@@ -81,8 +81,6 @@ dependencies {
 
     implementation project(':data')
 
-    implementation project(':download')
-
     implementation project(':repository')
 
     implementation project(':analitics')
